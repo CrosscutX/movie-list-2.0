@@ -14,4 +14,4 @@ const MovieSchema = new Schema({
   image: { type: String },
 });
 
-module.exports = mongoose.model("movie", MovieSchema);
+module.exports = mongoose.model("Movie", MovieSchema);
