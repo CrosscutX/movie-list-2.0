@@ -2,7 +2,7 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Get all users" });
+  res.json({ msg: "Get potential friends" });
 });
 
 exports.getOneUser = asyncHandler(async (req, res, next) => {
