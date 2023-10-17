@@ -16,3 +16,5 @@ exports.deleteFriend = asyncHandler(async (req, res, next) => {
 exports.acceptFriend = asyncHandler(async (req, res, next) => {
   res.json({ msg: "Accept friend" });
 });
+
+//TEST
