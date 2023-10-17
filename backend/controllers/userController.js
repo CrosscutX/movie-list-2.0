@@ -11,6 +11,7 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 exports.getUsers = asyncHandler(async (req, res, next) => {
   //These need to have the same name, not sure why
   //What you set in the as the dynamic part of the route URL matters because the request then formats it with that name,
+  //I think what this is saying is access the user parameter of the requst, you cannot just name it what you want which is what I was trying to do.
   const { user } = req.params;
 
   const users = await User.find({ username: user });
