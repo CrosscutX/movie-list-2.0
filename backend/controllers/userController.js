@@ -14,7 +14,11 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   //I think what this is saying is access the user parameter of the requst, you cannot just name it what you want which is what I was trying to do.
   const { user } = req.params;
 
-  const users = await User.find({ username: user });
+  //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
+  //Searches the database for any usernames starting with whats in the user parameter regardless of case
+  const users = await User.find({
+    username: { $regex: `^${user}`, $options: "i" },
+  });
 
   if (!users) {
     return res.status(404).json({ error: "No user found" });
@@ -42,8 +46,14 @@ exports.getOneUser = asyncHandler(async (req, res, next) => {
 exports.newUser = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  const userCheck = await User.find({ username: username });
-  const emailCheck = await User.find({ email: email });
+  //Runs a query on database to find usernames and emails that are already taken regardless of case, the $options: i flag makes this case insensitive
+  const userCheck = await User.find({
+    username: { $regex: `${username}`, $options: "i" },
+  });
+
+  const emailCheck = await User.find({
+    email: { $regex: `${email}`, $options: "i" },
+  });
 
   if (userCheck.length > 0) {
     return res.status(404).json({ error: "Username is already taken" });
