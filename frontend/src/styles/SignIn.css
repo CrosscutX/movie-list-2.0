@@ -1,0 +1,63 @@
+.sign-in {
+  display: flex;
+  width: 100%;
+}
+
+.sign-in-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+
+.sign-in-left h1 {
+  color: #cd1818;
+  font-size: 3rem;
+  margin-bottom: 50px;
+}
+
+.sign-in-left h2 {
+  color: #cd1818;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.no-account {
+  font-size: 1.1rem;
+}
+
+.sign-in-form {
+  margin-top: 40px;
+}
+
+.form-element {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-element label {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.form-element input {
+  width: 300px;
+  height: 30px;
+  max-width: 100%;
+  border-radius: 5px;
+  border: none;
+}
+
+.sign-in-button {
+  margin-top: 15px;
+}
+
+.sign-in-right {
+  background-color: black;
+  width: 50%;
+  height: 100vh;
+  background-image: url("../images/movieCollage.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+}

@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  background-color: rgb(16, 16, 16);
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #116d6e;
+  text-decoration: none;
+}
+
+.button {
+  width: 90px;
+  height: 40px;
+  background-color: #cd1818;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
