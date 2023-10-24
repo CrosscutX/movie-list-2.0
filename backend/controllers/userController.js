@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
+const user = require("../models/user");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await User.find({});
@@ -34,7 +35,7 @@ exports.getOneUser = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "User doesnt exist" });
   }
 
-  const user = await User.find({ _id: id });
+  const user = await User.findById(id);
 
   if (!user) {
     return res.status(404).json({ error: "User doesnt exist" });
@@ -84,5 +85,8 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Post new user" });
+  const { id } = req.params;
+
+  const user = await User.findById(id);
+  res.status(200).json(user);
 });

@@ -7,10 +7,12 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   lists: [{ type: Schema.Types.ObjectId, ref: "list" }],
-  friends: {
-    friend: { type: Schema.Types.ObjectId, ref: "user" },
-    accepted: { type: Boolean },
-  },
+  friends: [
+    {
+      friend: { type: Schema.Types.ObjectId, ref: "user" },
+      accepted: { type: Boolean },
+    },
+  ],
 });
 
 UserSchema.virtual("url").get(function () {
