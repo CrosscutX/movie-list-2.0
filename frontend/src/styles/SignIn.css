@@ -45,7 +45,6 @@
   font-size: 1.1rem;
   width: 300px;
   height: 30px;
-  max-width: 100%;
   border-radius: 5px;
   border: none;
 }
@@ -60,4 +59,30 @@
   background-image: url("../images/movieCollage.jpg");
   background-repeat: no-repeat;
   background-position: center;
+}
+
+/*Queries*/
+@media screen and (max-width: 800px) {
+  .sign-in {
+    padding: 10px;
+  }
+  .sign-in-right {
+    display: none;
+    width: 0%;
+  }
+
+  .sign-in-left {
+    width: 100%;
+  }
+
+  .sign-in-left h1 {
+    font-size: 2.5rem;
+  }
+  .sign-in-left h2 {
+    font-size: 1.8rem;
+  }
+
+  .form-element input {
+    width: 90%;
+  }
 }
