@@ -10,8 +10,10 @@ const friendController = require("../controllers/friendController");
 
 /// USER ROUTES ///
 
+//Get all users
+router.get("/users", userController.getAllUsers);
 // Get users for friend requests
-router.get("/users/:params", userController.getUsers);
+router.get("/users/search/:user", userController.getUsers);
 // Get a single user
 router.get("/users/:id", userController.getOneUser);
 // Post a new user
