@@ -10,7 +10,7 @@ export default function SignUp() {
           <h1>The List</h1>
           <h2>Sign Up for a new account</h2>
           <span className="no-account">
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            Already have an account? <Link to="/signin">Sign In</Link>
           </span>
           <form className="sign-up-form">
             <div className="form-element">
