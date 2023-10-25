@@ -1,9 +1,14 @@
 import React from "react";
+import SearchBar from "../components/SearchBar";
+import "../styles/Home.css";
 
 export default function Home() {
   return (
-    <div className="home">
-      <h1>Home page</h1>
-    </div>
+    <nav className="home">
+      <div className="home-container">
+        <h1>The List 2.0</h1>
+        <SearchBar />
+      </div>
+    </nav>
   );
 }

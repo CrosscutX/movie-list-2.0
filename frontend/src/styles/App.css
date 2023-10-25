@@ -10,6 +10,11 @@ body {
   padding: 0;
 }
 
+h1 {
+  font-size: 3rem;
+  color: #cd1818;
+}
+
 a {
   color: #116d6e;
   text-decoration: none;
