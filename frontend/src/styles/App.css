@@ -15,9 +15,18 @@ h1 {
   color: #cd1818;
 }
 
+h2 {
+  font-size: 2.5rem;
+}
+
 a {
   color: #116d6e;
   text-decoration: none;
+}
+
+input {
+  border: none;
+  outline: none;
 }
 
 .button {
