@@ -40,9 +40,12 @@
   font-size: 1.4rem;
   background-color: rgb(13, 13, 13);
   padding: 20px;
-  border: 2px solid white;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.return-button {
+  border: white solid 1px;
 }
 
 .create-container {
@@ -55,7 +58,7 @@
 
 .create-container input {
   height: 40px;
-  background-color: #116d6e;
+  background-color: rgb(13, 13, 13);
   color: white;
   font-size: 1.4rem;
   padding-left: 10px;
@@ -67,12 +70,54 @@
 }
 
 .select-container {
-  width: 80%;
+  width: 100%;
+}
+
+.select-list-row {
+  width: 100%;
   display: flex;
   justify-content: space-around;
+}
+
+.edit-row {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 }
 /*ListSelector.jsx end*/
 
 /*List Filter.jsx Start*/
+.list-filter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.list-filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgb(31, 31, 31);
+  width: 1000px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  max-width: 90%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.list-filter-button {
+  color: white;
+  border: none;
+}
+
+.filter-textbox {
+  height: 40px;
+  background-color: rgb(13, 13, 13);
+  color: white;
+  font-size: 1.4rem;
+  padding-left: 10px;
+}
 
 /*List Filter.jsx End*/

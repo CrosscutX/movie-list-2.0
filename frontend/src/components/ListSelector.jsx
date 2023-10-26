@@ -42,9 +42,14 @@ export default function ListSelector() {
         )}
         {selectedOption === "select" && (
           <div className="select-container">
-            <div className="list-button">List 1</div>
-            <div className="list-button">List 2</div>
-            <div className="list-button">List 3</div>
+            <div className="select-list-row">
+              <div className="list-button">List 1</div>
+              <div className="list-button">List 2</div>
+              <div className="list-button">List 3</div>
+            </div>
+            <div className="edit-row">
+              <div className="list-button">Edit</div>
+            </div>
           </div>
         )}
       </div>
