@@ -1,19 +1,16 @@
-import { useState } from "react";
 import "../styles/List.css";
 
-export default function ListSelector() {
-  const [selectedOption, setSelectedOption] = useState("none");
-  console.log(selectedOption);
+export default function ListSelector(props) {
   return (
     <div className="list-selector">
       <h2>List Selector</h2>
       <div className="list-selector-container">
-        {selectedOption === "none" && (
+        {props.selectedOption === "none" && (
           <div className="default-container">
             <span
               className="list-selector-selection list-button"
               onClick={() => {
-                setSelectedOption("create");
+                props.setSelectedOption("create");
               }}
             >
               Create New
@@ -21,14 +18,14 @@ export default function ListSelector() {
             <span
               className="list-selector-selection list-button"
               onClick={() => {
-                setSelectedOption("select");
+                props.setSelectedOption("select");
               }}
             >
               Select Lists
             </span>
           </div>
         )}
-        {selectedOption === "create" && (
+        {props.selectedOption === "create" && (
           <div className="create-container">
             <input
               type="text"
@@ -40,7 +37,7 @@ export default function ListSelector() {
             <div className="list-button">Create</div>
           </div>
         )}
-        {selectedOption === "select" && (
+        {props.selectedOption === "select" && (
           <div className="select-container">
             <div className="select-list-row">
               <div className="list-button">List 1</div>
@@ -56,7 +53,7 @@ export default function ListSelector() {
       <div
         className="list-button return-button"
         onClick={() => {
-          setSelectedOption("none");
+          props.setSelectedOption("none");
         }}
       >
         Return
