@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/List.css";
+import "../../styles/List.css";
 
 export default function ListFilter() {
   return (

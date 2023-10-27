@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ListSelector from "../components/ListSelector";
-import ListFilter from "../components/ListFilter";
-import ListMovies from "../components/ListMovies";
+import ListSelector from "../components/list/ListSelector";
+import ListFilter from "../components/list/ListFilter";
+import ListMovies from "../components/list/ListMovies";
 import "../styles/List.css";
 
 export default function List() {

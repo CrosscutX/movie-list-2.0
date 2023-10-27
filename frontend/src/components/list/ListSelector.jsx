@@ -1,4 +1,4 @@
-import "../styles/List.css";
+import "../../styles/List.css";
 
 export default function ListSelector(props) {
   return (
