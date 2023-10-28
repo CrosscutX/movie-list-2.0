@@ -8,9 +8,16 @@ export default function ListMovies() {
     <div className="list-movies">
       <h2>List Movies</h2>
       <div className="list-movies-container">
-        <div className="movie-container">
-          <img src={JokerPic} alt="Poster" />
-        </div>
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
+        <Movie poster={JokerPic} />
       </div>
     </div>
   );

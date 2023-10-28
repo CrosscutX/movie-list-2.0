@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <div className="header">
       <div className="header-container">
-        <Link to="/">Search</Link>
+        <Link to="/search">Search</Link>
         <Link to="/list">My List</Link>
         <Link to="/friends">Friends</Link>
       </div>
