@@ -3,7 +3,22 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 
 exports.getFriends = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Display friends" });
+  const { id } = req.params;
+
+  if (!validateID(id)) {
+    return res.status(404).json({ error: "User doesnt exist" });
+  }
+
+  const user = await User.findById(id);
+
+  const friendIDS = [];
+
+  // Loops through users friends and adds them to friendsIDS to send to frontend
+  for (const friend of user.friends) {
+    friendIDS.push(friend._id);
+  }
+
+  res.status(200).json(friendIDS);
 });
 
 exports.addFriend = asyncHandler(async (req, res, next) => {
@@ -28,7 +43,6 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
 
   //adding _id to the objects was needed or else the ID would change with every request, not sure why
   const addToUser = {
-    username: friend.username,
     _id: friend.id,
     accepted: false,
   };
@@ -54,14 +68,12 @@ exports.deleteFriend = asyncHandler(async (req, res, next) => {
 });
 
 exports.acceptFriend = asyncHandler(async (req, res, next) => {
-  console.log(req.params);
-  // const { id, friendId } = req.params;
-  // if (!validateID(id, friendId)) {
-  //   return res.status(404).json({ error: "User doesnt exist" });
-  // }
-  // const user = await User.findById(id);
-  // const friend = await User.findById(friendId);
-  //makes sure each person is in the opposites friendlist already
+  //flip both booleans
+  const people = req.body;
+
+  res.status(200).json(people);
+
+  //makes sure each person is in the opposites friendslist already
 });
 
 //Cant think or find a good way to make this into middleware
