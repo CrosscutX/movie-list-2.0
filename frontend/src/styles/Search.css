@@ -1,0 +1,10 @@
+.search-result {
+  width: 100%;
+}
+
+.search-header {
+  text-align: center;
+  margin: auto 0;
+  width: 60%;
+  margin-bottom: 30px;
+}
