@@ -14,8 +14,9 @@ const friendController = require("../controllers/friendController");
 router.get("/users", userController.getAllUsers);
 // Get users for friend requests
 router.get("/users/search/:user", userController.getUsers);
-// Get a single user
-router.post("/users/:id", userController.login);
+// Login/logout
+router.post("/login", userController.login);
+router.get("/logout", userController.logout);
 // Post a new user
 router.post("/users", userController.newUser);
 // Delete a user

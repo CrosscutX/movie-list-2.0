@@ -1,10 +1,7 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-const user = require("../models/user");
 const passport = require("passport");
-const session = require("express-session");
-const LocalStrategy = require("passport-local").Strategy;
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await User.find({});
@@ -31,27 +28,31 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(users);
 });
 
-exports.login = asyncHandler(async (req, res, next) => {
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await User.findById(id);
-      done(null, user);
-    } catch (err) {
-      done(err);
+exports.login = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
     }
-  });
+    if (!user) {
+      return res.status(400).json({ message: info.message });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json({ user });
+    });
+  })(req, res, next);
+};
 
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
+exports.logout = (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.json({ message: "Logged out" });
   });
-
-  res.status(200).json({ msg: "asdasd" });
-});
+};
 
 exports.newUser = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
