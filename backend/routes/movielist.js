@@ -35,6 +35,7 @@ router.delete("/lists/:id", listController.deleteUserList);
 router.patch("/lists/:id", listController.updateUserList);
 
 ///MOVIE ROUTES ///
+
 // Get user's lists
 router.get("/lists/:id/movies", movieController.displayListMovies);
 // Post new list

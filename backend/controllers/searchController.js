@@ -7,5 +7,3 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
 exports.getExtendedSearch = asyncHandler(async (req, res, next) => {
   res.json({ msg: "Get extended search results" });
 });
-
-exports.get;
