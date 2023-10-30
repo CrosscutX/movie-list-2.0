@@ -15,7 +15,7 @@ router.get("/users", userController.getAllUsers);
 // Get users for friend requests
 router.get("/users/search/:user", userController.getUsers);
 // Get a single user
-router.get("/users/:id", userController.getOneUser);
+router.post("/users/:id", userController.login);
 // Post a new user
 router.post("/users", userController.newUser);
 // Delete a user

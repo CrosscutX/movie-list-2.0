@@ -2,6 +2,9 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const user = require("../models/user");
+const passport = require("passport");
+const session = require("express-session");
+const LocalStrategy = require("passport-local").Strategy;
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await User.find({});
@@ -28,20 +31,26 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(users);
 });
 
-exports.getOneUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+exports.login = asyncHandler(async (req, res, next) => {
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "User doesnt exist" });
-  }
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
 
-  const user = await User.findById(id);
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  });
 
-  if (!user) {
-    return res.status(404).json({ error: "User doesnt exist" });
-  }
-
-  res.status(200).json(user);
+  res.status(200).json({ msg: "asdasd" });
 });
 
 exports.newUser = asyncHandler(async (req, res, next) => {
