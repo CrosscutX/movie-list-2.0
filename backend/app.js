@@ -48,7 +48,11 @@ passport.deserializeUser(async (id, done) => {
 const app = express();
 
 app.use(
-  session({ secret: "your-secret-key", resave: false, saveUninitialized: true })
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,6 +68,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const mongoose = require("mongoose");
+const { configDotenv } = require("dotenv");
 mongoose.connect(process.env.DATABASE_KEY, {
   useNewURLParser: true,
 });

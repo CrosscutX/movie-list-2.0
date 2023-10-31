@@ -26,6 +26,8 @@ router.patch("/users/:id", userController.updateUser);
 
 /// LIST ROUTES ///
 
+//Get all lists
+router.get("/lists", listController.getAllLists);
 // Get user's lists
 router.get("/lists/:id", listController.displayUserLists);
 // Post new list
@@ -49,9 +51,9 @@ router.patch("/lists/:id/movies/:id", movieController.updateMovie);
 /// SEARCH ROUTES ///
 
 // Initial search results for search bar
-router.get("/search", searchController.getSearch);
+router.post("/search:movie", searchController.getSearch);
 // Search results for the search page
-router.get("/search/:param", searchController.getExtendedSearch);
+router.post("/search/:movie", searchController.getExtendedSearch);
 
 /// FRIEND ROUTES ///
 
