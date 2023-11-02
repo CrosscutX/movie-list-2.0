@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const passport = require("passport");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
@@ -73,7 +74,10 @@ exports.signUp = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "Email is already in use" });
   }
 
-  const user = await User.create({ username, email, password });
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+
+  const user = await User.create({ username, email, password: hash });
 
   res.status(200).json(user);
 });
