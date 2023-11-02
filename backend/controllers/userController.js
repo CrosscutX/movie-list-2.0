@@ -54,7 +54,7 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.newUser = asyncHandler(async (req, res, next) => {
+exports.signUp = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   //Runs a query on database to find usernames and emails that are already taken regardless of case, the $options: i flag makes this case insensitive
