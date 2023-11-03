@@ -2,7 +2,12 @@ const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const passport = require("passport");
+
+const createToken = (_id) => {
+  return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
+};
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await User.find({});
@@ -69,17 +74,18 @@ exports.signUp = asyncHandler(async (req, res, next) => {
 
   if (userCheck.length > 0) {
     return res.status(404).json({ error: "Username is already taken" });
-  }
-  if (emailCheck.length > 0) {
+  } else if (emailCheck.length > 0) {
     return res.status(404).json({ error: "Email is already in use" });
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({ username, email, password: hash });
+
+    const token = createToken(user._id);
+
+    res.status(200).json({ email, token });
   }
-
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-
-  const user = await User.create({ username, email, password: hash });
-
-  res.status(200).json(user);
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
