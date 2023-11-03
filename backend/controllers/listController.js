@@ -1,5 +1,4 @@
 const List = require("../models/list");
-const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 
@@ -9,7 +8,12 @@ exports.getAllLists = asyncHandler(async (req, res, next) => {
 });
 
 exports.displayUserLists = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Display User's Lists" });
+  const { id } = req.params;
+  const user = await User.findById(id);
+
+  if (user.lists.length > 0) {
+    res.json(user.lists);
+  }
 });
 
 exports.createUserList = asyncHandler(async (req, res, next) => {
@@ -60,5 +64,18 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateUserList = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Update User List" });
+  const { id } = req.params;
+  const { listID, nameChange } = req.body;
+
+  const user = await User.findById(id);
+  const userList = await List.findById(listID);
+
+  if (user.lists.includes(listID) && user._id == userList.createdBy) {
+    userList.listName = nameChange;
+
+    await userList.save();
+    res.status(200).json(userList);
+  } else {
+    res.status(406).json({ msg: "User ID and list author do not match" });
+  }
 });
