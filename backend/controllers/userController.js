@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -34,22 +33,33 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(users);
 });
 
-exports.login = (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      return res.json({ user });
-    });
-  })(req, res, next);
-};
+exports.login = asyncHandler(async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    res.status(404).json("All fields must be filled");
+    return;
+  }
+
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    res.status(404).json("Incorrect username");
+    return;
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    res.status(404).json("Incorrect password");
+    return;
+  }
+
+  // create a token
+  const token = createToken(user._id);
+
+  res.status(200).json({ username, token });
+});
 
 exports.logout = (req, res) => {
   req.logout(function (err) {
