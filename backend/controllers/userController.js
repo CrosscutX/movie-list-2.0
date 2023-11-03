@@ -1,7 +1,12 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
-const passport = require("passport");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const createToken = (_id) => {
+  return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
+};
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await User.find({});
@@ -28,22 +33,33 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(users);
 });
 
-exports.login = (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      return res.json({ user });
-    });
-  })(req, res, next);
-};
+exports.login = asyncHandler(async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    res.status(404).json("All fields must be filled");
+    return;
+  }
+
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    res.status(404).json("Incorrect username");
+    return;
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    res.status(404).json("Incorrect password");
+    return;
+  }
+
+  // create a token
+  const token = createToken(user._id);
+
+  res.status(200).json({ username, token });
+});
 
 exports.logout = (req, res) => {
   req.logout(function (err) {
@@ -54,7 +70,7 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.newUser = asyncHandler(async (req, res, next) => {
+exports.signUp = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   //Runs a query on database to find usernames and emails that are already taken regardless of case, the $options: i flag makes this case insensitive
@@ -68,14 +84,18 @@ exports.newUser = asyncHandler(async (req, res, next) => {
 
   if (userCheck.length > 0) {
     return res.status(404).json({ error: "Username is already taken" });
-  }
-  if (emailCheck.length > 0) {
+  } else if (emailCheck.length > 0) {
     return res.status(404).json({ error: "Email is already in use" });
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({ username, email, password: hash });
+
+    const token = createToken(user._id);
+
+    res.status(200).json({ email, token });
   }
-
-  const user = await User.create({ username, email, password });
-
-  res.status(200).json(user);
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
