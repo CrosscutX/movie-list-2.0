@@ -1,8 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/SignIn.css";
 
 export default function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(username, password);
+  }
   return (
     <div className="sign-in">
       <div className="sign-in-left">
@@ -12,25 +20,29 @@ export default function SignIn() {
           <span className="no-account">
             Don't have an account? <Link to="/signup">Sign Up</Link>
           </span>
-          <form className="sign-in-form">
+          <form className="sign-in-form" onSubmit={handleSubmit}>
             <div className="form-element">
               <label htmlFor="sign-in-username">Username</label>
               <input
                 type="text"
                 name="sign-in-username"
                 id="sign-in-username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
               />
             </div>
             <div className="form-element">
               <label htmlFor="sign-in-password">Password</label>
               <input
-                type="text"
+                type="password"
                 name="sign-in-password"
                 id="sign-in-password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
             <input
-              type="button"
+              type="submit"
               className="button sign-in-button"
               value="Submit"
             />

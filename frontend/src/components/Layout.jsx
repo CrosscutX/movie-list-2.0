@@ -4,7 +4,6 @@ import Header from "./Header";
 
 export default function Layout(props) {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <div>
       {pathname !== "/signup" && pathname !== "/signin" ? <Header /> : null}
