@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 import "../styles/SignIn.css";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { login, error, isLoading } = useLogin();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(username, password);
+    await login(username, password);
   }
   return (
     <div className="sign-in">
@@ -45,7 +47,9 @@ export default function SignIn() {
               type="submit"
               className="button sign-in-button"
               value="Submit"
+              disabled={isLoading}
             />
+            {error && <div className="error">{error}</div>}
           </form>
         </div>
       </div>

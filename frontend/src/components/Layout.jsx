@@ -6,7 +6,7 @@ export default function Layout(props) {
   const { pathname } = useLocation();
   return (
     <div>
-      {pathname !== "/signup" && pathname !== "/signin" ? <Header /> : null}
+      {pathname !== "/signup" && pathname !== "/login" ? <Header /> : null}
       <Outlet />
     </div>
   );

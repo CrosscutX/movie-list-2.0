@@ -16,7 +16,7 @@ export default function App() {
           {/*Message for Wheeler, just ask me about this and I'll explain it. */}
           <Route path="/" element={<Layout />}>
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
+            <Route path="/login" element={<SignIn />} />
             <Route path="/search" element={<Home />} />
             <Route path="/search/:movie" element={<SearchResult />} />
             <Route path="/list" element={<List />} />

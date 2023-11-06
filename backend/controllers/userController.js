@@ -61,15 +61,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   res.status(200).json({ username, token });
 });
 
-exports.logout = (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.json({ message: "Logged out" });
-  });
-};
-
 exports.signUp = asyncHandler(async (req, res, next) => {
   const { email, username, password } = req.body;
 

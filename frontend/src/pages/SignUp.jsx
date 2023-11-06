@@ -22,7 +22,7 @@ export default function SignUp() {
           <h1>The List</h1>
           <h2>Sign Up for a new account</h2>
           <span className="no-account">
-            Already have an account? <Link to="/signin">Sign In</Link>
+            Already have an account? <Link to="/login">Log in</Link>
           </span>
           <form className="sign-up-form" onSubmit={handleSubmit}>
             <div className="form-element">
