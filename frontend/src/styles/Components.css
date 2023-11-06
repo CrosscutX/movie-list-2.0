@@ -21,6 +21,10 @@
 .header a:hover {
   color: #cd1818;
 }
+
+.header button {
+  background-color: #cd1818;
+}
 /*Header End*/
 
 /*Searchbar start*/

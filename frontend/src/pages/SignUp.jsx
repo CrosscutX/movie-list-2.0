@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
 import "../styles/SignUp.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { signup, error, isLoading } = useSignup();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(email, username, password);
+    await signup(email, username, password);
   }
 
   return (
@@ -49,6 +51,7 @@ export default function SignUp() {
                 type="password"
                 name="sign-up-password"
                 id="sign-up-password"
+                minLength="5"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
@@ -57,7 +60,9 @@ export default function SignUp() {
               type="submit"
               className="button sign-up-button"
               value="Submit"
+              disabled={isLoading}
             />
+            {error && <div className="error">{error}</div>}
           </form>
         </div>
       </div>

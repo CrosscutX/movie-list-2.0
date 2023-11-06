@@ -71,7 +71,7 @@ exports.logout = (req, res) => {
 };
 
 exports.signUp = asyncHandler(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { email, username, password } = req.body;
 
   //Runs a query on database to find usernames and emails that are already taken regardless of case, the $options: i flag makes this case insensitive
   const userCheck = await User.find({
@@ -86,6 +86,10 @@ exports.signUp = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "Username is already taken" });
   } else if (emailCheck.length > 0) {
     return res.status(404).json({ error: "Email is already in use" });
+  } else if (password.length < 5) {
+    return res
+      .status(404)
+      .json({ error: "Password must be 5 characters long" });
   } else {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);

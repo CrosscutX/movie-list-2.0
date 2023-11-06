@@ -18,7 +18,7 @@ router.get("/users/search/:user", userController.getUsers);
 router.post("/login", userController.login);
 router.get("/logout", userController.logout);
 // Create a user during signup
-router.post("/signUp", userController.signUp);
+router.post("/signup", userController.signUp);
 // Delete a user
 router.delete("/users/:id", userController.deleteUser);
 // Update a user
