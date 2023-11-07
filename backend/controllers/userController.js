@@ -37,22 +37,19 @@ exports.login = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    res.status(404).json("All fields must be filled");
-    return;
+    return res.status(404).json({ error: "All fields must be filled" });
   }
 
   const user = await User.findOne({ username });
 
   if (!user) {
-    res.status(404).json("Incorrect username");
-    return;
+    return res.status(404).json({ error: "Incorrect username" });
   }
 
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    res.status(404).json("Incorrect password");
-    return;
+    return res.status(404).json({ error: "Incorrect password" });
   }
 
   // create a token

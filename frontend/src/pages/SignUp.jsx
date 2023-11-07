@@ -14,7 +14,7 @@ export default function SignUp() {
 
     await signup(email, username, password);
   }
-
+  console.log(error);
   return (
     <div className="sign-up">
       <div className="sign-up-left">
