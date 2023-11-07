@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import SearchResult from "./pages/SearchResult";
 import SignUp from "./pages/SignUp";
@@ -15,6 +15,7 @@ export default function App() {
         <Routes>
           {/*Message for Wheeler, just ask me about this and I'll explain it. */}
           <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/search" element={<Home />} />
