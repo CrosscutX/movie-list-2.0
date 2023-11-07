@@ -89,7 +89,7 @@ exports.signUp = asyncHandler(async (req, res, next) => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ username, token });
   }
 });
 
