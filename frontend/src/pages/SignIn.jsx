@@ -13,7 +13,7 @@ export default function SignIn() {
 
     await login(username, password);
   }
-  console.log(error);
+
   return (
     <div className="sign-in">
       <div className="sign-in-left">
