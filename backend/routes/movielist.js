@@ -39,6 +39,13 @@ router.patch("/lists/:id", listController.updateUserList);
 
 ///MOVIE ROUTES ///
 
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+
 // Get user's lists
 router.get("/lists/:id/movies", movieController.displayListMovies);
 // Post new list
@@ -53,7 +60,7 @@ router.patch("/lists/:id/movies/:id", movieController.updateMovie);
 // Initial search results for search bar
 router.post("/search/:movie", searchController.getSearch);
 // Search results for the search page
-router.post("/search/:movie", searchController.getExtendedSearch);
+router.post("/searchExtended/:movie", searchController.getExtendedSearch);
 
 /// FRIEND ROUTES ///
 
