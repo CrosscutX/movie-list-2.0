@@ -51,7 +51,7 @@ router.patch("/lists/:id/movies/:id", movieController.updateMovie);
 /// SEARCH ROUTES ///
 
 // Initial search results for search bar
-router.post("/search:movie", searchController.getSearch);
+router.post("/search/:movie", searchController.getSearch);
 // Search results for the search page
 router.post("/search/:movie", searchController.getExtendedSearch);
 
