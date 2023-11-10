@@ -26,7 +26,6 @@ export default function App() {
   return (
     <div className="app">
       <Routes>
-        {/*Message for Wheeler, just ask me about this and I'll explain it. */}
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/signup" element={<SignUp />} />
