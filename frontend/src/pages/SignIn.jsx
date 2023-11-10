@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import "../styles/SignIn.css";
@@ -7,12 +7,22 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
-
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
   async function handleSubmit(e) {
     e.preventDefault();
 
     await login(username, password);
   }
+
+  useEffect(() => {
+    function shouldRedirect() {
+      if (user) {
+        navigate("/search");
+      }
+    }
+    shouldRedirect();
+  });
 
   return (
     <div className="sign-in">

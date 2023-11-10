@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
 import "../styles/SignUp.css";
 
@@ -8,12 +8,22 @@ export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { signup, error, isLoading } = useSignup();
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   async function handleSubmit(e) {
     e.preventDefault();
 
     await signup(email, username, password);
   }
+
+  useEffect(() => {
+    function shouldRedirect() {
+      if (user) {
+        navigate("/search");
+      }
+    }
+    shouldRedirect();
+  });
   console.log(error);
   return (
     <div className="sign-up">
