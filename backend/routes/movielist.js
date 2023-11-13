@@ -47,7 +47,7 @@ router.delete("/lists/:id/movies/:id", movieController.deleteMovie);
 // update user list
 router.patch("/lists/:id/movies/:id", movieController.updateMovie);
 //Get all movies
-router.post("/lists/movies", movieController.getAllMovies);
+router.get("/movies", movieController.getAllMovies);
 
 /// SEARCH ROUTES ///
 
