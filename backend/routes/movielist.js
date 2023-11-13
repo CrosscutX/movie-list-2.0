@@ -40,20 +40,15 @@ router.patch("/lists/:id", listController.updateUserList);
 ///MOVIE ROUTES ///
 
 //NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
-//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
-//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
-//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
-//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
-//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
 
-// Get user's lists
-router.get("/lists/:id/movies", movieController.displayListMovies);
-// Post new list
-router.post("/lists/:id/movies", movieController.createNewMovie);
-// delete user list
+// Post new movie to list
+router.post("/lists/:id/movies", movieController.addNewMovie);
+// delete movie from list
 router.delete("/lists/:id/movies/:id", movieController.deleteMovie);
 // update user list
 router.patch("/lists/:id/movies/:id", movieController.updateMovie);
+//Get all movies
+router.post("/lists/movies", movieController.getAllMovies);
 
 /// SEARCH ROUTES ///
 

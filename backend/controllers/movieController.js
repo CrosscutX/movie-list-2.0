@@ -2,12 +2,65 @@ const List = require("../models/list");
 const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 
-exports.displayListMovies = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Display list's movies" });
+exports.getAllMovies = asyncHandler(async (req, res, next) => {
+  const movies = await Movie.find({});
+  console.log(movies);
+  res.status(200).json(movies);
 });
 
-exports.createNewMovie = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Create New Movie" });
+exports.addNewMovie = asyncHandler(async (req, res, next) => {
+  // ID of list movie is being added to
+  const { id } = req.params;
+  const { imdbID } = req.body;
+
+  let newMovie;
+
+  try {
+    // Check database for existing movie
+    const existingMovie = await Movie.findOne({ imdbID });
+
+    if (!existingMovie) {
+      // If movie not in database call omdb
+      const response = await fetch(
+        `http://www.omdbapi.com/?i=${imdbID}&r=json&apikey=${process.env.API_KEY}`
+      );
+
+      if (!response.ok) {
+        res.status(400).json({ msg: "Error fetching from api" });
+      }
+
+      const result = await response.json();
+
+      newMovie = new Movie({
+        title: result.Title,
+        description: result.Plot,
+        director: result.Director,
+        writers: result.Writer,
+        actors: result.Actors,
+        release_date: result.Released,
+        score: result.Ratings.find(
+          (rating) => rating.Source === "Rotten Tomatoes"
+        )?.Value,
+        boxoffice: result.BoxOffice,
+        image: result.Poster,
+        imdbID: result.imdbID,
+      });
+      await newMovie.save();
+    } else {
+      // If movie exists use that instead
+      newMovie = existingMovie;
+    }
+
+    // Add movie to user list
+    await List.findByIdAndUpdate(id, {
+      $push: { movies: newMovie },
+    });
+
+    res.status(200).json({ msg: "Movie added to list" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 exports.deleteMovie = asyncHandler(async (req, res, next) => {
