@@ -12,6 +12,7 @@ const MovieSchema = new Schema({
   score: { type: String },
   boxoffice: { type: String },
   image: { type: String },
+  imdbID: { type: String },
 });
 
 module.exports = mongoose.model("Movie", MovieSchema);

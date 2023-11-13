@@ -25,6 +25,8 @@ router.patch("/users/:id", userController.updateUser);
 
 /// LIST ROUTES ///
 
+//Get all lists
+router.get("/lists", listController.getAllLists);
 // Get user's lists
 router.get("/lists/:id", listController.displayUserLists);
 // Post new list
@@ -36,21 +38,23 @@ router.patch("/lists/:id", listController.updateUserList);
 
 ///MOVIE ROUTES ///
 
-// Get user's lists
-router.get("/lists/:id/movies", movieController.displayListMovies);
-// Post new list
-router.post("/lists/:id/movies", movieController.createNewMovie);
-// delete user list
+//NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
+
+// Post new movie to list
+router.post("/lists/:id/movies", movieController.addNewMovie);
+// delete movie from list
 router.delete("/lists/:id/movies/:id", movieController.deleteMovie);
 // update user list
 router.patch("/lists/:id/movies/:id", movieController.updateMovie);
+//Get all movies
+router.post("/lists/movies", movieController.getAllMovies);
 
 /// SEARCH ROUTES ///
 
 // Initial search results for search bar
-router.get("/search", searchController.getSearch);
+router.post("/search/:movie", searchController.getSearch);
 // Search results for the search page
-router.get("/search/:param", searchController.getExtendedSearch);
+router.post("/searchExtended/:movie", searchController.getExtendedSearch);
 
 /// FRIEND ROUTES ///
 

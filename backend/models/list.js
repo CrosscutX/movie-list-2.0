@@ -6,6 +6,7 @@ const ListSchema = new Schema({
   listName: { type: String, required: true },
   public: { type: Boolean },
   movies: [{ type: Schema.Types.ObjectId, ref: "movie" }],
+  createdBy: { type: String },
 });
 
 module.exports = mongoose.model("List", ListSchema);

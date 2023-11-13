@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const mongoose = require("mongoose");
+const { configDotenv } = require("dotenv");
 mongoose.connect(process.env.DATABASE_KEY, {
   useNewURLParser: true,
 });
