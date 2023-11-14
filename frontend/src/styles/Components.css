@@ -62,3 +62,18 @@
   cursor: pointer;
 }
 /*Searchbar end*/
+
+/*Movie Info Start*/
+.movie-info {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #cd1818;
+  max-width: 600px;
+  width: 90%;
+  height: 500px;
+}
+/*Movie Info End*/
