@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function movieInfo() {
+export default function movieInfo(props) {
   return (
     <div className="movie-info">
       <div className="info-header">

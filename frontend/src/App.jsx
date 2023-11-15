@@ -12,7 +12,7 @@ import "./styles/App.css";
 export default function App() {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
+  //Login authentication, send the user to a login page if not logged in.
   useEffect(() => {
     function shouldRedirect() {
       if (!user) {
