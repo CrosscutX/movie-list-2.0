@@ -42,7 +42,26 @@
 }
 
 .return-button {
-  border: white solid 1px;
+  border: rgb(219, 219, 219) solid 1px;
+}
+
+.random-button {
+  background-color: #ca3131;
+}
+
+.filter-button {
+  background-color: #ca3131;
+}
+
+.random-button:hover,
+.filter-button:hover {
+  background-color: #116d6e;
+}
+
+.return-button:hover {
+  transition: 500ms;
+  background-color: rgb(219, 219, 219);
+  color: rgb(13, 13, 13);
 }
 
 .create-container {

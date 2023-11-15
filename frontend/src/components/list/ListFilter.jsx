@@ -65,8 +65,8 @@ export default function ListFilter() {
           </select>
         </div>
         <div className="filter-bot-row">
-          <div className="list-button">Random</div>
-          <div className="list-button">Filter</div>
+          <div className="list-button random-button">Random</div>
+          <div className="list-button filter-button">Filter</div>
         </div>
       </div>
       <div className="list-button return-button">Default</div>

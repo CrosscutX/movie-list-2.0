@@ -13,7 +13,6 @@ export default function List() {
   useEffect(() => {
     const handleOutsideClick = (e) => {
       const infoElement = document.querySelector(".movie-info");
-      console.log(infoElement);
       if (!infoElement) {
         return;
       }

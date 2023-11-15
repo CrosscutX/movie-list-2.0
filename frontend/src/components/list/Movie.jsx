@@ -2,7 +2,6 @@ import React from "react";
 import "../../styles/List.css";
 
 export default function Movie(props) {
-  console.log(props.showInfo);
   return (
     <div className="movie">
       <img

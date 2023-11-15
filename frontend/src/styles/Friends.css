@@ -10,8 +10,14 @@
   padding: 20px;
   border-radius: 5px;
   cursor: pointer;
-  border: white solid 1px;
+  border: rgb(219, 219, 219) solid 1px;
   margin-bottom: 20px;
+}
+
+.friends-button:hover {
+  transition: 500ms;
+  background-color: rgb(219, 219, 219);
+  color: rgb(13, 13, 13);
 }
 
 .friends-container {
