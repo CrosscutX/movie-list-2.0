@@ -73,6 +73,10 @@
   padding: 20px 35px;
   cursor: pointer;
 }
+
+.search-icon:hover {
+  background-color: #116d6e;
+}
 /*Searchbar end*/
 
 /*Movie Info Start*/
@@ -83,17 +87,56 @@
   transform: translate(-50%, 0%);
   margin-left: auto;
   margin-right: auto;
-  background-color: #ca3131;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #116d6e;
   max-width: 900px;
   width: 90%;
   height: auto;
   border-radius: 10px;
   height: 400px;
+  padding: 20px;
   box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, 0.6);
 }
 
-.movie-info h1 {
-  color: rgb(226, 226, 226);
+.info-header {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
 }
 
+.back-button {
+  cursor: pointer;
+  font-size: 1.1rem;
+  background-color: #0f5b5c;
+  border: none;
+  border-radius: 10px;
+  height: 40px;
+  width: 80px;
+}
+
+.back-button:hover {
+  background-color: #ca3131;
+}
+
+.movie-title {
+  font-size: 2rem;
+}
+
+.x-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-20%, 0);
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.x-button:hover {
+  color: #ca3131;
+}
 /*Movie Info End*/
