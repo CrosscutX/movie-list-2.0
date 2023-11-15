@@ -35,6 +35,7 @@
 }
 
 .header button:hover {
+  background-color: #116d6e;
 }
 /*Header End*/
 
@@ -77,18 +78,21 @@
 /*Movie Info Start*/
 .movie-info {
   position: fixed;
-  top: 38%;
+  top: 40px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
   margin-left: auto;
   margin-right: auto;
   background-color: #ca3131;
-  max-width: 600px;
+  max-width: 900px;
   width: 90%;
-  height: 500px;
+  height: auto;
+  border-radius: 10px;
+  height: 400px;
 }
 
 .movie-info h1 {
   color: rgb(226, 226, 226);
 }
+
 /*Movie Info End*/
