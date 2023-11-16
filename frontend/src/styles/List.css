@@ -41,6 +41,10 @@
   cursor: pointer;
 }
 
+.list-button:hover {
+  background-color: #116d6e;
+}
+
 .return-button {
   border: rgb(219, 219, 219) solid 1px;
 }
