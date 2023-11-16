@@ -95,7 +95,6 @@
   width: 90%;
   height: auto;
   border-radius: 10px;
-  height: 400px;
   padding: 20px;
   box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, 0.6);
 }
@@ -106,11 +105,13 @@
   gap: 20px;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .back-button {
   cursor: pointer;
   font-size: 1.1rem;
+  color: rgb(212, 212, 212);
   background-color: #0f5b5c;
   border: none;
   border-radius: 10px;
@@ -138,5 +139,48 @@
 
 .x-button:hover {
   color: #ca3131;
+}
+
+.info-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1.5rem;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.info-button-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.delete-button {
+  cursor: pointer;
+  font-size: 1.2rem;
+  height: 50px;
+  width: 100px;
+  background-color: #ca3131;
+  border: none;
+  border-radius: 10px;
+}
+
+.delete-button:hover {
+  color: #ca3131;
+  background-color: rgb(16, 16, 16);
+}
+
+.checkbox-container {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  height: 24px;
+  width: 24px;
 }
 /*Movie Info End*/
