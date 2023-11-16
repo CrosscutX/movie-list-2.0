@@ -3,6 +3,9 @@ import "../styles/Friends.css";
 
 export default function Friends() {
   const [display, setDisplay] = useState("friends");
+  let jsonUser = localStorage.getItem("user");
+  jsonUser = JSON.parse(jsonUser);
+  const displayUsername = jsonUser.username;
   return (
     <div className="friends">
       {display === "friends" && (
@@ -17,7 +20,7 @@ export default function Friends() {
             Add Friend
           </div>
           <div className="friends-container">
-            <h2>Username</h2>
+            <h2>{displayUsername}</h2>
             <div className="friends-list">
               <input type="text" placeholder="Search Friends" />
               <span>Friend 1</span>
