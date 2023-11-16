@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 exports.getAllMovies = asyncHandler(async (req, res, next) => {
   const movies = await Movie.find({});
-  console.log(movies);
+
   res.status(200).json(movies);
 });
 
@@ -64,7 +64,21 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteMovie = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Delete Movie From List" });
+  const { listID, movieID } = req.params;
+
+  //Searches for list that matches listID
+  const list = await List.findById(listID);
+  //Searches list to see if movie exists in movie array
+  const movieIndex = list.movies.indexOf(movieID);
+
+  //indexOf returns -1 if not found, so if movie is found remove it from the list if not return without doing anything
+  if (movieIndex != -1) {
+    list.movies.splice(movieIndex, 1);
+    await list.save();
+    res.status(200).json({ msg: "Movie was deleted from users list" });
+  } else {
+    res.status(404).json({ msg: "Movie or list was not found" });
+  }
 });
 
 exports.updateMovie = asyncHandler(async (req, res, next) => {
