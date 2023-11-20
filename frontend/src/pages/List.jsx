@@ -6,9 +6,9 @@ import MovieInfo from "../components/movieInfo";
 import "../styles/Components.css";
 import "../styles/List.css";
 
-export default function List() {
+export default function List(props) {
   const [selectedOption, setSelectedOption] = useState("none");
-  const [showInfo, setShowInfo] = useState(false);
+
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -19,7 +19,7 @@ export default function List() {
 
       if (!infoElement.contains(e.target)) {
         e.stopPropagation();
-        setShowInfo(false);
+        props.setShowInfo(false);
       }
     };
 
@@ -34,7 +34,7 @@ export default function List() {
 
   return (
     <div className="list">
-      {showInfo && <MovieInfo setShowInfo={setShowInfo} />}
+      {props.showInfo && <MovieInfo setShowInfo={props.setShowInfo} />}
       <div className="list-container">
         <h1>Your Lists</h1>
         <ListSelector
@@ -42,7 +42,7 @@ export default function List() {
           setSelectedOption={setSelectedOption}
         />
         <ListFilter />
-        <ListMovies setShowInfo={setShowInfo} showInfo={showInfo} />
+        <ListMovies setShowInfo={props.setShowInfo} showInfo={props.showInfo} />
       </div>
     </div>
   );

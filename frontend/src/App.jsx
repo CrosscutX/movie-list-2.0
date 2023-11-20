@@ -10,6 +10,9 @@ import Friends from "./pages/Friends";
 import "./styles/App.css";
 
 export default function App() {
+  //State to show the movie information, needs to be in app because we use it
+  //on multiple different pages.
+  const [showInfo, setShowInfo] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   //Login authentication, send the user to a login page if not logged in.
@@ -32,7 +35,10 @@ export default function App() {
           <Route path="/login" element={<SignIn />} />
           <Route path="/search" element={<Home />} />
           <Route path="/search/:movie" element={<SearchResult />} />
-          <Route path="/list" element={<List />} />
+          <Route
+            path="/list"
+            element={<List showInfo={showInfo} setShowInfo={setShowInfo} />}
+          />
           <Route path="/friends" element={<Friends />} />
         </Route>
       </Routes>

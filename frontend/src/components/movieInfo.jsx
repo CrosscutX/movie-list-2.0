@@ -48,8 +48,8 @@ export default function movieInfo(props) {
           Delete
         </button>
         <div className="checkbox-container">
-          <label htmlFor="watched">Watched</label>
-          <input type="checkbox" id="watched" />
+          <label htmlFor="info-watched">Watched</label>
+          <input type="checkbox" id="info-watched" />
         </div>
       </div>
     </div>
