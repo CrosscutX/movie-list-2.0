@@ -10,6 +10,7 @@ export default function HomeSearchBar() {
           type="text"
           placeholder="Enter movie name..."
           className="searchbar-input"
+          id="movie-search"
         />
         <img src={searchIcon} alt="Search Icon" className="search-icon" />
       </div>
