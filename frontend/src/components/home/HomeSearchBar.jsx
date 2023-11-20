@@ -1,10 +1,10 @@
 import React from "react";
-import searchIcon from "../images/search-icon-white.png";
-import "../styles/Components.css";
+import searchIcon from "../../images/search-icon-white.png";
+import "../../styles/SearchBar.css";
 
-export default function SearchBar() {
+export default function HomeSearchBar() {
   return (
-    <div className="searchbar">
+    <div className="home-searchbar">
       <div className="searchbar-container">
         <input
           type="text"
