@@ -2,7 +2,7 @@ import React from "react";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
 
-export default function HomeSearchBar() {
+export default function HomeSearchBar(props) {
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">
@@ -11,51 +11,63 @@ export default function HomeSearchBar() {
           placeholder="Enter movie name..."
           className="searchbar-input"
           id="movie-search"
+          onChange={() => {
+            //displays the dropdown when the input box has a value
+            const input = document.getElementById("movie-search").value;
+            console.log(input.length);
+            if (input.length === 0) {
+              props.setSearchDropdown(false);
+            } else {
+              props.setSearchDropdown(true);
+            }
+          }}
         />
         <img src={searchIcon} alt="Search Icon" className="search-icon" />
       </div>
-      <div className="drop-down">
-        <div className="drop-down-row">
-          <img
-            src={searchIcon}
-            alt="Search Icon"
-            className="search-icon-dropdown"
-          />
-          <span className="search-movie-title">Joker</span>
+      {props.searchDropdown && (
+        <div className="drop-down">
+          <div className="drop-down-row">
+            <img
+              src={searchIcon}
+              alt="Search Icon"
+              className="search-icon-dropdown"
+            />
+            <span className="search-movie-title">Joker</span>
+          </div>
+          <div className="drop-down-row">
+            <img
+              src={searchIcon}
+              alt="Search Icon"
+              className="search-icon-dropdown"
+            />
+            <span className="search-movie-title">Talk To Me</span>
+          </div>
+          <div className="drop-down-row">
+            <img
+              src={searchIcon}
+              alt="Search Icon"
+              className="search-icon-dropdown"
+            />
+            <span className="search-movie-title">The Thing</span>
+          </div>
+          <div className="drop-down-row">
+            <img
+              src={searchIcon}
+              alt="Search Icon"
+              className="search-icon-dropdown"
+            />
+            <span className="search-movie-title">El Topo</span>
+          </div>
+          <div className="drop-down-row">
+            <img
+              src={searchIcon}
+              alt="Search Icon"
+              className="search-icon-dropdown"
+            />
+            <span className="search-movie-title">The Batman</span>
+          </div>
         </div>
-        <div className="drop-down-row">
-          <img
-            src={searchIcon}
-            alt="Search Icon"
-            className="search-icon-dropdown"
-          />
-          <span className="search-movie-title">Talk To Me</span>
-        </div>
-        <div className="drop-down-row">
-          <img
-            src={searchIcon}
-            alt="Search Icon"
-            className="search-icon-dropdown"
-          />
-          <span className="search-movie-title">The Thing</span>
-        </div>
-        <div className="drop-down-row">
-          <img
-            src={searchIcon}
-            alt="Search Icon"
-            className="search-icon-dropdown"
-          />
-          <span className="search-movie-title">El Topo</span>
-        </div>
-        <div className="drop-down-row">
-          <img
-            src={searchIcon}
-            alt="Search Icon"
-            className="search-icon-dropdown"
-          />
-          <span className="search-movie-title">The Batman</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
