@@ -40,9 +40,15 @@ export default function ListSelector(props) {
         {props.selectedOption === "select" && (
           <div className="select-container">
             <div className="select-list-row">
-              <div className="list-button">List 1</div>
-              <div className="list-button">List 2</div>
-              <div className="list-button">List 3</div>
+              <select
+                name="list"
+                id="list"
+                className="list-button list-filter-button"
+                defaultValue="Select List..."
+              >
+                <option disabled>Select List...</option>
+                <option value="all">All</option>
+              </select>
             </div>
             <div className="edit-row">
               <div className="list-button">Edit</div>
