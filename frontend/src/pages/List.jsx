@@ -32,6 +32,15 @@ export default function List(props) {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchLists = async () => {
+      const response = await fetch("/api/users");
+      const json = await response.json();
+      console.log(json);
+    };
+    fetchLists();
+  }, []);
+
   return (
     <div className="list">
       {props.showInfo && <MovieInfo setShowInfo={props.setShowInfo} />}

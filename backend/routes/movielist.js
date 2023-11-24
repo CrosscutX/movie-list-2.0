@@ -14,6 +14,8 @@ const friendController = require("../controllers/friendController");
 router.get("/users", userController.getAllUsers);
 // Get users for friend requests
 router.get("/users/search/:user", userController.getUsers);
+// User by id
+router.get("/users/:id", userController.getUserById);
 // Login
 router.post("/login", userController.login);
 // Create a user during signup

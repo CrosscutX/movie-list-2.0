@@ -33,6 +33,23 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   res.status(200).json(users);
 });
 
+exports.getUserById = asyncHandler(async (req, res, next) => {
+  //These need to have the same name, not sure why
+  //What you set in the as the dynamic part of the route URL matters because the request then formats it with that name,
+  //I think what this is saying is access the user parameter of the requst, you cannot just name it what you want which is what I was trying to do.
+  const { id } = req.params;
+
+  //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
+  //Searches the database for any usernames starting with whats in the user parameter regardless of case
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ error: "No user found" });
+  }
+
+  res.status(200).json(user);
+});
+
 exports.login = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -55,7 +72,9 @@ exports.login = asyncHandler(async (req, res, next) => {
   // create a token
   const token = createToken(user._id);
 
-  res.status(200).json({ username, token });
+  const id = user._id;
+
+  res.status(200).json({ id, username, token });
 });
 
 exports.signUp = asyncHandler(async (req, res, next) => {
@@ -86,7 +105,9 @@ exports.signUp = asyncHandler(async (req, res, next) => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({ username, token });
+    const id = user._id;
+
+    res.status(200).json({ id, username, token });
   }
 });
 
