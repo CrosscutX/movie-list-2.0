@@ -8,6 +8,8 @@ import "../styles/List.css";
 
 export default function List(props) {
   const [selectedOption, setSelectedOption] = useState("none");
+  const [userLists, setUserLists] = useState([]);
+  const [selectedUserList, setSelectedUserList] = useState("");
 
   //handles clicking off of the movie-info panel
   useEffect(() => {
@@ -34,9 +36,13 @@ export default function List(props) {
 
   useEffect(() => {
     const fetchLists = async () => {
-      const response = await fetch("/api/users");
-      const json = await response.json();
-      console.log(json);
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user.id;
+      const response = await fetch(`/api/lists/${userId}`);
+      const lists = await response.json();
+      //For testing
+      setUserLists(lists);
+      setSelectedUserList(lists[0]);
     };
     fetchLists();
   }, []);
@@ -51,7 +57,11 @@ export default function List(props) {
           setSelectedOption={setSelectedOption}
         />
         <ListFilter />
-        <ListMovies setShowInfo={props.setShowInfo} showInfo={props.showInfo} />
+        <ListMovies
+          setShowInfo={props.setShowInfo}
+          showInfo={props.showInfo}
+          selectedUserList={selectedUserList}
+        />
       </div>
     </div>
   );

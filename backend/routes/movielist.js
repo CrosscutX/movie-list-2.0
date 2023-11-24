@@ -42,8 +42,12 @@ router.patch("/lists/:id", listController.updateUserList);
 
 //NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
 
-//Get all movies
+// Get all movies
 router.get("/movies", movieController.getAllMovies);
+// Get specific movies to the designated list id
+router.get("/movies/:id", movieController.getList);
+// Get all of the info from a singular movie
+router.get("/movies/info/:id", movieController.getMovieInfo);
 // Post new movie to list
 router.post("/lists/:id/movies", movieController.addNewMovie);
 // delete movie from list

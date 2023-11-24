@@ -8,6 +8,20 @@ exports.getAllMovies = asyncHandler(async (req, res, next) => {
   res.status(200).json(movies);
 });
 
+exports.getList = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const selectedList = await List.findById(id);
+
+  res.status(200).json(selectedList);
+});
+
+exports.getMovieInfo = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const movie = await Movie.findById(id);
+
+  res.status(200).json(movie);
+});
+
 exports.addNewMovie = asyncHandler(async (req, res, next) => {
   // ID of list movie is being added to
   const { id } = req.params;
