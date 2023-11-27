@@ -16,7 +16,6 @@ export default function ListMovies(props) {
     fetchMoviesList();
   }, [props.selectedUserList]);
 
-  console.log(movieListIDS);
   useEffect(() => {
     const fetchMoviesData = async () => {
       if (movieListIDS !== undefined) {
@@ -27,10 +26,12 @@ export default function ListMovies(props) {
             return (
               <Movie
                 key={movieInfo.imdbID}
+                movie={movieInfo}
                 title={movieInfo.title}
                 poster={movieInfo.image}
                 showInfo={props.showInfo}
                 setShowInfo={props.setShowInfo}
+                setSelectedMovie={props.setSelectedMovie}
               />
             );
           })

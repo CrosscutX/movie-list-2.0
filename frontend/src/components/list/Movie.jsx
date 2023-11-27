@@ -10,6 +10,7 @@ export default function Movie(props) {
         onClick={(e) => {
           if (props.showInfo === false) {
             e.stopPropagation();
+            props.setSelectedMovie(props.movie);
             props.setShowInfo(true);
           }
         }}

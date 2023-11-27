@@ -33,7 +33,7 @@ export default function List(props) {
       document.body.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-
+  //Gets all lists from the user account
   useEffect(() => {
     const fetchLists = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -46,10 +46,15 @@ export default function List(props) {
     };
     fetchLists();
   }, []);
-
+  console.log(userLists);
   return (
     <div className="list">
-      {props.showInfo && <MovieInfo setShowInfo={props.setShowInfo} />}
+      {props.showInfo && (
+        <MovieInfo
+          setShowInfo={props.setShowInfo}
+          selectedMovie={props.selectedMovie}
+        />
+      )}
       <div className="list-container">
         <h1>Your Lists</h1>
         <ListSelector
@@ -61,6 +66,7 @@ export default function List(props) {
           setShowInfo={props.setShowInfo}
           showInfo={props.showInfo}
           selectedUserList={selectedUserList}
+          setSelectedMovie={props.setSelectedMovie}
         />
       </div>
     </div>

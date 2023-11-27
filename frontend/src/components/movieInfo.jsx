@@ -6,6 +6,18 @@ export default function movieInfo(props) {
     props.setShowInfo(false);
   }
 
+  // Formatting the date for our American eyes.
+  const dateString = props.selectedMovie.release_date;
+  const date = new Date(dateString);
+
+  const formattedDate = date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  console.log(formattedDate);
+
   return (
     <div className="movie-info">
       <span className="x-button" onClick={clearInfo}>
@@ -15,32 +27,29 @@ export default function movieInfo(props) {
         <button type="button" className="back-button" onClick={clearInfo}>
           &lt; Back
         </button>
-        <span className="movie-title">Joker</span>
+        <span className="movie-title">{props.selectedMovie.title}</span>
       </div>
       <div className="info-container">
         <div className="info-row">
-          <span>Title:</span>
+          <span>Description: {props.selectedMovie.description}</span>
         </div>
         <div className="info-row">
-          <span>Description:</span>
+          <span>Director: {props.selectedMovie.director}</span>
         </div>
         <div className="info-row">
-          <span>Director:</span>
+          <span>Writers: {props.selectedMovie.writers}</span>
         </div>
         <div className="info-row">
-          <span>Writers:</span>
+          <span>Actors: {props.selectedMovie.actors}</span>
         </div>
         <div className="info-row">
-          <span>Actors:</span>
+          <span>Release Date: {formattedDate}</span>
         </div>
         <div className="info-row">
-          <span>Release Date:</span>
+          <span>Score: {props.selectedMovie.score}</span>
         </div>
         <div className="info-row">
-          <span>Score:</span>
-        </div>
-        <div className="info-row">
-          <span>Box Office:</span>
+          <span>Box Office: {props.selectedMovie.boxoffice}</span>
         </div>
       </div>
       <div className="info-button-container">
