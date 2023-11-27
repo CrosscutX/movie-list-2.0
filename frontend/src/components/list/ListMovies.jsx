@@ -3,7 +3,7 @@ import Movie from "./Movie";
 import "../../styles/List.css";
 
 export default function ListMovies(props) {
-  const [movieList, setMovieList] = useState([]);
+  const [movieListIDS, setMovieListIDS] = useState([]);
   const [listOfMovies, setListOfMovies] = useState([]);
   //Runs whenever the selected list changes
   useEffect(() => {
@@ -11,16 +11,17 @@ export default function ListMovies(props) {
       const response = await fetch(`/api/movies/${props.selectedUserList}`);
       let movieIds = await response.json();
       movieIds = movieIds.movies;
-      setMovieList(movieIds);
+      setMovieListIDS(movieIds);
     };
     fetchMoviesList();
   }, [props.selectedUserList]);
 
+  console.log(movieListIDS);
   useEffect(() => {
     const fetchMoviesData = async () => {
-      if (movieList !== undefined) {
+      if (movieListIDS !== undefined) {
         const movies = await Promise.all(
-          movieList.map(async (id) => {
+          movieListIDS.map(async (id) => {
             const response = await fetch(`/api/movies/info/${id}`);
             const movieInfo = await response.json();
             return (
@@ -38,7 +39,7 @@ export default function ListMovies(props) {
       }
     };
     fetchMoviesData();
-  }, [movieList]);
+  }, [movieListIDS]);
   return (
     <div className="list-movies">
       <h2>List Movies</h2>
