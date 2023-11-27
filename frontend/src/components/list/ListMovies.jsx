@@ -31,6 +31,7 @@ export default function ListMovies(props) {
                 poster={movieInfo.image}
                 showInfo={props.showInfo}
                 setShowInfo={props.setShowInfo}
+                toggleInfoPanel={props.toggleInfoPanel}
                 setSelectedMovie={props.setSelectedMovie}
               />
             );
@@ -40,7 +41,7 @@ export default function ListMovies(props) {
       }
     };
     fetchMoviesData();
-  }, [movieListIDS]);
+  }, [movieListIDS, props.showInfo]);
   return (
     <div className="list-movies">
       <h2>List Movies</h2>

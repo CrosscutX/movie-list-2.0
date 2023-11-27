@@ -8,9 +8,12 @@ export default function Movie(props) {
         src={props.poster}
         alt="Poster"
         onClick={(e) => {
-          if (props.showInfo === false) {
-            e.stopPropagation();
-            props.setSelectedMovie(props.movie);
+          e.stopPropagation();
+          props.setSelectedMovie(props.movie);
+
+          if (props.showInfo === true) {
+            props.setShowInfo(false);
+          } else {
             props.setShowInfo(true);
           }
         }}

@@ -18,7 +18,7 @@ export default function List(props) {
       if (!infoElement) {
         return;
       }
-
+      console.log(props.showInfo);
       if (!infoElement.contains(e.target)) {
         e.stopPropagation();
         props.setShowInfo(false);
@@ -46,11 +46,12 @@ export default function List(props) {
     };
     fetchLists();
   }, []);
-  console.log(userLists);
+
   return (
     <div className="list">
       {props.showInfo && (
         <MovieInfo
+          showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
         />

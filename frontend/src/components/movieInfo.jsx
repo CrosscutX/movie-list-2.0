@@ -16,8 +16,6 @@ export default function movieInfo(props) {
     day: "numeric",
   });
 
-  console.log(formattedDate);
-
   return (
     <div className="movie-info">
       <span className="x-button" onClick={clearInfo}>
