@@ -130,13 +130,18 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "User doesnt exist" });
   }
 
-  const user = await User.findOneAndDelete({ _id: id });
+  const user = await User.findById({ _id: id });
+  console.log(user);
 
   if (!user) {
     return res.status(404).json({ error: "User doesnt exist" });
-  }
+  } else {
+    //Deletes all lists in users list array, including the all list
+    await List.deleteMany({ _id: { $in: user.lists } });
 
-  res.status(200).json(user);
+    await User.deleteOne({ _id: id });
+    res.status(200).json({ message: "User deleted", user });
+  }
 });
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
