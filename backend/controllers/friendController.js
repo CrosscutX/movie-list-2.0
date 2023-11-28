@@ -57,8 +57,8 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
   user.friends.push(addToUser);
   friend.friends.push(addToFriend);
 
-  // user.save();
-  // friend.save();
+  user.save();
+  friend.save();
 
   res.status(200).json({ user, friend });
 });
@@ -68,12 +68,28 @@ exports.deleteFriend = asyncHandler(async (req, res, next) => {
 });
 
 exports.acceptFriend = asyncHandler(async (req, res, next) => {
-  //flip both booleans
-  const people = req.body;
+  const { id, friendId } = req.params;
 
-  res.status(200).json(people);
+  const user = await User.findById(id);
+  const friend = await User.findById(friendId);
 
-  //makes sure each person is in the opposites friendslist already
+  // Loop through friends for both  users and update boolean to true if in eachothers list
+  user.friends.forEach((friend) => {
+    if (friend._id.toString() === friendId) {
+      friend.accepted = true;
+    }
+  });
+
+  friend.friends.forEach((friend) => {
+    if (friend._id.toString() === id) {
+      friend.accepted = true;
+    }
+  });
+
+  await user.save();
+  await friend.save();
+
+  res.status(200).json({ user, friend });
 });
 
 //Cant think or find a good way to make this into middleware

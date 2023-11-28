@@ -73,6 +73,6 @@ router.post("/users/:id/friends/:friendId", friendController.addFriend);
 // Delete friend
 router.delete("users/:id/friends/:friendId", friendController.deleteFriend);
 // Change the friend accepted boolean to true
-router.patch("users/:id/friends/:friendId", friendController.acceptFriend);
+router.patch("/users/:id/friends/:friendId", friendController.acceptFriend);
 
 module.exports = router;
