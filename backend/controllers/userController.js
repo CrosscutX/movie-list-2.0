@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const List = require("../models/list");
 
 const createToken = (_id) => {
   return jwt.sign({ _id: _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -102,6 +103,17 @@ exports.signUp = asyncHandler(async (req, res, next) => {
     const hash = await bcrypt.hash(password, salt);
 
     const user = await User.create({ username, email, password: hash });
+
+    const allList = new List({
+      listName: "all",
+      public: false,
+      movies: [],
+      createdBy: user._id,
+    });
+
+    await allList.save();
+    user.lists.push(allList._id);
+    user.save();
 
     const token = createToken(user._id);
 

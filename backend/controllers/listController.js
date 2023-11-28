@@ -21,20 +21,26 @@ exports.createUserList = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(id);
 
-  const list = new List({
-    listName: req.body.listName,
-    public: false,
-    movies: [],
-    createdBy: user._id,
-  });
+  if (req.body.listName == "all") {
+    return res
+      .status(404)
+      .json({ error: "Cannot create list with name of all" });
+  } else {
+    const list = new List({
+      listName: req.body.listName,
+      public: false,
+      movies: [],
+      createdBy: user._id,
+    });
 
-  await list.save();
+    await list.save();
 
-  user.lists.push(list._id);
+    user.lists.push(list._id);
 
-  await user.save();
+    await user.save();
 
-  res.status(200).json(user);
+    res.status(200).json(user);
+  }
 });
 
 exports.deleteUserList = asyncHandler(async (req, res, next) => {
@@ -49,6 +55,9 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
     return res
       .status(404)
       .json({ error: "User doesnt have permission to delete list" });
+  }
+  if (list.listName == "all") {
+    return res.status(404).json({ error: "Can not delete list with name all" });
   }
 
   //remove list ID from users lists
