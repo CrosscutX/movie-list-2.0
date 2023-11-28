@@ -5,7 +5,7 @@ import "../../styles/List.css";
 export default function ListMovies(props) {
   const [movieListIDS, setMovieListIDS] = useState([]);
   const [listOfMovies, setListOfMovies] = useState([]);
-  //Runs whenever the selected list changes
+  //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
     const fetchMoviesList = async () => {
       const response = await fetch(`/api/movies/${props.selectedUserList}`);
@@ -15,7 +15,8 @@ export default function ListMovies(props) {
     };
     fetchMoviesList();
   }, [props.selectedUserList]);
-
+  // Maps through the list of movie ids and creates an array of movie components to display
+  // on the page.
   useEffect(() => {
     const fetchMoviesData = async () => {
       if (movieListIDS !== undefined) {

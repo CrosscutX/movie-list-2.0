@@ -25,10 +25,8 @@ export default function List(props) {
       }
     };
 
-    // Attach the event listener to the document body
     document.body.addEventListener("click", handleOutsideClick);
 
-    // Cleanup the event listener on component unmount
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
