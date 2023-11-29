@@ -6,12 +6,15 @@ export default function ListMovies(props) {
   const [movieListIDS, setMovieListIDS] = useState([]);
   const [listOfMovies, setListOfMovies] = useState([]);
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
+  console.log();
   useEffect(() => {
     const fetchMoviesList = async () => {
       const response = await fetch(`/api/movies/${props.selectedUserList}`);
       let movieIds = await response.json();
-      movieIds = movieIds.movies;
-      setMovieListIDS(movieIds);
+
+      if (movieIds.movies !== undefined) {
+        setMovieListIDS(movieIds.movies);
+      }
     };
     fetchMoviesList();
   }, [props.selectedUserList]);
@@ -22,8 +25,10 @@ export default function ListMovies(props) {
       if (movieListIDS !== undefined) {
         const movies = await Promise.all(
           movieListIDS.map(async (id) => {
-            const response = await fetch(`/api/movies/info/${id}`);
+            console.log(id);
+            const response = await fetch(`/api/movies/info/${id.movie}`);
             const movieInfo = await response.json();
+            console.log(movieInfo);
             return (
               <Movie
                 key={movieInfo.imdbID}
