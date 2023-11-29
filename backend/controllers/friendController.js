@@ -47,8 +47,6 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
     accepted: false,
   };
 
-  console.log(friend.username);
-
   const addToFriend = {
     _id: user.id,
     accepted: false,

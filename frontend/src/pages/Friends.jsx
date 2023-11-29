@@ -6,6 +6,24 @@ export default function Friends() {
   let jsonUser = localStorage.getItem("user");
   jsonUser = JSON.parse(jsonUser);
   const displayUsername = jsonUser.username;
+
+  const [searchInput, setSearchInput] = useState("");
+
+  let handleChange = (e) => {
+    setSearchInput(e.target.value);
+
+    if (searchInput != 0) {
+      fetch(`/api/users/search/${searchInput}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+
   return (
     <div className="friends">
       {display === "friends" && (
@@ -47,6 +65,8 @@ export default function Friends() {
               type="text"
               placeholder="Add Friend"
               className="add-friend-textbox"
+              onChange={handleChange}
+              value={searchInput}
             />
           </div>
         </div>

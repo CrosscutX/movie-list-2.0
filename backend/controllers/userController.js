@@ -24,8 +24,9 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
   //Searches the database for any usernames starting with whats in the user parameter regardless of case
   const users = await User.find({
+    //using select with a field afterwards says only return that field from the results, 1 says you want to return, 0 or omitting says not to return it
     username: { $regex: `^${user}`, $options: "i" },
-  });
+  }).select({ username: 1, _id: 1, lists: 1 });
 
   if (!users) {
     return res.status(404).json({ error: "No user found" });
