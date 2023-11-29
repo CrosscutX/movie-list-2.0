@@ -32,6 +32,9 @@ export default function movieInfo(props) {
           <span>Description: {props.selectedMovie.description}</span>
         </div>
         <div className="info-row">
+          <span>Genre: {props.selectedMovie.genre}</span>
+        </div>
+        <div className="info-row">
           <span>Director: {props.selectedMovie.director}</span>
         </div>
         <div className="info-row">
