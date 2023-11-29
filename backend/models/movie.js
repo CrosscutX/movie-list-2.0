@@ -8,6 +8,7 @@ const MovieSchema = new Schema({
   director: [{ type: String }],
   writers: [{ type: String }],
   actors: [{ type: String }],
+  genre: [{ type: String }],
   release_date: { type: Date },
   score: { type: String },
   boxoffice: { type: String },
