@@ -18,7 +18,6 @@ export default function List(props) {
       if (!infoElement) {
         return;
       }
-      console.log(props.showInfo);
       if (!infoElement.contains(e.target)) {
         e.stopPropagation();
         props.setShowInfo(false);
@@ -59,6 +58,8 @@ export default function List(props) {
         <ListSelector
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          userLists={userLists}
+          setSelectedUserList={setSelectedUserList}
         />
         <ListFilter />
         <ListMovies

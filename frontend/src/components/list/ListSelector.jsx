@@ -1,6 +1,39 @@
+import { useEffect, useState } from "react";
 import "../../styles/List.css";
 
 export default function ListSelector(props) {
+  const [listOfLists, setListOfLists] = useState();
+  useEffect(() => {
+    const fetchListData = async () => {
+      if (props.userLists !== undefined) {
+        const lists = await Promise.all(
+          props.userLists.map(async (id) => {
+            const response = await fetch(`/api/movies/${id}`);
+            const listInfo = await response.json();
+            let listName = listInfo.listName;
+            let listId = listInfo._id;
+            if (listName === "all") {
+              listName = "All";
+            }
+
+            return (
+              <option key={listId} value={listId}>
+                {listName}
+              </option>
+            );
+          })
+        );
+        setListOfLists(lists);
+      }
+    };
+    fetchListData();
+  }, [props.userLists]);
+
+  //onChange function for list select
+  function optionSelect(e) {
+    props.setSelectedUserList(e.target.value);
+  }
+
   return (
     <div className="list-selector">
       <h2>List Selector</h2>
@@ -43,11 +76,12 @@ export default function ListSelector(props) {
               <select
                 name="list"
                 id="list"
-                className="list-button list-filter-button"
+                className="list-button list-filter-button list-select"
                 defaultValue="Select List..."
+                onChange={optionSelect}
               >
                 <option disabled>Select List...</option>
-                <option value="all">All</option>
+                {listOfLists}
               </select>
             </div>
             <div className="edit-row">
