@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Friends.css";
+import FriendCard from "../components/friends/FriendSearchCard";
 
 export default function Friends() {
   const [display, setDisplay] = useState("friends");
@@ -8,7 +9,22 @@ export default function Friends() {
   const displayUsername = jsonUser.username;
 
   const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [userFriends, setUserFriends] = useState([]);
 
+  //For getting logged in users friends on page load
+  useEffect(() => {
+    fetch(`/api/users/${jsonUser.id}`)
+      .then((response) => response.json())
+      .then((user) => {
+        setUserFriends(user.friends);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  //Handles friend search input calls
   let handleChange = (e) => {
     setSearchInput(e.target.value);
 
@@ -16,11 +32,14 @@ export default function Friends() {
       fetch(`/api/users/search/${searchInput}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          setSearchResults(data);
+          console.log(searchResults);
         })
         .catch((error) => {
           console.error(error);
         });
+    } else {
+      setSearchResults([]);
     }
   };
 
@@ -68,6 +87,16 @@ export default function Friends() {
               onChange={handleChange}
               value={searchInput}
             />
+            <div className="friends-search-results">
+              {searchResults.map((friend) => (
+                <FriendCard
+                  key={friend._id}
+                  friendName={friend.username}
+                  id={friend._id}
+                  logInUser={jsonUser.id}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

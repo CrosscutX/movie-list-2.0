@@ -43,7 +43,12 @@ exports.getUserById = asyncHandler(async (req, res, next) => {
 
   //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
   //Searches the database for any usernames starting with whats in the user parameter regardless of case
-  const user = await User.findById(id);
+  const user = await User.findById(id).select({
+    username: 1,
+    _id: 1,
+    lists: 1,
+    friends: 1,
+  });
 
   if (!user) {
     return res.status(404).json({ error: "No user found" });
