@@ -25,10 +25,8 @@ export default function ListMovies(props) {
       if (movieListIDS !== undefined) {
         const movies = await Promise.all(
           movieListIDS.map(async (id) => {
-            console.log(id);
             const response = await fetch(`/api/movies/info/${id.movie}`);
             const movieInfo = await response.json();
-            console.log(movieInfo);
             return (
               <Movie
                 key={movieInfo.imdbID}
