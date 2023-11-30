@@ -75,7 +75,8 @@
   padding-top: 0.5rem;
 }
 
-.friend-card {
+.friend-card,
+.user-friend-card {
   font-size: 1.4rem;
   display: flex;
   flex-direction: row;

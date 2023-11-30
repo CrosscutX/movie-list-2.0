@@ -2,7 +2,6 @@ import React from "react";
 
 export default function FriendCard(props) {
   function handleClick() {
-    console.log(props);
     fetch(`/api/users/${props.logInUser}/friends/${props.id}`, {
       method: "POST",
     })

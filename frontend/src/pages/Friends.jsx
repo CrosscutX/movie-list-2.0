@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "../styles/Friends.css";
 import FriendCard from "../components/friends/FriendSearchCard";
+import UserFriendCard from "../components/friends/UserFriends";
+import { json } from "react-router-dom";
 
 export default function Friends() {
   const [display, setDisplay] = useState("friends");
@@ -11,6 +13,8 @@ export default function Friends() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
+
+  console.log(userFriends);
 
   //For getting logged in users friends on page load
   useEffect(() => {
@@ -69,7 +73,7 @@ export default function Friends() {
               <input type="text" placeholder="Search Friends" />
               <div className="friends-search-results">
                 {userFriends.map((friend) => (
-                  <FriendCard
+                  <UserFriendCard
                     key={friend._id}
                     friendName={friend.username}
                     id={friend._id}

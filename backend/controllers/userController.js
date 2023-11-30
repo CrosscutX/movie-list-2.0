@@ -143,11 +143,14 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   } else {
     //Removes the  user being deleted from anyone that has the user on their friends list
     const friendsOfUser = await User.find({
+      //Checks for all users with user being deleted in friends list
+      //Matches any array with the id of the deleted user id
       friends: { $elemMatch: { _id: id } },
     });
 
     await Promise.all(
       friendsOfUser.map(async (user) => {
+        //Filtering users list to remove deleted user based on id
         let updatedFriends = user.friends.filter((friend) => friend._id != id);
         await user.updateOne({ friends: updatedFriends });
       })
