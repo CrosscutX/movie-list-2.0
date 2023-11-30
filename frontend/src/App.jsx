@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import Layout from "./components/Layout";
 import List from "./pages/List";
 import Friends from "./pages/Friends";
+import FriendsMovieList from "./pages/FriendsMovieList";
 import "./styles/App.css";
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
             }
           />
           <Route path="/friends" element={<Friends />} />
+          <Route path="/friends/:name" element={<FriendsMovieList />} />
         </Route>
       </Routes>
     </div>
