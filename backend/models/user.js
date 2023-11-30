@@ -11,6 +11,7 @@ const UserSchema = new Schema({
     {
       friend: { type: Schema.Types.ObjectId, ref: "user" },
       accepted: { type: Boolean },
+      sentFrom: { type: String },
     },
   ],
 });

@@ -17,7 +17,14 @@ export default function Friends() {
     fetch(`/api/users/${jsonUser.id}`)
       .then((response) => response.json())
       .then((user) => {
-        setUserFriends(user.friends);
+        const friends = user.friends.map((friend) => {
+          return fetch(`/api/users/${friend._id}`).then((response) =>
+            response.json()
+          );
+        });
+        Promise.all(friends).then((friendData) => {
+          setUserFriends(friendData);
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -60,10 +67,16 @@ export default function Friends() {
             <h2>{displayUsername}</h2>
             <div className="friends-list">
               <input type="text" placeholder="Search Friends" />
-              <span>Friend 1</span>
-              <span>Friend 2</span>
-              <span>Friend 3</span>
-              <span>Friend 4</span>
+              <div className="friends-search-results">
+                {userFriends.map((friend) => (
+                  <FriendCard
+                    key={friend._id}
+                    friendName={friend.username}
+                    id={friend._id}
+                    logInUser={jsonUser.id}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

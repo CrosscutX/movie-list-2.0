@@ -137,16 +137,29 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   }
 
   const user = await User.findById({ _id: id });
-  console.log(user);
 
   if (!user) {
     return res.status(404).json({ error: "User doesnt exist" });
   } else {
+    //Removes the  user being deleted from anyone that has the user on their friends list
+    const friendsOfUser = await User.find({
+      friends: { $elemMatch: { _id: id } },
+    });
+
+    await Promise.all(
+      friendsOfUser.map(async (user) => {
+        let updatedFriends = user.friends.filter((friend) => friend._id != id);
+        await user.updateOne({ friends: updatedFriends });
+      })
+    );
+
     //Deletes all lists in users list array, including the all list
+
     await List.deleteMany({ _id: { $in: user.lists } });
 
     await User.deleteOne({ _id: id });
-    res.status(200).json({ message: "User deleted", user });
+
+    res.status(200).json({ message: "User deleted" });
   }
 });
 
