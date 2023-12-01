@@ -10,6 +10,7 @@ export default function List(props) {
   const [selectedOption, setSelectedOption] = useState("none");
   const [userLists, setUserLists] = useState([]);
   const [selectedUserList, setSelectedUserList] = useState("");
+  const [movieListIDS, setMovieListIDS] = useState([]);
 
   //handles clicking off of the movie-info panel
   useEffect(() => {
@@ -44,6 +45,18 @@ export default function List(props) {
     fetchLists();
   }, []);
 
+  //Runs whenever the selected list changes, gets a list of movie ids and adds to state
+  useEffect(() => {
+    const fetchMoviesList = async () => {
+      const response = await fetch(`/api/movies/${selectedUserList}`);
+      let movieIds = await response.json();
+      if (movieIds.movies !== undefined) {
+        setMovieListIDS(movieIds.movies);
+      }
+    };
+    fetchMoviesList();
+  }, [selectedUserList]);
+
   return (
     <div className="list">
       {props.showInfo && (
@@ -67,6 +80,7 @@ export default function List(props) {
           showInfo={props.showInfo}
           selectedUserList={selectedUserList}
           setSelectedMovie={props.setSelectedMovie}
+          movieListIDS={movieListIDS}
         />
       </div>
     </div>

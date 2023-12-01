@@ -3,28 +3,15 @@ import Movie from "./Movie";
 import "../../styles/List.css";
 
 export default function ListMovies(props) {
-  const [movieListIDS, setMovieListIDS] = useState([]);
   const [listOfMovies, setListOfMovies] = useState([]);
-  //Runs whenever the selected list changes, gets a list of movie ids and adds to state
-  console.log();
-  useEffect(() => {
-    const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${props.selectedUserList}`);
-      let movieIds = await response.json();
 
-      if (movieIds.movies !== undefined) {
-        setMovieListIDS(movieIds.movies);
-      }
-    };
-    fetchMoviesList();
-  }, [props.selectedUserList]);
   // Maps through the list of movie ids and creates an array of movie components to display
   // on the page.
   useEffect(() => {
     const fetchMoviesData = async () => {
-      if (movieListIDS !== undefined) {
+      if (props.movieListIDS !== undefined) {
         const movies = await Promise.all(
-          movieListIDS.map(async (id) => {
+          props.movieListIDS.map(async (id) => {
             const response = await fetch(`/api/movies/info/${id.movie}`);
             const movieInfo = await response.json();
             return (
@@ -45,7 +32,7 @@ export default function ListMovies(props) {
       }
     };
     fetchMoviesData();
-  }, [movieListIDS, props.showInfo]);
+  }, [props.movieListIDS, props.showInfo]);
   return (
     <div className="list-movies">
       <h2>List Movies</h2>
