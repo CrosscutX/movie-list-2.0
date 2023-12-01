@@ -10,6 +10,7 @@ export default function List(props) {
   const [selectedOption, setSelectedOption] = useState("none");
   const [userLists, setUserLists] = useState([]);
   const [selectedUserList, setSelectedUserList] = useState("");
+  const [filteredMovieList, setFilteredMovieList] = useState("");
   const [movieListIDS, setMovieListIDS] = useState([]);
 
   //handles clicking off of the movie-info panel
@@ -74,7 +75,10 @@ export default function List(props) {
           userLists={userLists}
           setSelectedUserList={setSelectedUserList}
         />
-        <ListFilter />
+        <ListFilter
+          movieListIDS={movieListIDS}
+          setFilteredMovieList={setFilteredMovieList}
+        />
         <ListMovies
           setShowInfo={props.setShowInfo}
           showInfo={props.showInfo}

@@ -1,7 +1,24 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "../../styles/List.css";
 
-export default function ListFilter() {
+export default function ListFilter(props) {
+  const [listOfMovies, setListOfMovies] = useState([]);
+  useEffect(() => {
+    const fetchMoviesData = async () => {
+      if (props.movieListIDS !== undefined) {
+        const movies = await Promise.all(
+          props.movieListIDS.map(async (id) => {
+            const response = await fetch(`/api/movies/info/${id.movie}`);
+            const movieInfo = await response.json();
+            return movieInfo;
+          })
+        );
+        setListOfMovies(movies);
+      }
+    };
+    fetchMoviesData();
+  }, [props.movieListIDS]);
+  console.log(listOfMovies);
   return (
     <div className="list-filter">
       <h2>Filters</h2>
