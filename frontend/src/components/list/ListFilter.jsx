@@ -8,7 +8,6 @@ export default function ListFilter(props) {
   const [genre, setGenre] = useState("Genre...");
   const [watched, setWatched] = useState("Watched...");
   const [rating, setRating] = useState("Rating...");
-  const [random, setRandom] = useState(false);
 
   // Uses the list of movie ids to get more info and store all the movie info into
   // an array at listOfMovies
@@ -80,6 +79,13 @@ export default function ListFilter(props) {
     }
   }
 
+  function rollRandom(list) {
+    const randomIndex = Math.floor(Math.random() * list.length);
+    const movieArray = [];
+    movieArray.push(list[randomIndex]);
+    return movieArray;
+  }
+
   function filterClick() {
     let filteredList = listOfMovies
       .filter((movie) => {
@@ -95,7 +101,14 @@ export default function ListFilter(props) {
         return checkWatched(movie);
       });
     checkRating(filteredList);
+    props.setFilteredMovieList(filteredList);
+  }
 
+  function randomClick() {
+    let filteredList = listOfMovies;
+    console.log(filteredList);
+    filteredList = rollRandom(filteredList);
+    console.log(filteredList);
     props.setFilteredMovieList(filteredList);
   }
 
@@ -105,7 +118,6 @@ export default function ListFilter(props) {
     setGenre("Genre...");
     setWatched("Watched...");
     setRating("Rating...");
-    setRandom(false);
     props.setFilteredMovieList(listOfMovies);
   }
 
@@ -189,7 +201,9 @@ export default function ListFilter(props) {
           </select>
         </div>
         <div className="filter-bot-row">
-          <div className="list-button random-button">Random</div>
+          <div className="list-button random-button" onClick={randomClick}>
+            Random
+          </div>
           <div className="list-button filter-button" onClick={filterClick}>
             Filter
           </div>
