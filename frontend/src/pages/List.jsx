@@ -57,7 +57,6 @@ export default function List(props) {
     };
     fetchMoviesList();
   }, [selectedUserList]);
-
   return (
     <div className="list">
       {props.showInfo && (

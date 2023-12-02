@@ -3,13 +3,21 @@ import "../../styles/List.css";
 
 export default function ListFilter(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
+  const [title, setTitle] = useState("");
+  const [director, setDirector] = useState("");
+  const [genre, setGenre] = useState("");
+  const [watched, setWatched] = useState("");
+  const [rating, setRating] = useState("");
+  const [random, setRandom] = useState(false);
+
   useEffect(() => {
     const fetchMoviesData = async () => {
       if (props.movieListIDS !== undefined) {
         const movies = await Promise.all(
-          props.movieListIDS.map(async (id) => {
-            const response = await fetch(`/api/movies/info/${id.movie}`);
+          props.movieListIDS.map(async (movie) => {
+            const response = await fetch(`/api/movies/info/${movie.movie}`);
             const movieInfo = await response.json();
+            movieInfo.watched = movie.watched;
             return movieInfo;
           })
         );
@@ -18,7 +26,6 @@ export default function ListFilter(props) {
     };
     fetchMoviesData();
   }, [props.movieListIDS]);
-  console.log(listOfMovies);
   return (
     <div className="list-filter">
       <h2>Filters</h2>
@@ -30,6 +37,10 @@ export default function ListFilter(props) {
             id="title"
             placeholder="Title..."
             className="filter-textbox"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
           />
           <input
             type="text"
