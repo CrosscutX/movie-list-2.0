@@ -10,6 +10,8 @@ export default function ListFilter(props) {
   const [rating, setRating] = useState("");
   const [random, setRandom] = useState(false);
 
+  // Uses the list of movie ids to get more info and store all the movie info into
+  // an array at listOfMovies
   useEffect(() => {
     const fetchMoviesData = async () => {
       if (props.movieListIDS !== undefined) {
@@ -17,15 +19,46 @@ export default function ListFilter(props) {
           props.movieListIDS.map(async (movie) => {
             const response = await fetch(`/api/movies/info/${movie.movie}`);
             const movieInfo = await response.json();
+            // Add the watched attribute to the movieInfo from the list specific watched field
             movieInfo.watched = movie.watched;
+            // Remove the percentage after the score
+            movieInfo.score = movieInfo.score.slice(0, -1);
+            // Add the list id to the movie info so it's easier to reference later
+            movieInfo.listID = movie.movie;
             return movieInfo;
           })
         );
         setListOfMovies(movies);
+        props.setFilteredMovieList(movies);
       }
     };
     fetchMoviesData();
   }, [props.movieListIDS]);
+
+  function checkTitle(movie) {
+    if (title === "") {
+      return movie;
+    }
+    return movie.title.includes(title);
+  }
+
+  function filterClick() {
+    let filteredList = listOfMovies.filter((movie) => {
+      return checkTitle(movie);
+    });
+    props.setFilteredMovieList(filteredList);
+  }
+
+  function defaultClick() {
+    setTitle("");
+    setDirector("");
+    setGenre("");
+    setWatched("");
+    setRating("");
+    setRandom(false);
+    props.setFilteredMovieList(listOfMovies);
+  }
+
   return (
     <div className="list-filter">
       <h2>Filters</h2>
@@ -94,10 +127,14 @@ export default function ListFilter(props) {
         </div>
         <div className="filter-bot-row">
           <div className="list-button random-button">Random</div>
-          <div className="list-button filter-button">Filter</div>
+          <div className="list-button filter-button" onClick={filterClick}>
+            Filter
+          </div>
         </div>
       </div>
-      <div className="list-button return-button">Default</div>
+      <div className="list-button return-button" onClick={defaultClick}>
+        Default
+      </div>
     </div>
   );
 }

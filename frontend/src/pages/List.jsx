@@ -57,6 +57,7 @@ export default function List(props) {
     };
     fetchMoviesList();
   }, [selectedUserList]);
+
   return (
     <div className="list">
       {props.showInfo && (
@@ -76,6 +77,7 @@ export default function List(props) {
         />
         <ListFilter
           movieListIDS={movieListIDS}
+          filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
         />
         <ListMovies
@@ -84,6 +86,7 @@ export default function List(props) {
           selectedUserList={selectedUserList}
           setSelectedMovie={props.setSelectedMovie}
           movieListIDS={movieListIDS}
+          filteredMovieList={filteredMovieList}
         />
       </div>
     </div>
