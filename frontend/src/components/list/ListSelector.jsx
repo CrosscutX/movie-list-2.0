@@ -3,6 +3,7 @@ import "../../styles/List.css";
 
 export default function ListSelector(props) {
   const [listOfLists, setListOfLists] = useState();
+  const [selectedListTitle, setSelectedListTitle] = useState("Select List...");
   useEffect(() => {
     const fetchListData = async () => {
       if (props.userLists !== undefined) {
@@ -17,7 +18,7 @@ export default function ListSelector(props) {
             }
 
             return (
-              <option key={listId} value={listId}>
+              <option key={listId} value={listName} data={listId}>
                 {listName}
               </option>
             );
@@ -31,7 +32,14 @@ export default function ListSelector(props) {
 
   //onChange function for list select
   function optionSelect(e) {
-    props.setSelectedUserList(e.target.value);
+    console.log(e.target.options);
+
+    const selectedIndex = e.target.selectedIndex;
+    const selectedOptionText = e.target.options[selectedIndex].text;
+    const selectedOptionId =
+      e.target.options[selectedIndex].getAttribute("data");
+    props.setSelectedUserList(selectedOptionId);
+    setSelectedListTitle(selectedOptionText);
   }
 
   return (
@@ -77,7 +85,7 @@ export default function ListSelector(props) {
                 name="list"
                 id="list"
                 className="list-button list-filter-button list-select"
-                defaultValue="Select List..."
+                defaultValue={selectedListTitle}
                 onChange={optionSelect}
               >
                 <option disabled>Select List...</option>

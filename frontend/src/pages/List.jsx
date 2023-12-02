@@ -74,6 +74,7 @@ export default function List(props) {
           setSelectedOption={setSelectedOption}
           userLists={userLists}
           setSelectedUserList={setSelectedUserList}
+          selectedUserList={selectedUserList}
         />
         <ListFilter
           movieListIDS={movieListIDS}
