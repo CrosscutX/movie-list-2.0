@@ -5,7 +5,7 @@ import "../../styles/List.css";
 export default function ListMovies(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
 
-  console.log(props.filteredMovieList);
+  // console.log(props.filteredMovieList);
 
   useEffect(() => {
     const fetchMoviesData = () => {

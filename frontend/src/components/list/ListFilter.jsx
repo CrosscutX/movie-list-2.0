@@ -5,9 +5,9 @@ export default function ListFilter(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
-  const [genre, setGenre] = useState("");
-  const [watched, setWatched] = useState("");
-  const [rating, setRating] = useState("");
+  const [genre, setGenre] = useState("Genre...");
+  const [watched, setWatched] = useState("Watched...");
+  const [rating, setRating] = useState("Rating...");
   const [random, setRandom] = useState(false);
 
   // Uses the list of movie ids to get more info and store all the movie info into
@@ -39,22 +39,72 @@ export default function ListFilter(props) {
     if (title === "") {
       return movie;
     }
+
     return movie.title.includes(title);
   }
 
+  function checkDirector(movie) {
+    if (director === "") {
+      return movie;
+    }
+
+    return movie.director.includes(director);
+  }
+
+  function checkGenre(movie) {
+    if (genre === "Genre..." || genre === "All") {
+      return movie;
+    }
+
+    return movie.genre.includes(genre);
+  }
+
+  function checkWatched(movie) {
+    if (watched === "Watched..." || watched === "All") {
+      return movie;
+    } else if (watched === "notWatched") {
+      return movie.watched === false;
+    } else {
+      return movie.watched === true;
+    }
+  }
+
+  function checkRating(list) {
+    console.log(list);
+    if (rating === "Rating..." || rating === "none") {
+      return list;
+    } else if (rating === "best") {
+      list.sort((a, b) => b.score - a.score);
+    } else if (rating === "worst") {
+      list.sort((a, b) => a.score - b.score);
+    }
+  }
+
   function filterClick() {
-    let filteredList = listOfMovies.filter((movie) => {
-      return checkTitle(movie);
-    });
+    let filteredList = listOfMovies
+      .filter((movie) => {
+        return checkTitle(movie);
+      })
+      .filter((movie) => {
+        return checkDirector(movie);
+      })
+      .filter((movie) => {
+        return checkGenre(movie);
+      })
+      .filter((movie) => {
+        return checkWatched(movie);
+      });
+    checkRating(filteredList);
+
     props.setFilteredMovieList(filteredList);
   }
 
   function defaultClick() {
     setTitle("");
     setDirector("");
-    setGenre("");
-    setWatched("");
-    setRating("");
+    setGenre("Genre...");
+    setWatched("Watched...");
+    setRating("Rating...");
     setRandom(false);
     props.setFilteredMovieList(listOfMovies);
   }
@@ -81,6 +131,10 @@ export default function ListFilter(props) {
             id="director"
             placeholder="Director..."
             className="filter-textbox"
+            value={director}
+            onChange={(e) => {
+              setDirector(e.target.value);
+            }}
           />
         </div>
         <div className="filter-mid-row">
@@ -88,28 +142,34 @@ export default function ListFilter(props) {
             name="genre"
             id="genre"
             className="list-button list-filter-button"
-            defaultValue="Genre..."
+            value={genre}
+            onChange={(e) => {
+              setGenre(e.target.value);
+            }}
           >
             <option disabled>Genre...</option>
-            <option value="all">All</option>
-            <option value="action">Action</option>
-            <option value="drama">Drama</option>
-            <option value="comedy">Comedy</option>
-            <option value="thriller">Thriller</option>
-            <option value="western">Western</option>
-            <option value="horror">Horror</option>
-            <option value="sciFi">Sci-Fi</option>
-            <option value="fantasy">Fantasy</option>
-            <option value="animation">Animation</option>
+            <option value="All">All</option>
+            <option value="Action">Action</option>
+            <option value="Drama">Drama</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Western">Western</option>
+            <option value="Horror">Horror</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Animation">Animation</option>
           </select>
           <select
             name="watched"
             id="watched"
             className="list-button list-filter-button"
-            defaultValue="Watched..."
+            value={watched}
+            onChange={(e) => {
+              setWatched(e.target.value);
+            }}
           >
             <option disabled>Watched...</option>
-            <option value="all">All</option>
+            <option value="All">All</option>
             <option value="notWatched">Not Watched</option>
             <option value="watched">Watched</option>
           </select>
@@ -117,7 +177,10 @@ export default function ListFilter(props) {
             name="rating"
             id="rating"
             className="list-button list-filter-button"
-            defaultValue="Rating..."
+            value={rating}
+            onChange={(e) => {
+              setRating(e.target.value);
+            }}
           >
             <option disabled>Rating...</option>
             <option value="none">None</option>
