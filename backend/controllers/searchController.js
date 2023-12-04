@@ -25,7 +25,17 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
         res.status(200).json(result.Search);
       }
     } else {
-      return;
+      const responseTitle = await fetch(
+        `http://www.omdbapi.com/?t=${movie}&r=json&apikey=${process.env.API_KEY}`,
+        { method: "POST" }
+      );
+      const resultTitle = await responseTitle.json();
+      console.log(resultTitle);
+      if (!responseTitle.ok) {
+        res.status(400).json({ msg: "Error fetching from api" });
+      }
+
+      res.status(200).json(resultTitle);
     }
   } catch (error) {
     console.error(error);
