@@ -41,7 +41,6 @@ export default function Friends() {
         .then((response) => response.json())
         .then((data) => {
           setSearchResults(data);
-          console.log(searchResults);
         })
         .catch((error) => {
           console.error(error);
@@ -72,6 +71,7 @@ export default function Friends() {
                 {userFriends.map((friend) => (
                   <UserFriendCard
                     key={friend._id}
+                    friends={friend.friends}
                     friendName={friend.username}
                     id={friend._id}
                     logInUser={jsonUser.id}
@@ -108,6 +108,7 @@ export default function Friends() {
                   friendName={friend.username}
                   id={friend._id}
                   logInUser={jsonUser.id}
+                  logInUserFriends={userFriends}
                 />
               ))}
             </div>
