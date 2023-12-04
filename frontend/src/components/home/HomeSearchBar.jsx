@@ -14,11 +14,22 @@ export default function HomeSearchBar(props) {
           onChange={() => {
             //displays the dropdown when the input box has a value
             const input = document.getElementById("movie-search").value;
-            console.log(input.length);
+
             if (input.length === 0) {
               props.setSearchDropdown(false);
             } else {
               props.setSearchDropdown(true);
+              getMovies(input);
+            }
+
+            async function getMovies(movie) {
+              console.log(movie);
+              const response = await fetch(`/api/search/${movie}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+              });
+              const movieResults = await response.json();
+              console.log(movieResults);
             }
           }}
         />

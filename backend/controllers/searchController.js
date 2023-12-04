@@ -3,11 +3,13 @@ const asyncHandler = require("express-async-handler");
 const Movie = require("../models/movie");
 
 exports.getSearch = asyncHandler(async (req, res, next) => {
+  console.log("GetSearch");
   const { movie } = req.params;
 
   try {
     const response = await fetch(
-      `http://www.omdbapi.com/?s=${movie}&r=json&apikey=${process.env.API_KEY}`
+      `http://www.omdbapi.com/?s=${movie}&r=json&apikey=${process.env.API_KEY}`,
+      { method: "POST" }
     );
 
     if (!response.ok) {
@@ -15,12 +17,15 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
     }
 
     const result = await response.json();
-    console.log(result);
-    if (result.Search.length > 5) {
-      const filterResult = result.Search.splice(0, 5);
-      res.status(200).json(filterResult);
+    if (result.Search !== undefined) {
+      if (result.Search.length > 5) {
+        const filterResult = result.Search.splice(0, 5);
+        res.status(200).json(filterResult);
+      } else {
+        res.status(200).json(result.Search);
+      }
     } else {
-      res.status(200).json(result.Search);
+      return;
     }
   } catch (error) {
     console.error(error);
