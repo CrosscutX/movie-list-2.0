@@ -45,13 +45,13 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
   const addToUser = {
     _id: friend.id,
     accepted: false,
+    sentFrom: user.id,
   };
-
-  console.log(friend.username);
 
   const addToFriend = {
     _id: user.id,
     accepted: false,
+    sentFrom: user.id,
   };
 
   user.friends.push(addToUser);
@@ -60,7 +60,7 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
   user.save();
   friend.save();
 
-  res.status(200).json({ user, friend });
+  res.status(200).json({ msg: "Friend successfully added" });
 });
 
 exports.deleteFriend = asyncHandler(async (req, res, next) => {

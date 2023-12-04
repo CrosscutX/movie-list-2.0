@@ -24,8 +24,9 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
   //Searches the database for any usernames starting with whats in the user parameter regardless of case
   const users = await User.find({
+    //using select with a field afterwards says only return that field from the results, 1 says you want to return, 0 or omitting says not to return it
     username: { $regex: `^${user}`, $options: "i" },
-  });
+  }).select({ username: 1, _id: 1, lists: 1 });
 
   if (!users) {
     return res.status(404).json({ error: "No user found" });
@@ -42,7 +43,12 @@ exports.getUserById = asyncHandler(async (req, res, next) => {
 
   //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
   //Searches the database for any usernames starting with whats in the user parameter regardless of case
-  const user = await User.findById(id);
+  const user = await User.findById(id).select({
+    username: 1,
+    _id: 1,
+    lists: 1,
+    friends: 1,
+  });
 
   if (!user) {
     return res.status(404).json({ error: "No user found" });
@@ -131,16 +137,32 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   }
 
   const user = await User.findById({ _id: id });
-  console.log(user);
 
   if (!user) {
     return res.status(404).json({ error: "User doesnt exist" });
   } else {
+    //Removes the  user being deleted from anyone that has the user on their friends list
+    const friendsOfUser = await User.find({
+      //Checks for all users with user being deleted in friends list
+      //Matches any array with the id of the deleted user id
+      friends: { $elemMatch: { _id: id } },
+    });
+
+    await Promise.all(
+      friendsOfUser.map(async (user) => {
+        //Filtering users list to remove deleted user based on id
+        let updatedFriends = user.friends.filter((friend) => friend._id != id);
+        await user.updateOne({ friends: updatedFriends });
+      })
+    );
+
     //Deletes all lists in users list array, including the all list
+
     await List.deleteMany({ _id: { $in: user.lists } });
 
     await User.deleteOne({ _id: id });
-    res.status(200).json({ message: "User deleted", user });
+
+    res.status(200).json({ message: "User deleted" });
   }
 });
 
