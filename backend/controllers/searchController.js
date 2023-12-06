@@ -35,7 +35,7 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
         res.status(400).json({ msg: "Error fetching from api" });
       }
 
-      res.status(200).json(resultTitle);
+      res.status(200).json([resultTitle]);
     }
   } catch (error) {
     console.error(error);

@@ -1,8 +1,42 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import HomeSearchMovie from "../search/HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
 
 export default function HomeSearchBar(props) {
+  const [displayResults, setDisplayResults] = useState();
+
+  function getMovies(movie) {
+    setTimeout(() => {
+      async function callSearchApi() {
+        const response = await fetch(`/api/search/${movie}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+        const movieResults = await response.json();
+        console.log(movieResults);
+        props.setSearchResults(movieResults);
+      }
+      callSearchApi();
+    }, 1000);
+  }
+
+  useEffect(() => {
+    if (props.searchResults) {
+      const movies = props.searchResults.map((movie) => {
+        return (
+          <HomeSearchMovie
+            key={movie.imdbID}
+            movie={movie}
+            title={movie.Title}
+          />
+        );
+      });
+      setDisplayResults(movies);
+      console.log(displayResults);
+    }
+  }, [props.searchResults]);
+
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">
@@ -21,67 +55,12 @@ export default function HomeSearchBar(props) {
               props.setSearchDropdown(true);
               getMovies(input);
             }
-
-            function getMovies(movie) {
-              setTimeout(() => {
-                async function callSearchApi() {
-                  const response = await fetch(`/api/search/${movie}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                  });
-                  const movieResults = await response.json();
-                  console.log(movieResults);
-                }
-                callSearchApi();
-              }, 500);
-            }
           }}
         />
         <img src={searchIcon} alt="Search Icon" className="search-icon" />
       </div>
       {props.searchDropdown && (
-        <div className="drop-down">
-          <div className="drop-down-row">
-            <img
-              src={searchIcon}
-              alt="Search Icon"
-              className="search-icon-dropdown"
-            />
-            <span className="search-movie-title">Joker</span>
-          </div>
-          <div className="drop-down-row">
-            <img
-              src={searchIcon}
-              alt="Search Icon"
-              className="search-icon-dropdown"
-            />
-            <span className="search-movie-title">Talk To Me</span>
-          </div>
-          <div className="drop-down-row">
-            <img
-              src={searchIcon}
-              alt="Search Icon"
-              className="search-icon-dropdown"
-            />
-            <span className="search-movie-title">The Thing</span>
-          </div>
-          <div className="drop-down-row">
-            <img
-              src={searchIcon}
-              alt="Search Icon"
-              className="search-icon-dropdown"
-            />
-            <span className="search-movie-title">El Topo</span>
-          </div>
-          <div className="drop-down-row">
-            <img
-              src={searchIcon}
-              alt="Search Icon"
-              className="search-icon-dropdown"
-            />
-            <span className="search-movie-title">The Batman</span>
-          </div>
-        </div>
+        <div className="drop-down">{displayResults}</div>
       )}
     </div>
   );
