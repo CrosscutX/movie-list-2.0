@@ -5,10 +5,12 @@ import "../../styles/SearchBar.css";
 
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
+  const [searchText, setSearchText] = useState();
 
-  function getMovies(movie) {
-    setTimeout(() => {
-      async function callSearchApi() {
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      async function callSearchApi(movie) {
+        console.log(movie);
         const response = await fetch(`/api/search/${movie}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -17,9 +19,10 @@ export default function HomeSearchBar(props) {
         console.log(movieResults);
         props.setSearchResults(movieResults);
       }
-      callSearchApi();
+      callSearchApi(searchText);
     }, 1000);
-  }
+    return () => clearTimeout(timer);
+  }, [searchText]);
 
   useEffect(() => {
     if (props.searchResults) {
@@ -33,10 +36,9 @@ export default function HomeSearchBar(props) {
         );
       });
       setDisplayResults(movies);
-      console.log(displayResults);
     }
   }, [props.searchResults]);
-
+  console.log(searchText);
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">
@@ -53,7 +55,7 @@ export default function HomeSearchBar(props) {
               props.setSearchDropdown(false);
             } else {
               props.setSearchDropdown(true);
-              getMovies(input);
+              setSearchText(input);
             }
           }}
         />
