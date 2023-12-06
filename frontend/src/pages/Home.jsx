@@ -4,6 +4,7 @@ import "../styles/Home.css";
 
 export default function Home() {
   const [searchDropdown, setSearchDropdown] = useState(false);
+  const [searchResults, setSearchResults] = useState();
   return (
     <nav className="home">
       <div className="home-container">
@@ -11,6 +12,8 @@ export default function Home() {
         <HomeSearchBar
           searchDropdown={searchDropdown}
           setSearchDropdown={setSearchDropdown}
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
         />
       </div>
     </nav>

@@ -22,14 +22,18 @@ export default function HomeSearchBar(props) {
               getMovies(input);
             }
 
-            async function getMovies(movie) {
-              console.log(movie);
-              const response = await fetch(`/api/search/${movie}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-              });
-              const movieResults = await response.json();
-              console.log(movieResults);
+            function getMovies(movie) {
+              setTimeout(() => {
+                async function callSearchApi() {
+                  const response = await fetch(`/api/search/${movie}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                  });
+                  const movieResults = await response.json();
+                  console.log(movieResults);
+                }
+                callSearchApi();
+              }, 500);
             }
           }}
         />
