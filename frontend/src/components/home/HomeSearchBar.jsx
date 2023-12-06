@@ -8,20 +8,22 @@ export default function HomeSearchBar(props) {
   const [searchText, setSearchText] = useState();
 
   useEffect(() => {
-    let timer = setTimeout(() => {
-      async function callSearchApi(movie) {
-        console.log(movie);
-        const response = await fetch(`/api/search/${movie}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        });
-        const movieResults = await response.json();
-        console.log(movieResults);
-        props.setSearchResults(movieResults);
-      }
-      callSearchApi(searchText);
-    }, 1000);
-    return () => clearTimeout(timer);
+    if (searchText !== undefined) {
+      let timer = setTimeout(() => {
+        async function callSearchApi(movie) {
+          console.log(movie);
+          const response = await fetch(`/api/search/${movie}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          const movieResults = await response.json();
+          console.log(movieResults);
+          props.setSearchResults(movieResults);
+        }
+        callSearchApi(searchText);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
   }, [searchText]);
 
   useEffect(() => {
@@ -38,7 +40,6 @@ export default function HomeSearchBar(props) {
       setDisplayResults(movies);
     }
   }, [props.searchResults]);
-  console.log(searchText);
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">
