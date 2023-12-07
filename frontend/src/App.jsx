@@ -66,7 +66,17 @@ export default function App() {
             }
           />
           <Route path="/friends" element={<Friends />} />
-          <Route path="/friends/:name" element={<FriendsMovieList />} />
+          <Route
+            path="/friends/:name/:id"
+            element={
+              <FriendsMovieList
+                showInfo={showInfo}
+                setShowInfo={setShowInfo}
+                selectedMovie={selectedMovie}
+                setSelectedMovie={setSelectedMovie}
+              />
+            }
+          />
         </Route>
       </Routes>
     </div>

@@ -19,7 +19,7 @@ export default function UserFriendCard(props) {
     <div className="user-friend-card">
       <span
         onClick={() => {
-          navigate(`/friends/${props.friendName}`);
+          navigate(`/friends/${props.friendName}/${props.id}`);
         }}
         className="user-friend-card--name"
       >
