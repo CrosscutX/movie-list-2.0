@@ -90,6 +90,7 @@ exports.getOneMovie = asyncHandler(async (req, res, next) => {
       boxoffice: result.BoxOffice,
       image: result.Poster,
       imdbID: result.imdbID,
+      genre: result.Genre,
     });
 
     res.status(200).json(newMovie);

@@ -65,6 +65,7 @@ export default function List(props) {
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
+          displayType={props.displayType}
         />
       )}
       <div className="list-container">
@@ -88,6 +89,7 @@ export default function List(props) {
           setSelectedMovie={props.setSelectedMovie}
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
+          setDisplayType={props.setDisplayType}
         />
       </div>
     </div>

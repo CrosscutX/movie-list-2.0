@@ -20,6 +20,7 @@ export default function ListMovies(props) {
               showInfo={props.showInfo}
               setShowInfo={props.setShowInfo}
               setSelectedMovie={props.setSelectedMovie}
+              setDisplayType={props.setDisplayType}
             />
           );
         });

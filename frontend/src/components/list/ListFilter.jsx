@@ -105,11 +105,11 @@ export default function ListFilter(props) {
   }
 
   function randomClick() {
-    let filteredList = listOfMovies;
-    console.log(filteredList);
-    filteredList = rollRandom(filteredList);
-    console.log(filteredList);
-    props.setFilteredMovieList(filteredList);
+    if (!listOfMovies.length === 0) {
+      let filteredList = listOfMovies;
+      filteredList = rollRandom(filteredList);
+      props.setFilteredMovieList(filteredList);
+    }
   }
 
   function defaultClick() {

@@ -11,14 +11,16 @@ import FriendsMovieList from "./pages/FriendsMovieList";
 import "./styles/App.css";
 
 export default function App() {
-  //State to show the movie information, needs to be in app because we use it
-  //on multiple different pages.
+  // State to show the movie information, needs to be in app because we use it
+  // on multiple different pages.
   const [showInfo, setShowInfo] = useState(false);
-  //Selected Movie is used for displaying movie info on the movie info pane
+  // You underestimate my true power
+  const [displayType, setDisplayType] = useState();
+  // Selected Movie is used for displaying movie info on the movie info pane
   const [selectedMovie, setSelectedMovie] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  //Login authentication, send the user to a login page if not logged in.
+  // Login authentication, send the user to a login page if not logged in.
   useEffect(() => {
     function shouldRedirect() {
       if (!user) {
@@ -36,7 +38,19 @@ export default function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
-          <Route path="/search" element={<Home />} />
+          <Route
+            path="/search"
+            element={
+              <Home
+                showInfo={showInfo}
+                setShowInfo={setShowInfo}
+                selectedMovie={selectedMovie}
+                setSelectedMovie={setSelectedMovie}
+                displayType={displayType}
+                setDisplayType={setDisplayType}
+              />
+            }
+          />
           <Route path="/search/:movie" element={<SearchResult />} />
           <Route
             path="/list"
@@ -46,6 +60,8 @@ export default function App() {
                 setShowInfo={setShowInfo}
                 selectedMovie={selectedMovie}
                 setSelectedMovie={setSelectedMovie}
+                displayType={displayType}
+                setDisplayType={setDisplayType}
               />
             }
           />

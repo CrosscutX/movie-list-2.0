@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import HomeSearchMovie from "../search/HomeSearchMovie";
+import HomeSearchMovie from "./HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
 
@@ -11,13 +11,11 @@ export default function HomeSearchBar(props) {
     if (searchText !== undefined) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {
-          console.log(movie);
           const response = await fetch(`/api/search/${movie}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
           });
           const movieResults = await response.json();
-          console.log(movieResults);
           props.setSearchResults(movieResults);
         }
         callSearchApi(searchText);
@@ -34,12 +32,16 @@ export default function HomeSearchBar(props) {
             key={movie.imdbID}
             movie={movie}
             title={movie.Title}
+            showInfo={props.showInfo}
+            setShowInfo={props.setShowInfo}
+            setSelectedMovie={props.setSelectedMovie}
+            setDisplayType={props.setDisplayType}
           />
         );
       });
       setDisplayResults(movies);
     }
-  }, [props.searchResults]);
+  }, [props.searchResults, props.showInfo]);
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">
@@ -54,6 +56,8 @@ export default function HomeSearchBar(props) {
 
             if (input.length === 0) {
               props.setSearchDropdown(false);
+              //Fixes a display issue, empties the dropdown when we hit 0 display results
+              setDisplayResults();
             } else {
               props.setSearchDropdown(true);
               setSearchText(input);
