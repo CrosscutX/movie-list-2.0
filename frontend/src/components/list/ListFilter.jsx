@@ -69,7 +69,6 @@ export default function ListFilter(props) {
   }
 
   function checkRating(list) {
-    console.log(list);
     if (rating === "Rating..." || rating === "none") {
       return list;
     } else if (rating === "best") {
@@ -105,7 +104,8 @@ export default function ListFilter(props) {
   }
 
   function randomClick() {
-    if (!listOfMovies.length === 0) {
+    console.log(listOfMovies);
+    if (listOfMovies.length !== 0) {
       let filteredList = listOfMovies;
       filteredList = rollRandom(filteredList);
       props.setFilteredMovieList(filteredList);
