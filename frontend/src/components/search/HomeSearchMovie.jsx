@@ -9,7 +9,6 @@ export default function HomeSearchMovie(props) {
     const handleClick = () => {
       if (movieObject) {
         e.stopPropagation();
-        console.log(movieObject);
         props.setSelectedMovie(movieObject);
         props.setDisplayType("search");
         if (props.showInfo === true) {
@@ -21,11 +20,11 @@ export default function HomeSearchMovie(props) {
     };
     handleClick();
   }, [movieObject]);
+
   return (
     <div
       className="home-search-movie"
       onClick={async (e, id) => {
-        console.log(e);
         id = props.movie.imdbID;
         const response = await fetch(`/api/searchOne/${id}`, {
           method: "POST",

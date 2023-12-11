@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import HomeSearchMovie from "./HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
@@ -6,6 +7,7 @@ import "../../styles/SearchBar.css";
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
   const [searchText, setSearchText] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchText !== undefined) {
@@ -63,8 +65,26 @@ export default function HomeSearchBar(props) {
               setSearchText(input);
             }
           }}
+          onKeyDown={(e) => {
+            const input = document.getElementById("movie-search").value;
+            if (e.key === "Enter") {
+              if (input.length !== 0) {
+                navigate(`/search/${input}`);
+              }
+            }
+          }}
         />
-        <img src={searchIcon} alt="Search Icon" className="search-icon" />
+        <img
+          src={searchIcon}
+          alt="Search Icon"
+          className="search-icon"
+          onClick={(e) => {
+            const input = document.getElementById("movie-search").value;
+            if (input.length !== 0) {
+              navigate(`/search/${input}`);
+            }
+          }}
+        />
       </div>
       {props.searchDropdown && (
         <div className="drop-down">{displayResults}</div>

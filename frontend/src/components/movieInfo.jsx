@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function movieInfo(props) {
-  console.log("movieInfo");
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
