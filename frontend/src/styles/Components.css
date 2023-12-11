@@ -119,6 +119,21 @@
   width: 100%;
 }
 
+.add-button {
+  cursor: pointer;
+  font-size: 1.2rem;
+  height: 50px;
+  width: 100px;
+  background-color: #31ca5f;
+  border: none;
+  border-radius: 10px;
+}
+
+.add-button:hover {
+  color: #31ca5f;
+  background-color: rgb(16, 16, 16);
+}
+
 .delete-button {
   cursor: pointer;
   font-size: 1.2rem;

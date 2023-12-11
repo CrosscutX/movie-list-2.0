@@ -55,7 +55,20 @@ export default function App() {
               />
             }
           />
-          <Route path="/search/:movie" element={<SearchResult />} />
+          <Route
+            path="/search/:movie"
+            element={
+              <SearchResult
+                showInfo={showInfo}
+                setShowInfo={setShowInfo}
+                selectedMovie={selectedMovie}
+                setSelectedMovie={setSelectedMovie}
+                displayType={displayType}
+                setDisplayType={setDisplayType}
+                searchText={searchText}
+              />
+            }
+          />
           <Route
             path="/list"
             element={

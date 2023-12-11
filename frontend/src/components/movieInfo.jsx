@@ -54,15 +54,24 @@ export default function movieInfo(props) {
             <span>Box Office: {props.selectedMovie.boxoffice}</span>
           </div>
         </div>
-        <div className="info-button-container">
-          <button type="button" className="delete-button">
-            Delete
-          </button>
-          <div className="checkbox-container">
-            <label htmlFor="info-watched">Watched</label>
-            <input type="checkbox" id="info-watched" />
+        {props.displayType === "info" && (
+          <div className="info-button-container">
+            <button type="button" className="delete-button">
+              Delete
+            </button>
+            <div className="checkbox-container">
+              <label htmlFor="info-watched">Watched</label>
+              <input type="checkbox" id="info-watched" />
+            </div>
           </div>
-        </div>
+        )}
+        {props.displayType === "search" && (
+          <div className="info-button-container">
+            <button type="button" className="add-button">
+              Add
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
