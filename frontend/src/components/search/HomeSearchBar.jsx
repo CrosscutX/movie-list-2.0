@@ -9,7 +9,6 @@ export default function HomeSearchBar(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(props.searchText);
     if (props.searchText !== undefined) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {

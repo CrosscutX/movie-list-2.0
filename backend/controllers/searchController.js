@@ -27,7 +27,7 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
       { method: "POST" }
     );
     const resultTitle = await responseTitle.json();
-    console.log(resultTitle);
+
     if (!responseTitle.ok) {
       res.status(400).json({ msg: "Error fetching from api" });
     }
@@ -49,38 +49,69 @@ exports.getExtendedSearch = asyncHandler(async (req, res, next) => {
 
   const result = await response.json();
   const movies = result.Search;
-  console.log(movies);
-  const filterMovies = await Promise.all(
-    movies.map(async (movie) => {
-      const newResponse = await fetch(
-        `http://www.omdbapi.com/?t=${movie.Title}&r=json&apikey=${process.env.API_KEY}`
-      );
 
-      if (!newResponse.ok) {
-        res.status(400).json({ msg: "Error fetching from api" });
-      }
+  if (movies !== undefined) {
+    const filterMovies = await Promise.all(
+      movies.map(async (movie) => {
+        const newResponse = await fetch(
+          `http://www.omdbapi.com/?i=${movie.imdbID}&r=json&apikey=${process.env.API_KEY}`
+        );
 
-      const result = await newResponse.json();
+        if (!newResponse.ok) {
+          res.status(400).json({ msg: "Error fetching from api" });
+        }
 
-      const newMovie = new Movie({
-        title: result.Title,
-        description: result.Plot,
-        director: result.Director,
-        writers: result.Writer,
-        actors: result.Actors,
-        release_date: result.Released,
-        score: result.Ratings.find(
-          (rating) => rating.Source === "Rotten Tomatoes"
-        )?.Value,
-        boxoffice: result.BoxOffice,
-        image: result.Poster,
-        imdbID: result.imdbID,
-        genre: result.Genre,
-      });
-      return newMovie;
-    })
-  );
-  res.status(200).json(filterMovies);
+        const result = await newResponse.json();
+
+        const newMovie = new Movie({
+          title: result.Title,
+          description: result.Plot,
+          director: result.Director,
+          writers: result.Writer,
+          actors: result.Actors,
+          release_date: result.Released,
+          score: result.Ratings.find(
+            (rating) => rating.Source === "Rotten Tomatoes"
+          )?.Value,
+          boxoffice: result.BoxOffice,
+          image: result.Poster,
+          imdbID: result.imdbID,
+          genre: result.Genre,
+        });
+        return newMovie;
+      })
+    );
+    res.status(200).json(filterMovies);
+  } else {
+    const responseTitle = await fetch(
+      `http://www.omdbapi.com/?t=${movie}&r=json&apikey=${process.env.API_KEY}`,
+      { method: "POST" }
+    );
+
+    if (!responseTitle.ok) {
+      res.status(400).json({ msg: "Error fetching from api" });
+    }
+
+    const resultTitle = await responseTitle.json();
+
+    const newMovie = new Movie({
+      title: resultTitle.Title,
+      description: resultTitle.Plot,
+      director: resultTitle.Director,
+      writers: resultTitle.Writer,
+      actors: resultTitle.Actors,
+      release_date: resultTitle.Released,
+      score: resultTitle.Ratings.find(
+        (rating) => rating.Source === "Rotten Tomatoes"
+      )?.Value,
+      boxoffice: resultTitle.BoxOffice,
+      image: resultTitle.Poster,
+      imdbID: resultTitle.imdbID,
+      genre: resultTitle.Genre,
+    });
+
+    res.status(200).json([newMovie]);
+  }
 });
 
 exports.getOneMovie = asyncHandler(async (req, res, next) => {

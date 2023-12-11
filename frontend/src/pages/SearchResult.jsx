@@ -20,24 +20,30 @@ export default function SearchResult(props) {
           headers: { "Content-Type": "application/json" },
         });
         let movies = await response.json();
-        console.log(movies);
+
+        const displayMovies = movies.map((movie) => {
+          return (
+            <SearchMovie
+              key={movie.imdbID}
+              movie={movie}
+              title={movie.title}
+              score={movie.score}
+              image={movie.image}
+            />
+          );
+        });
+        setExtendedSearchList(displayMovies);
       }
     };
     fetchMoviesList();
   }, [movieTitle]);
+  console.log(extendedSearchList);
   return (
     <div className="search-result">
       <div className="search-header">
         <h1>Showing Results for: {movieTitle}</h1>
       </div>
-      <div className="search-result-container">
-        <SearchMovie />
-        <SearchMovie />
-        <SearchMovie />
-        <SearchMovie />
-        <SearchMovie />
-        <SearchMovie />
-      </div>
+      <div className="search-result-container">{extendedSearchList}</div>
     </div>
   );
 }
