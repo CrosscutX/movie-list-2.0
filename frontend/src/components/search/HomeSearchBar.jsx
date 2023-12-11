@@ -78,7 +78,7 @@ export default function HomeSearchBar(props) {
           src={searchIcon}
           alt="Search Icon"
           className="search-icon"
-          onClick={(e) => {
+          onClick={() => {
             const input = document.getElementById("movie-search").value;
             if (input.length !== 0) {
               navigate(`/search/${input}`);
