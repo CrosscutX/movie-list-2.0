@@ -20,6 +20,8 @@ export default function App() {
   const [selectedMovie, setSelectedMovie] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  // Home Search bar text, will be routed between home and searchResult
+  const [searchText, setSearchText] = useState();
   // Login authentication, send the user to a login page if not logged in.
   useEffect(() => {
     function shouldRedirect() {
@@ -42,6 +44,8 @@ export default function App() {
             path="/search"
             element={
               <Home
+                searchText={searchText}
+                setSearchText={setSearchText}
                 showInfo={showInfo}
                 setShowInfo={setShowInfo}
                 selectedMovie={selectedMovie}

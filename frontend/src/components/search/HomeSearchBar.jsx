@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HomeSearchMovie from "./HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
 
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
-  const [searchText, setSearchText] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (searchText !== undefined) {
+    if (props.searchText !== undefined) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {
           const response = await fetch(`/api/search/${movie}`, {
@@ -20,11 +19,11 @@ export default function HomeSearchBar(props) {
           const movieResults = await response.json();
           props.setSearchResults(movieResults);
         }
-        callSearchApi(searchText);
+        callSearchApi(props.searchText);
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [searchText]);
+  }, [props.searchText]);
 
   useEffect(() => {
     if (props.searchResults) {
@@ -62,7 +61,7 @@ export default function HomeSearchBar(props) {
               setDisplayResults();
             } else {
               props.setSearchDropdown(true);
-              setSearchText(input);
+              props.setSearchText(input);
             }
           }}
           onKeyDown={(e) => {

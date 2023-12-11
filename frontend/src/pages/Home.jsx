@@ -44,6 +44,8 @@ export default function Home(props) {
           setSearchDropdown={setSearchDropdown}
           searchResults={searchResults}
           setSearchResults={setSearchResults}
+          searchText={props.searchText}
+          setSearchText={props.setSearchText}
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
