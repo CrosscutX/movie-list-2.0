@@ -7,6 +7,10 @@ import "../../styles/SearchBar.css";
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
   const navigate = useNavigate();
+  //Clears out the textbox after a user goes to a different page and comes back
+  useEffect(() => {
+    props.setSearchText();
+  }, []);
 
   useEffect(() => {
     if (props.searchText !== undefined) {
@@ -43,6 +47,7 @@ export default function HomeSearchBar(props) {
       setDisplayResults(movies);
     }
   }, [props.searchResults, props.showInfo]);
+
   return (
     <div className="home-searchbar">
       <div className="searchbar-container">

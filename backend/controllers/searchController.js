@@ -22,6 +22,7 @@ exports.getSearch = asyncHandler(async (req, res, next) => {
       res.status(200).json(result.Search);
     }
   } else {
+    //Code for movies less than 3 letters
     const responseTitle = await fetch(
       `http://www.omdbapi.com/?t=${movie}&r=json&apikey=${process.env.API_KEY}`,
       { method: "POST" }
@@ -82,6 +83,7 @@ exports.getExtendedSearch = asyncHandler(async (req, res, next) => {
       })
     );
     res.status(200).json(filterMovies);
+    //Code for movies less than 3 letters
   } else {
     const responseTitle = await fetch(
       `http://www.omdbapi.com/?t=${movie}&r=json&apikey=${process.env.API_KEY}`,
