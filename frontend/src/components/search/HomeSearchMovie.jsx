@@ -11,11 +11,6 @@ export default function HomeSearchMovie(props) {
         e.stopPropagation();
         props.setSelectedMovie(movieObject);
         props.setDisplayType("search");
-        if (props.showInfo === true) {
-          props.setShowInfo(false);
-        } else {
-          props.setShowInfo(true);
-        }
       }
     };
     handleClick();
@@ -33,6 +28,12 @@ export default function HomeSearchMovie(props) {
         const movieResult = await response.json();
         setMovieObject(movieResult);
         setE(e);
+        if (props.showInfo === true) {
+          props.setShowInfo(false);
+        } else {
+          props.setShowInfo(true);
+        }
+        console.log(props.showInfo);
       }}
     >
       <div className="drop-down-row">

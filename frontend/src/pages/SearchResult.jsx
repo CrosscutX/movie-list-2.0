@@ -62,7 +62,7 @@ export default function SearchResult(props) {
       }
     };
     fetchMoviesList();
-  }, [movieTitle]);
+  }, [movieTitle, props.showInfo]);
 
   return (
     <div className="search-result">

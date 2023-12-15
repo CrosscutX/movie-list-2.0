@@ -6,7 +6,7 @@ export default function SearchMovie(props) {
     <div
       className="search-movie"
       onClick={(e) => {
-        console.log("here");
+        console.log(props.showInfo);
         e.stopPropagation();
         props.setSelectedMovie(props.movie);
         props.setDisplayType("search");
