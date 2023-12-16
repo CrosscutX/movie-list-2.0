@@ -70,7 +70,6 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
     let duplicateCheck = false;
 
     for (let i = 0; i < thisList.movies.length; i++) {
-      console.log(thisList.movies[i].imdbID);
       if (thisList.movies[i].imdbID === imdbID) {
         duplicateCheck = true;
       }
