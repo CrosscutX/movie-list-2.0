@@ -4,7 +4,7 @@ import searchIcon from "../../images/search-icon-white.png";
 export default function HomeSearchMovie(props) {
   const [movieObject, setMovieObject] = useState();
   const [e, setE] = useState();
-
+  // tbh I forget why I did this but it works so lol
   useEffect(() => {
     const handleClick = () => {
       if (movieObject) {
@@ -33,7 +33,6 @@ export default function HomeSearchMovie(props) {
         } else {
           props.setShowInfo(true);
         }
-        console.log(props.showInfo);
       }}
     >
       <div className="drop-down-row">

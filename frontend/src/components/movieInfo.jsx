@@ -1,6 +1,7 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 export default function movieInfo(props) {
+  const [allListId, setAllListId] = useState();
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
@@ -15,6 +16,15 @@ export default function movieInfo(props) {
     month: "long",
     day: "numeric",
   });
+  useEffect(() => {
+    async function fetchAllList() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const response = await fetch(`/api/lists/${user.id}`);
+      const userLists = await response.json();
+      setAllListId(userLists[0]);
+    }
+    fetchAllList();
+  }, []);
 
   return (
     <div className="movie-info-component">
@@ -67,7 +77,21 @@ export default function movieInfo(props) {
         )}
         {props.displayType === "search" && (
           <div className="info-button-container">
-            <button type="button" className="add-button">
+            <button
+              type="button"
+              className="add-button"
+              onClick={async () => {
+                const response = await fetch(`/api/lists/${allListId}/movies`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    imdbID: props.selectedMovie.imdbID,
+                  }),
+                });
+                const movieResults = await response.json();
+                console.log(movieResults);
+              }}
+            >
               Add
             </button>
           </div>

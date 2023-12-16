@@ -9,6 +9,7 @@ const ListSchema = new Schema({
     {
       movie: { type: Schema.Types.ObjectId, ref: "movie" },
       watched: { type: Boolean, default: false },
+      imdbID: { type: String, required: true },
     },
   ],
   createdBy: { type: String },

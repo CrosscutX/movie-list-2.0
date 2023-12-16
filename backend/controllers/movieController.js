@@ -58,6 +58,7 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
         boxoffice: result.BoxOffice,
         image: result.Poster,
         imdbID: result.imdbID,
+        genre: result.Genre,
       });
       await newMovie.save();
     } else {
@@ -65,12 +66,32 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
       newMovie = existingMovie;
     }
 
-    // Add movie to user list
-    await List.findByIdAndUpdate(id, {
-      $push: { movies: newMovie },
-    });
+    let thisList = await List.findById(id);
+    let duplicateCheck = false;
 
-    res.status(200).json({ msg: "Movie added to list" });
+    for (let i = 0; i < thisList.movies.length; i++) {
+      console.log(thisList.movies[i].imdbID);
+      if (thisList.movies[i].imdbID === imdbID) {
+        duplicateCheck = true;
+      }
+    }
+
+    // Add movie to user list
+    if (duplicateCheck === false) {
+      // await List.findByIdAndUpdate(id, {
+      //   $push: {
+      //     movies: {
+      //       movie: newMovie._id,
+      //       watched: false,
+      //       imdbID: newMovie.imdbID,
+      //     },
+      //   },
+      // });
+
+      res.status(200).json({ msg: "Movie added to list" });
+    } else {
+      res.status(400).json({ msg: "Movie already in list" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
