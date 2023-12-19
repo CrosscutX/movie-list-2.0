@@ -11,6 +11,13 @@ export default function movieInfo(props) {
   const dateString = props.selectedMovie.release_date;
   const date = new Date(dateString);
 
+  function displayScore() {
+    if (props.selectedMovie.score === undefined) {
+      return "N/A";
+    }
+    return props.selectedMovie.score.slice(0, -1);
+  }
+
   const formattedDate = date.toLocaleString("en-US", {
     year: "numeric",
     month: "long",
@@ -58,7 +65,7 @@ export default function movieInfo(props) {
             <span>Release Date: {formattedDate}</span>
           </div>
           <div className="info-row">
-            <span>Score: {props.selectedMovie.score}</span>
+            <span>Score: {displayScore()}</span>
           </div>
           <div className="info-row">
             <span>Box Office: {props.selectedMovie.boxoffice}</span>

@@ -20,8 +20,6 @@ export default function ListFilter(props) {
             const movieInfo = await response.json();
             // Add the watched attribute to the movieInfo from the list specific watched field
             movieInfo.watched = movie.watched;
-            // Remove the percentage after the score
-            movieInfo.score = movieInfo.score.slice(0, -1);
             // Add the list id to the movie info so it's easier to reference later
             movieInfo.listID = movie.movie;
             return movieInfo;
@@ -104,7 +102,6 @@ export default function ListFilter(props) {
   }
 
   function randomClick() {
-    console.log(listOfMovies);
     if (listOfMovies.length !== 0) {
       let filteredList = listOfMovies;
       filteredList = rollRandom(filteredList);

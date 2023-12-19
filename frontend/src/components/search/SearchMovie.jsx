@@ -1,6 +1,12 @@
 import React from "react";
 
 export default function SearchMovie(props) {
+  function displayScore() {
+    if (props.score === undefined) {
+      return "N/A";
+    }
+    return props.score.slice(0, -1);
+  }
   return (
     <div
       className="search-movie"
@@ -17,7 +23,7 @@ export default function SearchMovie(props) {
     >
       <img src={props.image} alt="Joker" />
       <span className="search-movie-title">{props.title}</span>
-      <div className="rating">{props.score}</div>
+      <div className="rating">{displayScore()}</div>
     </div>
   );
 }

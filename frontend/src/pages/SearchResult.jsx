@@ -6,7 +6,6 @@ import "../styles/Search.css";
 export default function SearchResult(props) {
   const [movieTitle, setMovieTitle] = useState();
   const [extendedSearchList, setExtendedSearchList] = useState();
-
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -30,7 +29,8 @@ export default function SearchResult(props) {
   useEffect(() => {
     // Get the end of the url and set it to state
     const pathSegments = window.location.pathname.split("/");
-    const lastSegment = pathSegments[pathSegments.length - 1];
+    let lastSegment = pathSegments[pathSegments.length - 1];
+    lastSegment = decodeURIComponent(lastSegment);
     setMovieTitle(lastSegment);
   });
 
