@@ -77,15 +77,15 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
 
     // Add movie to user list
     if (duplicateCheck === false) {
-      // await List.findByIdAndUpdate(id, {
-      //   $push: {
-      //     movies: {
-      //       movie: newMovie._id,
-      //       watched: false,
-      //       imdbID: newMovie.imdbID,
-      //     },
-      //   },
-      // });
+      await List.findByIdAndUpdate(id, {
+        $push: {
+          movies: {
+            movie: newMovie._id,
+            watched: false,
+            imdbID: newMovie.imdbID,
+          },
+        },
+      });
 
       res.status(200).json({ msg: "Movie added to list" });
     } else {

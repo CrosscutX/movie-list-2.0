@@ -13,7 +13,6 @@ export default function ListFilter(props) {
   // an array at listOfMovies
   useEffect(() => {
     const fetchMoviesData = async () => {
-      console.log(props.movieListIDS);
       if (props.movieListIDS !== undefined) {
         const movies = await Promise.all(
           props.movieListIDS.map(async (movie) => {
