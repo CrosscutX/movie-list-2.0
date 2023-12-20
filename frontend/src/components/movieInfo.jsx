@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import SelectMovieList from "./list/SelectMovieList";
 
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
+  const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
@@ -10,7 +12,7 @@ export default function movieInfo(props) {
   // Formatting the date for our American eyes.
   const dateString = props.selectedMovie.release_date;
   const date = new Date(dateString);
-
+  // Formatting for score
   function displayScore() {
     if (props.selectedMovie.score === undefined) {
       return "N/A";
@@ -36,6 +38,13 @@ export default function movieInfo(props) {
   return (
     <div className="movie-info-component">
       <div className="movie-info">
+        {/*Displays the select movie list ui whenever the lists button is clicked*/}
+        {displaySelectMovieList && (
+          <SelectMovieList
+            title={props.selectedMovie.title}
+            lists={props.userLists}
+          />
+        )}
         <span className="x-button" onClick={clearInfo}>
           X
         </span>
@@ -76,7 +85,13 @@ export default function movieInfo(props) {
             <button type="button" className="delete-button">
               Delete
             </button>
-            <button type="button" className="list-button">
+            <button
+              type="button"
+              className="list-button"
+              onClick={() => {
+                setDisplaySelectMovieList(true);
+              }}
+            >
               Lists
             </button>
             <div className="checkbox-container">

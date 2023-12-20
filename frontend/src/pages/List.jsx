@@ -66,6 +66,7 @@ export default function List(props) {
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
           displayType={props.displayType}
+          userLists={userLists}
         />
       )}
       <div className="list-container">
