@@ -17,12 +17,22 @@ export default function SelectMovieList(props) {
     }
     fetchLists();
   }, []);
-  console.log(listOfLists);
+
   return (
     <div className="select-movie-list">
       <h2>{props.title}</h2>
       <h3>Lists</h3>
       <div className="select-movie-list-items">{listOfLists}</div>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          props.setDisplaySelectMovieList(false);
+          props.setShowInfo(true);
+        }}
+      >
+        Return
+      </button>
     </div>
   );
 }

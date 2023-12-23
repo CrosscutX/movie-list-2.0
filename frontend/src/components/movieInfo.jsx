@@ -43,6 +43,8 @@ export default function movieInfo(props) {
           <SelectMovieList
             title={props.selectedMovie.title}
             lists={props.userLists}
+            setDisplaySelectMovieList={setDisplaySelectMovieList}
+            setShowInfo={props.setShowInfo}
           />
         )}
         <span className="x-button" onClick={clearInfo}>
