@@ -9,7 +9,13 @@ export default function SelectMovieList(props) {
           props.lists.map(async (id) => {
             const response = await fetch(`/api/movies/${id}`);
             const listInfo = await response.json();
-            return <SelectMovieListItem key={listInfo._id} list={listInfo} />;
+            return (
+              <SelectMovieListItem
+                key={listInfo._id}
+                list={listInfo}
+                selectedMovie={props.selectedMovie}
+              />
+            );
           })
         );
         setListOfLists(lists);
