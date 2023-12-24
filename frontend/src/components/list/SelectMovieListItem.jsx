@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 export default function SelectMovieListItem(props) {
   const [allCheck, setAllCheck] = useState(true);
   const [isChecked, setChecked] = useState(false);
-
-  // Makes it to where they can't change the all placement
+  console.log(isChecked);
+  // Makes it to where we don't display all for list changes
   useEffect(() => {
     if (props.list.listName === "all") {
       setAllCheck(false);
     }
-    console.log(props.list.movies);
+    // Sets the initial checked state if we find a movie inside the list
     if (props.list.movies.length !== 0) {
-      console.log(props.list.movies.imdbID);
       for (let i = 0; i < props.list.movies.length; i++) {
         if (props.list.movies[i].imdbID === props.selectedMovie.imdbID) {
           setChecked(true);
@@ -20,41 +19,7 @@ export default function SelectMovieListItem(props) {
     }
   }, []);
 
-  // Code that fires whenever the checkbox changes.
-  // useEffect(() => {
-  //   async function addMovieToList() {
-  //     const response = await fetch(`/api/lists/${props.list._id}/movies`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         imdbID: props.selectedMovie.imdbID,
-  //       }),
-  //     });
-  //     const movieResults = await response.json();
-  //     console.log(movieResults);
-  //   }
-  //   async function deleteFromList() {
-  //     const response = await fetch(
-  //       `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
-  //       {
-  //         method: "DELETE",
-  //         headers: { "Content-Type": "application/json" },
-  //       }
-  //     );
-  //     const movieResults = await response.json();
-  //     console.log(movieResults);
-  //   }
-  //   console.log(allCheck);
-  //   if (isChecked === true) {
-  //     console.log("In ischecked true");
-  //     addMovieToList();
-  //   } else if (isChecked === false) {
-  //     console.log("in ischecked false");
-  //     // deleteFromList();
-  //   }
-  // }, [isChecked]);
-
-  async function addMovieToList() {
+  async function addMovieToList(checked) {
     const response = await fetch(`/api/lists/${props.list._id}/movies`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -63,9 +28,12 @@ export default function SelectMovieListItem(props) {
       }),
     });
     const movieResults = await response.json();
-    console.log(movieResults);
+    // Handles the ui
+    if (movieResults.msg === "Movie added to list") {
+      setChecked(checked);
+    }
   }
-  async function deleteFromList() {
+  async function deleteFromList(checked) {
     const response = await fetch(
       `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
       {
@@ -74,7 +42,10 @@ export default function SelectMovieListItem(props) {
       }
     );
     const movieResults = await response.json();
-    console.log(movieResults);
+    // Handles the ui
+    if (movieResults.msg === "Movie was deleted from users list") {
+      setChecked(checked);
+    }
   }
 
   return (
@@ -88,15 +59,11 @@ export default function SelectMovieListItem(props) {
             onChange={(e) => {
               // Handles logic
               const checked = e.target.checked;
-              // Handles the ui to keep things in sync
-              setChecked(checked);
 
               if (checked === true) {
-                console.log("checked");
-                addMovieToList();
+                addMovieToList(checked);
               } else if (checked === false) {
-                console.log("not checked");
-                deleteFromList();
+                deleteFromList(checked);
               }
             }}
           />

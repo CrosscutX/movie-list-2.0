@@ -12,6 +12,8 @@ export default function List(props) {
   const [selectedUserList, setSelectedUserList] = useState("");
   const [filteredMovieList, setFilteredMovieList] = useState("");
   const [movieListIDS, setMovieListIDS] = useState([]);
+  // State for the scren that allows you to add movies to different lists
+  const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
 
   //handles clicking off of the movie-info panel
   useEffect(() => {
@@ -56,7 +58,7 @@ export default function List(props) {
       }
     };
     fetchMoviesList();
-  }, [selectedUserList]);
+  }, [selectedUserList, displaySelectMovieList]);
 
   return (
     <div className="list">
@@ -67,6 +69,8 @@ export default function List(props) {
           selectedMovie={props.selectedMovie}
           displayType={props.displayType}
           userLists={userLists}
+          displaySelectMovieList={displaySelectMovieList}
+          setDisplaySelectMovieList={setDisplaySelectMovieList}
         />
       )}
       <div className="list-container">
@@ -82,6 +86,7 @@ export default function List(props) {
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
+          displaySelectMovieList={displaySelectMovieList}
         />
         <ListMovies
           setShowInfo={props.setShowInfo}

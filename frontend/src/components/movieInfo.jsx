@@ -3,7 +3,7 @@ import SelectMovieList from "./list/SelectMovieList";
 
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
-  const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
+
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
@@ -34,16 +34,15 @@ export default function movieInfo(props) {
     }
     fetchAllList();
   }, []);
-
   return (
     <div className="movie-info-component">
       <div className="movie-info">
         {/*Displays the select movie list ui whenever the lists button is clicked*/}
-        {displaySelectMovieList && (
+        {props.displaySelectMovieList && (
           <SelectMovieList
             title={props.selectedMovie.title}
             lists={props.userLists}
-            setDisplaySelectMovieList={setDisplaySelectMovieList}
+            setDisplaySelectMovieList={props.setDisplaySelectMovieList}
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
           />
@@ -92,7 +91,7 @@ export default function movieInfo(props) {
               type="button"
               className="list-button"
               onClick={() => {
-                setDisplaySelectMovieList(true);
+                props.setDisplaySelectMovieList(true);
               }}
             >
               Lists
