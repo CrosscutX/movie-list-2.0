@@ -1,4 +1,5 @@
 const express = require("express");
+const requireAuth = require("../middleware/requireAuth");
 const router = express.Router();
 
 // Require controller modules
@@ -11,68 +12,88 @@ const friendController = require("../controllers/friendController");
 /// USER ROUTES ///
 
 //Get all users
-router.get("/users", userController.getAllUsers);
+router.get("/users", requireAuth, userController.getAllUsers);
 // Get users for friend requests
-router.get("/users/search/:user", userController.getUsers);
+router.get("/users/search/:user", requireAuth, userController.getUsers);
 // User by id
-router.get("/users/:id", userController.getUserById);
+router.get("/users/:id", requireAuth, userController.getUserById);
 // Login
 router.post("/login", userController.login);
 // Create a user during signup
 router.post("/signup", userController.signUp);
 // Delete a user
-router.delete("/users/:id", userController.deleteUser);
+router.delete("/users/:id", requireAuth, userController.deleteUser);
 // Update a user
-router.patch("/users/:id", userController.updateUser);
+router.patch("/users/:id", requireAuth, userController.updateUser);
 
 /// LIST ROUTES ///
 
 //Get all lists
-router.get("/lists", listController.getAllLists);
+router.get("/lists", requireAuth, listController.getAllLists);
 // Get user's lists
-router.get("/lists/:id", listController.displayUserLists);
+router.get("/lists/:id", requireAuth, listController.displayUserLists);
 // Post new list
-router.post("/lists/:id", listController.createUserList);
+router.post("/lists/:id", requireAuth, listController.createUserList);
 // delete user list
-router.delete("/lists/:id", listController.deleteUserList);
+router.delete("/lists/:id", requireAuth, listController.deleteUserList);
 // update user list
-router.patch("/lists/:id", listController.updateUserList);
+router.patch("/lists/:id", requireAuth, listController.updateUserList);
 
 ///MOVIE ROUTES ///
 
 //NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST
 
 // Get all movies
-router.get("/movies", movieController.getAllMovies);
+router.get("/movies", requireAuth, movieController.getAllMovies);
 // Get specific movies to the designated list id
-router.get("/movies/:id", movieController.getList);
+router.get("/movies/:id", requireAuth, movieController.getList);
 // Get all of the info from a singular movie
-router.get("/movies/info/:id", movieController.getMovieInfo);
+router.get("/movies/info/:id", requireAuth, movieController.getMovieInfo);
 // Post new movie to list
-router.post("/lists/:id/movies", movieController.addNewMovie);
+router.post("/lists/:id/movies", requireAuth, movieController.addNewMovie);
 // delete movie from list
-router.delete("/lists/:listID/movies/:movieID", movieController.deleteMovie);
+router.delete(
+  "/lists/:listID/movies/:movieID",
+  requireAuth,
+  movieController.deleteMovie
+);
 // update user list
-router.patch("/lists/:id/movies/:id", movieController.updateMovie);
+router.patch("/lists/:id/movies/:id", requireAuth, movieController.updateMovie);
 
 /// SEARCH ROUTES ///
 
 // Initial search results for search bar
-router.post("/search/:movie", searchController.getSearch);
+router.post("/search/:movie", requireAuth, searchController.getSearch);
 // Search results for the search page
-router.post("/searchExtended/:movie", searchController.getExtendedSearch);
+router.post(
+  "/searchExtended/:movie",
+  requireAuth,
+  searchController.getExtendedSearch
+);
 //Return one movie info when clicked on search page
-router.post("/searchOne/:movie", searchController.getOneMovie);
+router.post("/searchOne/:movie", requireAuth, searchController.getOneMovie);
 
 /// FRIEND ROUTES ///
 
 // Get friends on friends list
-router.get("/users/:id/friends", friendController.getFriends);
+router.get("/users/:id/friends", requireAuth, friendController.getFriends);
 // Add new friend
-router.post("/users/:id/friends/:friendId", friendController.addFriend);
+router.post(
+  "/users/:id/friends/:friendId",
+  requireAuth,
+  friendController.addFriend
+);
 // Delete friend
-router.delete("users/:id/friends/:friendId", friendController.deleteFriend);
+router.delete(
+  "users/:id/friends/:friendId",
+  requireAuth,
+  friendController.deleteFriend
+);
 // Change the friend accepted boolean to true
-router.patch("/users/:id/friends/:friendId", friendController.acceptFriend);
+router.patch(
+  "/users/:id/friends/:friendId",
+  requireAuth,
+  friendController.acceptFriend
+);
 
 module.exports = router;

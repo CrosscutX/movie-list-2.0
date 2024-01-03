@@ -7,6 +7,8 @@ export default function UserFriendCard(props) {
   let userId = props.logInUser;
   let sentFromUser = false;
 
+  function handleClick() {}
+
   friend_friends.map((friend) => {
     if (friend._id == userId) {
       if (friend.sentFrom == userId) {
@@ -25,7 +27,11 @@ export default function UserFriendCard(props) {
       >
         {props.friendName}
       </span>
-      {!sentFromUser ? <button>+</button> : <span>Pending</span>}
+      {!sentFromUser ? (
+        <button onClick={handleClick}>+</button>
+      ) : (
+        <span>Pending</span>
+      )}
     </div>
   );
 }
