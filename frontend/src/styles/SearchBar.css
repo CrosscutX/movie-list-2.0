@@ -60,13 +60,19 @@
   padding: 15px;
 }
 
+.home-search-movie {
+  width: 104.5%;
+}
+
 .drop-down-row {
   display: flex;
   align-items: center;
   gap: 20px;
-  width: 104.5%;
+  width: 100%;
   height: 60px;
   margin-left: -13px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   cursor: pointer;
 }
 

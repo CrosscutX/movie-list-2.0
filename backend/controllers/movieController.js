@@ -58,6 +58,7 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
         boxoffice: result.BoxOffice,
         image: result.Poster,
         imdbID: result.imdbID,
+        genre: result.Genre,
       });
       await newMovie.save();
     } else {
@@ -65,12 +66,31 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
       newMovie = existingMovie;
     }
 
-    // Add movie to user list
-    await List.findByIdAndUpdate(id, {
-      $push: { movies: newMovie },
-    });
+    let thisList = await List.findById(id);
+    let duplicateCheck = false;
 
-    res.status(200).json({ msg: "Movie added to list" });
+    for (let i = 0; i < thisList.movies.length; i++) {
+      if (thisList.movies[i].imdbID === imdbID) {
+        duplicateCheck = true;
+      }
+    }
+
+    // Add movie to user list
+    if (duplicateCheck === false) {
+      await List.findByIdAndUpdate(id, {
+        $push: {
+          movies: {
+            movie: newMovie._id,
+            watched: false,
+            imdbID: newMovie.imdbID,
+          },
+        },
+      });
+
+      res.status(200).json({ msg: "Movie added to list" });
+    } else {
+      res.status(400).json({ msg: "Movie already in list" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
@@ -79,15 +99,18 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
 
 exports.deleteMovie = asyncHandler(async (req, res, next) => {
   const { listID, movieID } = req.params;
-
   //Searches for list that matches listID
   const list = await List.findById(listID);
   //Searches list to see if movie exists in movie array
-  const movieIndex = list.movies.indexOf(movieID);
-
+  console.log(movieID);
+  const movieIndex = list.movies.findIndex((obj) => {
+    console.log(obj);
+    return obj.movie.toString() === movieID;
+  });
+  console.log(movieIndex);
   //indexOf returns -1 if not found, so if movie is found remove it from the list if not return without doing anything
   if (movieIndex != -1) {
-    list.movies.splice(movieIndex, 1);
+    list.movies.pull({ movie: movieID });
     await list.save();
     res.status(200).json({ msg: "Movie was deleted from users list" });
   } else {

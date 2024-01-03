@@ -32,8 +32,6 @@ export default function ListSelector(props) {
 
   //onChange function for list select
   function optionSelect(e) {
-    console.log(e.target.options);
-
     const selectedIndex = e.target.selectedIndex;
     const selectedOptionText = e.target.options[selectedIndex].text;
     const selectedOptionId =

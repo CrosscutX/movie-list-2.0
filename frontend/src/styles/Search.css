@@ -25,6 +25,7 @@
   height: 170px;
   background-color: rgb(7, 7, 7);
   padding: 20px;
+  cursor: pointer;
 }
 
 .search-movie img {
