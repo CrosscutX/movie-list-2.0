@@ -9,7 +9,7 @@ export default function UserFriendCard(props) {
   let accepted = false;
 
   function handleClick() {
-    fetch(`/users/${props.user.id}/friends/${props.id}`, {
+    fetch(`/api/users/${props.user.id}/friends/${props.id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${props.user.token}`,
