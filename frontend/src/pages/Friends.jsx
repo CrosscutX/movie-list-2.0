@@ -38,6 +38,17 @@ export default function Friends(props) {
       });
   }, [display]);
 
+  //For sorting pending friend requests from friends already accepted
+  const pendingFriends = userFriends.filter((friend) => {
+    return friend.friends.some((friendRequest) => {
+      return !friendRequest.accepted && friendRequest.sentFrom === jsonUser.id;
+    });
+  });
+
+  const acceptedFriends = userFriends.filter((friend) => {
+    return !pendingFriends.includes(friend);
+  });
+
   //Handles friend search input calls
   let handleChange = (e) => {
     setSearchInput(e.target.value);
@@ -77,14 +88,32 @@ export default function Friends(props) {
             <h2>{displayUsername}</h2>
             <div className="friends-list">
               <input type="text" placeholder="Search Friends" />
+              {pendingFriends.length > 0 && (
+                <div className="pending-friends">
+                  <h3>Pending Friends</h3>
+                  <div className="pending-friends-list">
+                    {pendingFriends.map((friend) => (
+                      <UserFriendCard
+                        key={friend._id}
+                        friends={friend.friends}
+                        friendName={friend.username}
+                        id={friend._id}
+                        logInUser={jsonUser.id}
+                        user={props.user}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="friends-search-results">
-                {userFriends.map((friend) => (
+                {acceptedFriends.map((friend) => (
                   <UserFriendCard
                     key={friend._id}
                     friends={friend.friends}
                     friendName={friend.username}
                     id={friend._id}
                     logInUser={jsonUser.id}
+                    user={props.user}
                   />
                 ))}
               </div>
