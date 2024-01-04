@@ -18,7 +18,10 @@ export default function HomeSearchBar(props) {
         async function callSearchApi(movie) {
           const response = await fetch(`/api/search/${movie}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.user.token}`,
+            },
           });
           const movieResults = await response.json();
           props.setSearchResults(movieResults);
@@ -41,6 +44,7 @@ export default function HomeSearchBar(props) {
             setShowInfo={props.setShowInfo}
             setSelectedMovie={props.setSelectedMovie}
             setDisplayType={props.setDisplayType}
+            user={props.user}
           />
         );
       });

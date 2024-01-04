@@ -17,6 +17,9 @@ export default function FriendCard(props) {
   function handleClick() {
     fetch(`/api/users/${props.logInUser}/friends/${props.id}`, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {

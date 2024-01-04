@@ -22,7 +22,10 @@ export default function SelectMovieListItem(props) {
   async function addMovieToList(checked) {
     const response = await fetch(`/api/lists/${props.list._id}/movies`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${props.user.token}`,
+      },
       body: JSON.stringify({
         imdbID: props.selectedMovie.imdbID,
       }),
@@ -38,7 +41,10 @@ export default function SelectMovieListItem(props) {
       `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
+        },
       }
     );
     const movieResults = await response.json();

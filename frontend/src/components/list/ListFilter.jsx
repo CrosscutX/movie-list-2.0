@@ -16,7 +16,11 @@ export default function ListFilter(props) {
       if (props.movieListIDS !== undefined) {
         const movies = await Promise.all(
           props.movieListIDS.map(async (movie) => {
-            const response = await fetch(`/api/movies/info/${movie.movie}`);
+            const response = await fetch(`/api/movies/info/${movie.movie}`, {
+              headers: {
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            });
             const movieInfo = await response.json();
             // Add the watched attribute to the movieInfo from the list specific watched field
             movieInfo.watched = movie.watched;

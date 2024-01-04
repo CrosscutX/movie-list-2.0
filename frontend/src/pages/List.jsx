@@ -37,9 +37,11 @@ export default function List(props) {
   //Gets all lists from the user account
   useEffect(() => {
     const fetchLists = async () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user.id;
-      const response = await fetch(`/api/lists/${userId}`);
+      const response = await fetch(`/api/lists/${props.user.id}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       const lists = await response.json();
       //For testing
       setUserLists(lists);
@@ -51,7 +53,11 @@ export default function List(props) {
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
     const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${selectedUserList}`);
+      const response = await fetch(`/api/movies/${selectedUserList}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       let movieIds = await response.json();
       if (movieIds.movies !== undefined) {
         setMovieListIDS(movieIds.movies);
@@ -71,6 +77,7 @@ export default function List(props) {
           userLists={userLists}
           displaySelectMovieList={displaySelectMovieList}
           setDisplaySelectMovieList={setDisplaySelectMovieList}
+          user={props.user}
         />
       )}
       <div className="list-container">
@@ -81,12 +88,14 @@ export default function List(props) {
           userLists={userLists}
           setSelectedUserList={setSelectedUserList}
           selectedUserList={selectedUserList}
+          user={props.user}
         />
         <ListFilter
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
           displaySelectMovieList={displaySelectMovieList}
+          user={props.user}
         />
         <ListMovies
           setShowInfo={props.setShowInfo}

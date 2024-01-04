@@ -7,13 +7,18 @@ export default function SelectMovieList(props) {
       if (props.lists) {
         const lists = await Promise.all(
           props.lists.map(async (id) => {
-            const response = await fetch(`/api/movies/${id}`);
+            const response = await fetch(`/api/movies/${id}`, {
+              headers: {
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            });
             const listInfo = await response.json();
             return (
               <SelectMovieListItem
                 key={listInfo._id}
                 list={listInfo}
                 selectedMovie={props.selectedMovie}
+                user={props.user}
               />
             );
           })

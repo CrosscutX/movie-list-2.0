@@ -23,7 +23,10 @@ export default function HomeSearchMovie(props) {
         id = props.movie.imdbID;
         const response = await fetch(`/api/searchOne/${id}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
         });
         const movieResult = await response.json();
         setMovieObject(movieResult);

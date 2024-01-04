@@ -52,6 +52,7 @@ export default function App() {
                 setSelectedMovie={setSelectedMovie}
                 displayType={displayType}
                 setDisplayType={setDisplayType}
+                user={user}
               />
             }
           />
@@ -66,6 +67,7 @@ export default function App() {
                 displayType={displayType}
                 setDisplayType={setDisplayType}
                 searchText={searchText}
+                user={user}
               />
             }
           />
@@ -79,10 +81,11 @@ export default function App() {
                 setSelectedMovie={setSelectedMovie}
                 displayType={displayType}
                 setDisplayType={setDisplayType}
+                user={user}
               />
             }
           />
-          <Route path="/friends" element={<Friends />} />
+          <Route path="/friends" element={<Friends user={user} />} />
           <Route
             path="/friends/:name/:id"
             element={
@@ -91,6 +94,7 @@ export default function App() {
                 setShowInfo={setShowInfo}
                 selectedMovie={selectedMovie}
                 setSelectedMovie={setSelectedMovie}
+                user={user}
               />
             }
           />

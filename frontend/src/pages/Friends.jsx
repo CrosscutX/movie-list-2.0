@@ -3,7 +3,7 @@ import "../styles/Friends.css";
 import FriendCard from "../components/friends/FriendSearchCard";
 import UserFriendCard from "../components/friends/UserFriends";
 
-export default function Friends() {
+export default function Friends(props) {
   const [display, setDisplay] = useState("friends");
   let jsonUser = localStorage.getItem("user");
   jsonUser = JSON.parse(jsonUser);
@@ -15,13 +15,19 @@ export default function Friends() {
 
   //For getting logged in users friends on page load
   useEffect(() => {
-    fetch(`/api/users/${jsonUser.id}`)
+    fetch(`/api/users/${jsonUser.id}`, {
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
+    })
       .then((response) => response.json())
       .then((user) => {
         const friends = user.friends.map((friend) => {
-          return fetch(`/api/users/${friend._id}`).then((response) =>
-            response.json()
-          );
+          return fetch(`/api/users/${friend._id}`, {
+            headers: {
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }).then((response) => response.json());
         });
         Promise.all(friends).then((friendData) => {
           setUserFriends(friendData);
@@ -37,7 +43,11 @@ export default function Friends() {
     setSearchInput(e.target.value);
 
     if (searchInput != 0) {
-      fetch(`/api/users/search/${searchInput}`)
+      fetch(`/api/users/search/${searchInput}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           setSearchResults(data);
@@ -109,6 +119,7 @@ export default function Friends() {
                   id={friend._id}
                   logInUser={jsonUser.id}
                   logInUserFriends={userFriends}
+                  user={props.user}
                 />
               ))}
             </div>
