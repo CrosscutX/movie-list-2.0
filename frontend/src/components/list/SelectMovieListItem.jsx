@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 export default function SelectMovieListItem(props) {
   const [allCheck, setAllCheck] = useState(true);
   const [isChecked, setChecked] = useState(false);
-  console.log(isChecked);
   // Makes it to where we don't display all for list changes
   useEffect(() => {
     if (props.list.listName === "all") {

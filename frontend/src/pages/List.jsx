@@ -24,6 +24,7 @@ export default function List(props) {
       if (!infoElement.contains(e.target)) {
         e.stopPropagation();
         props.setShowInfo(false);
+        // here
       }
     };
 
@@ -57,7 +58,7 @@ export default function List(props) {
       }
     };
     fetchMoviesList();
-  }, [selectedUserList, displaySelectMovieList]);
+  }, [selectedUserList, displaySelectMovieList, props.showInfo]);
 
   return (
     <div className="list">
