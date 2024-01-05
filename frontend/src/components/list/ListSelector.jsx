@@ -56,8 +56,29 @@ export default function ListSelector(props) {
       }),
     });
   }
+  console.log(props.userLists);
 
-  function getListInfo() {}
+  async function deleteList() {
+    const userID = JSON.parse(localStorage.getItem("user")).id;
+    console.log(userID);
+    console.log(props.selectedUserList);
+    try {
+      const response = await fetch(`/api/lists/${userID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listID: props.selectedUserList,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  }
 
   return (
     <div className="list-selector">
@@ -149,9 +170,27 @@ export default function ListSelector(props) {
               />
               <div className="list-button">Rename</div>
             </div>
-            <button type="button" className="delete-button">
-              Delete
-            </button>
+            <div className="shared-row">
+              <button
+                type="button"
+                className="delete-button"
+                onClick={() => {
+                  deleteList();
+                  props.setSelectedOption("select");
+                  props.setSelectedUserList(props.userLists[0]);
+                }}
+              >
+                Delete
+              </button>
+              <div className="shared-container">
+                <input
+                  type="checkbox"
+                  id="shared"
+                  className="shared-checkbox"
+                />
+                <label htmlFor="shared">Shared</label>
+              </div>
+            </div>
           </div>
         )}
       </div>

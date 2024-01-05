@@ -47,6 +47,8 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { listID } = req.body;
 
+  console.log(id);
+  console.log(listID);
   const list = await List.findById(listID);
 
   const user = await User.findById(id);

@@ -34,6 +34,18 @@ export default function List(props) {
       document.body.removeEventListener("click", handleOutsideClick);
     };
   }, []);
+  // Inital call to show the movies
+  useEffect(() => {
+    const fetchLists = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user.id;
+      const response = await fetch(`/api/lists/${userId}`);
+      const lists = await response.json();
+      setSelectedUserList(lists[0]);
+    };
+    fetchLists();
+  }, []);
+
   //Gets all lists from the user account
   useEffect(() => {
     const fetchLists = async () => {
@@ -43,7 +55,6 @@ export default function List(props) {
       const lists = await response.json();
       //For testing
       setUserLists(lists);
-      setSelectedUserList(lists[0]);
     };
     fetchLists();
   }, [selectedOption]);
@@ -60,7 +71,6 @@ export default function List(props) {
     fetchMoviesList();
   }, [selectedUserList, displaySelectMovieList, props.showInfo]);
 
-  console.log(props.showInfo);
   return (
     <div className="list">
       {props.showInfo && (
