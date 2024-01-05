@@ -40,6 +40,23 @@ export default function ListSelector(props) {
     setSelectedListTitle(selectedOptionText);
   }
 
+  async function addList(listname) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const id = user.id;
+    // Null error handling
+    if (listname === "") {
+      return;
+    }
+
+    await fetch(`/api/lists/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        listName: listname,
+      }),
+    });
+  }
+
   return (
     <div className="list-selector">
       <h2>List Selector</h2>
@@ -73,7 +90,16 @@ export default function ListSelector(props) {
               className="list-input"
               placeholder="Enter a new list..."
             />
-            <div className="list-button">Create</div>
+            <div
+              className="list-button"
+              onClick={() => {
+                const listTitle = document.querySelector(".list-input").value;
+                addList(listTitle);
+                props.setSelectedOption("none");
+              }}
+            >
+              Create
+            </div>
           </div>
         )}
         {props.selectedOption === "select" && (

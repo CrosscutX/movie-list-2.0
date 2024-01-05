@@ -46,7 +46,7 @@ export default function List(props) {
       setSelectedUserList(lists[0]);
     };
     fetchLists();
-  }, []);
+  }, [selectedOption]);
 
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
