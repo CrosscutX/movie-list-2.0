@@ -80,6 +80,27 @@ export default function ListSelector(props) {
     }
   }
 
+  async function changeName(name) {
+    const userID = JSON.parse(localStorage.getItem("user")).id;
+    try {
+      const response = await fetch(`/api/lists/${userID}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          listID: props.selectedUserList,
+          nameChange: name,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  }
+
   return (
     <div className="list-selector">
       <h2>List Selector</h2>
@@ -168,7 +189,16 @@ export default function ListSelector(props) {
                 className="list-input"
                 placeholder="Enter a new list..."
               />
-              <div className="list-button">Rename</div>
+              <div
+                className="list-button"
+                onClick={() => {
+                  const name = document.querySelector(".list-input").value;
+                  changeName(name);
+                  props.setSelectedOption("select");
+                }}
+              >
+                Rename
+              </div>
             </div>
             <div className="shared-row">
               <button
