@@ -1,10 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import FriendMovieInfo from "../components/friends/FriendMovieInfo";
 import FriendListSelector from "../components/friends/FriendListSelector";
 import FriendListFilter from "../components/friends/FriendListFilter";
 import FriendListMovies from "../components/friends/FriendListMovies";
+import MovieInfo from "../components/movieInfo";
 
 export default function FriendsMovieList(props) {
   const [selectedOption, setSelectedOption] = useState("none");
@@ -13,6 +13,26 @@ export default function FriendsMovieList(props) {
   const [movieListIDS, setMovieListIDS] = useState([]);
   const [filteredMovieList, setFilteredMovieList] = useState("");
   const { name, id } = useParams();
+
+  //handles clicking off of the movie-info panel
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      const infoElement = document.querySelector(".movie-info");
+      if (!infoElement) {
+        return;
+      }
+      if (!infoElement.contains(e.target)) {
+        e.stopPropagation();
+        props.setShowInfo(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   //Get friends movies
   useEffect(() => {
@@ -39,7 +59,7 @@ export default function FriendsMovieList(props) {
   return (
     <div className="friend-list">
       {props.showInfo && (
-        <FriendMovieInfo
+        <MovieInfo
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
@@ -66,6 +86,8 @@ export default function FriendsMovieList(props) {
           setSelectedMovie={props.setSelectedMovie}
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
+          displayType={props.displayType}
+          setDisplayType={props.setDisplayType}
         />
       </div>
     </div>

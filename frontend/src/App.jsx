@@ -91,6 +91,8 @@ export default function App() {
                 setShowInfo={setShowInfo}
                 selectedMovie={selectedMovie}
                 setSelectedMovie={setSelectedMovie}
+                displayType={displayType}
+                setDisplayType={setDisplayType}
               />
             }
           />

@@ -12,7 +12,7 @@ export default function List(props) {
   const [selectedUserList, setSelectedUserList] = useState("");
   const [filteredMovieList, setFilteredMovieList] = useState("");
   const [movieListIDS, setMovieListIDS] = useState([]);
-  // State for the scren that allows you to add movies to different lists
+  // State for the screen that allows you to add movies to different lists
   const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
   //handles clicking off of the movie-info panel
   useEffect(() => {

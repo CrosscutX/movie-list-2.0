@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Movie from "../list/Movie";
+import FriendMovie from "./FriendMovie";
 import "../../styles/List.css";
 
 export default function FriendListMovies(props) {
@@ -12,7 +12,7 @@ export default function FriendListMovies(props) {
       if (props.filteredMovieList) {
         const movies = props.filteredMovieList.map((movie) => {
           return (
-            <Movie
+            <FriendMovie
               key={movie.imdbID}
               movie={movie}
               title={movie.title}
@@ -20,6 +20,8 @@ export default function FriendListMovies(props) {
               showInfo={props.showInfo}
               setShowInfo={props.setShowInfo}
               setSelectedMovie={props.setSelectedMovie}
+              displayType={props.displayType}
+              setDisplayType={props.setDisplayType}
             />
           );
         });
