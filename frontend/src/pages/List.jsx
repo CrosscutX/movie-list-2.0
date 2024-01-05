@@ -14,7 +14,6 @@ export default function List(props) {
   const [movieListIDS, setMovieListIDS] = useState([]);
   // State for the scren that allows you to add movies to different lists
   const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
-
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {

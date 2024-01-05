@@ -57,6 +57,8 @@ export default function ListSelector(props) {
     });
   }
 
+  function getListInfo() {}
+
   return (
     <div className="list-selector">
       <h2>List Selector</h2>
@@ -117,8 +119,39 @@ export default function ListSelector(props) {
               </select>
             </div>
             <div className="edit-row">
-              <div className="list-button">Edit</div>
+              <div
+                className="list-button"
+                onClick={() => {
+                  // Error handling for user clicking on default list item or all
+                  const list = document.querySelector("#list").value;
+                  if (list === "Select List..." || list === "All") {
+                    return;
+                  }
+
+                  props.setSelectedOption("edit");
+                }}
+              >
+                Edit
+              </div>
             </div>
+          </div>
+        )}
+        {props.selectedOption === "edit" && (
+          <div className="edit-container">
+            <h2>{selectedListTitle}</h2>
+            <div className="rename-row">
+              <input
+                type="text"
+                id="list"
+                name="list"
+                className="list-input"
+                placeholder="Enter a new list..."
+              />
+              <div className="list-button">Rename</div>
+            </div>
+            <button type="button" className="delete-button">
+              Delete
+            </button>
           </div>
         )}
       </div>
