@@ -39,6 +39,8 @@ router.delete("/lists/:id", requireAuth, listController.deleteUserList);
 // update user list
 router.patch("/lists/:id", requireAuth, listController.updateUserList);
 
+router.patch("/lists/public/:id", listController.updateUserListShared);
+
 ///MOVIE ROUTES ///
 
 //NOTES ADD MOVIES TO LIST DELETE MOVIES FROM LIST

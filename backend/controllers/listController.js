@@ -90,3 +90,20 @@ exports.updateUserList = asyncHandler(async (req, res, next) => {
     res.status(406).json({ msg: "User ID and list author do not match" });
   }
 });
+
+exports.updateUserListShared = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const userList = await List.findById(id);
+  console.log(userList);
+
+  if (userList.public === false) {
+    userList.public = true;
+  } else {
+    userList.public = false;
+  }
+
+  console.log(userList);
+
+  await userList.save();
+});

@@ -4,6 +4,8 @@ import "../../styles/List.css";
 export default function ListSelector(props) {
   const [listOfLists, setListOfLists] = useState();
   const [selectedListTitle, setSelectedListTitle] = useState("Select List...");
+  const [isChecked, setIsChecked] = useState();
+
   useEffect(() => {
     const fetchListData = async () => {
       if (props.userLists !== undefined) {
@@ -29,6 +31,15 @@ export default function ListSelector(props) {
     };
     fetchListData();
   }, [props.userLists]);
+
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const response = await fetch(`/api/movies/${props.selectedUserList}`);
+      const listInfo = await response.json();
+      console.log(listInfo);
+    };
+    fetchUserList();
+  }, [props.selectedUserList]);
 
   //onChange function for list select
   function optionSelect(e) {
@@ -56,8 +67,6 @@ export default function ListSelector(props) {
       }),
     });
   }
-  console.log(props.userLists);
-
   async function deleteList() {
     const userID = JSON.parse(localStorage.getItem("user")).id;
     console.log(userID);
@@ -96,8 +105,27 @@ export default function ListSelector(props) {
 
       const data = await response.json();
       console.log(data);
+      // The line below updates the list selector edit page to avoid the bug of someone seeing
+      // the old edit title after they've renamed the list.
+      setSelectedListTitle(name);
     } catch (error) {
       console.error("Error deleting data:", error);
+    }
+  }
+
+  async function changePublicList() {
+    try {
+      const response = await fetch(
+        `/api/lists/public/${props.selectedUserList}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error patching data:", error);
     }
   }
 
@@ -217,6 +245,9 @@ export default function ListSelector(props) {
                   type="checkbox"
                   id="shared"
                   className="shared-checkbox"
+                  onClick={() => {
+                    changePublicList();
+                  }}
                 />
                 <label htmlFor="shared">Shared</label>
               </div>
