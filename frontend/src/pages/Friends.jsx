@@ -13,6 +13,27 @@ export default function Friends(props) {
   const [searchResults, setSearchResults] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
 
+  let pendingFriends = [];
+  let acceptedFriends = [];
+
+  userFriends.forEach((friend) => {
+    const isFriend = friend.friends.some(
+      (friendRequest) => friendRequest._id === props.user.id
+    );
+
+    if (isFriend) {
+      const friendsWithUser = friend.friends.find(
+        (friendRequest) => friendRequest._id === props.user.id
+      );
+
+      if (friendsWithUser.accepted) {
+        acceptedFriends.push(friend);
+      } else {
+        pendingFriends.push(friend);
+      }
+    }
+  });
+
   //For getting logged in users friends on page load
   useEffect(() => {
     fetch(`/api/users/${jsonUser.id}`, {
@@ -37,17 +58,6 @@ export default function Friends(props) {
         console.error(error);
       });
   }, [display]);
-
-  //For sorting pending friend requests from friends already accepted
-  const pendingFriends = userFriends.filter((friend) => {
-    return friend.friends.some((friendRequest) => {
-      return !friendRequest.accepted && friendRequest.sentFrom === jsonUser.id;
-    });
-  });
-
-  const acceptedFriends = userFriends.filter((friend) => {
-    return !pendingFriends.includes(friend);
-  });
 
   //Handles friend search input calls
   let handleChange = (e) => {

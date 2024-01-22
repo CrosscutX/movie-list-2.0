@@ -86,6 +86,12 @@
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
+.pending-friends-list {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
 .pending-friends > h3 {
   text-align: center;
 }

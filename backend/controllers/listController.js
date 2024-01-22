@@ -18,28 +18,33 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
 
 exports.createUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
+  let userID = req.user._id.toString();
 
-  const user = await User.findById(id);
+  if (userID == id) {
+    const user = await User.findById(id);
 
-  if (req.body.listName == "all") {
-    return res
-      .status(404)
-      .json({ error: "Cannot create list with name of all" });
+    if (req.body.listName == "all") {
+      return res
+        .status(404)
+        .json({ error: "Cannot create list with name of all" });
+    } else {
+      const list = new List({
+        listName: req.body.listName,
+        public: false,
+        movies: [],
+        createdBy: user._id,
+      });
+
+      await list.save();
+
+      user.lists.push(list._id);
+
+      await user.save();
+
+      res.status(200).json(user);
+    }
   } else {
-    const list = new List({
-      listName: req.body.listName,
-      public: false,
-      movies: [],
-      createdBy: user._id,
-    });
-
-    await list.save();
-
-    user.lists.push(list._id);
-
-    await user.save();
-
-    res.status(200).json(user);
+    res.status(400).json({ message: "Unauthorized user" });
   }
 });
 

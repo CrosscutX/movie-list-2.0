@@ -5,8 +5,6 @@ import "../../styles/List.css";
 export default function FriendListMovies(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
 
-  // console.log(props.filteredMovieList);
-
   useEffect(() => {
     const fetchMoviesData = () => {
       if (props.filteredMovieList) {
