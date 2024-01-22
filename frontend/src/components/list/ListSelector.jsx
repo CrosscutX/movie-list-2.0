@@ -4,7 +4,7 @@ import "../../styles/List.css";
 export default function ListSelector(props) {
   const [listOfLists, setListOfLists] = useState();
   const [selectedListTitle, setSelectedListTitle] = useState("Select List...");
-  const [isChecked, setIsChecked] = useState();
+  const [isSharedChecked, setIsSharedChecked] = useState(false);
 
   useEffect(() => {
     const fetchListData = async () => {
@@ -32,10 +32,13 @@ export default function ListSelector(props) {
     fetchListData();
   }, [props.userLists]);
 
+  // Updates the shared value of the edit panel whenever there is a change in selected list.
   useEffect(() => {
+    console.log(props.selectedUserList);
     const fetchUserList = async () => {
       const response = await fetch(`/api/movies/${props.selectedUserList}`);
       const listInfo = await response.json();
+      setIsSharedChecked(listInfo.public);
     };
     fetchUserList();
   }, [props.selectedUserList]);
@@ -123,6 +126,9 @@ export default function ListSelector(props) {
           },
         }
       );
+      const sharedValue = await response.json();
+      console.log(sharedValue);
+      setIsSharedChecked(sharedValue);
     } catch (error) {
       console.error("Error patching data:", error);
     }
@@ -244,7 +250,8 @@ export default function ListSelector(props) {
                   type="checkbox"
                   id="shared"
                   className="shared-checkbox"
-                  onClick={() => {
+                  checked={isSharedChecked}
+                  onChange={() => {
                     changePublicList();
                   }}
                 />

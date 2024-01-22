@@ -106,4 +106,6 @@ exports.updateUserListShared = asyncHandler(async (req, res, next) => {
   console.log(userList);
 
   await userList.save();
+
+  res.status(200).json(userList.public);
 });
