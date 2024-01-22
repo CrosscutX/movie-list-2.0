@@ -37,7 +37,11 @@ export default function FriendsMovieList(props) {
   //Get friends movies
   useEffect(() => {
     const fetchLists = async () => {
-      const response = await fetch(`/api/lists/${id}`);
+      const response = await fetch(`/api/lists/${id}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       const lists = await response.json();
       setUserLists(lists);
       setSelectedUserList(lists[0]);
@@ -47,7 +51,11 @@ export default function FriendsMovieList(props) {
 
   useEffect(() => {
     const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${selectedUserList}`);
+      const response = await fetch(`/api/movies/${selectedUserList}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       let movieIds = await response.json();
       if (movieIds.movies !== undefined) {
         setMovieListIDS(movieIds.movies);
@@ -73,11 +81,13 @@ export default function FriendsMovieList(props) {
           userLists={userLists}
           setSelectedUserList={setSelectedUserList}
           selectedUserList={selectedUserList}
+          user={props.user}
         />
         <FriendListFilter
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
+          user={props.user}
         />
         <FriendListMovies
           setShowInfo={props.setShowInfo}

@@ -11,7 +11,11 @@ export default function ListSelector(props) {
       if (props.userLists !== undefined) {
         const lists = await Promise.all(
           props.userLists.map(async (id) => {
-            const response = await fetch(`/api/movies/${id}`);
+            const response = await fetch(`/api/movies/${id}`, {
+              headers: {
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            });
             const listInfo = await response.json();
             let listName = listInfo.listName;
             let listId = listInfo._id;

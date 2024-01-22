@@ -102,12 +102,9 @@ exports.deleteMovie = asyncHandler(async (req, res, next) => {
   //Searches for list that matches listID
   const list = await List.findById(listID);
   //Searches list to see if movie exists in movie array
-  console.log(movieID);
   const movieIndex = list.movies.findIndex((obj) => {
-    console.log(obj);
     return obj.movie.toString() === movieID;
   });
-  console.log(movieIndex);
   //indexOf returns -1 if not found, so if movie is found remove it from the list if not return without doing anything
   if (movieIndex != -1) {
     list.movies.pull({ movie: movieID });

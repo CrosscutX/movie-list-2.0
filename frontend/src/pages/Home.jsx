@@ -52,6 +52,7 @@ export default function Home(props) {
           setSelectedMovie={props.setSelectedMovie}
           displayType={props.displayType}
           setDisplayType={props.setDisplayType}
+          user={props.user}
         />
       </div>
     </nav>

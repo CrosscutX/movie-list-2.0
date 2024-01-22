@@ -131,38 +131,45 @@ exports.signUp = asyncHandler(async (req, res, next) => {
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
+  let userID = req.user._id.toString();
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "User doesnt exist" });
-  }
+  if (userID == id) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: "User doesnt exist" });
+    }
 
-  const user = await User.findById({ _id: id });
+    const user = await User.findById({ _id: id });
 
-  if (!user) {
-    return res.status(404).json({ error: "User doesnt exist" });
+    if (!user) {
+      return res.status(404).json({ error: "User doesnt exist" });
+    } else {
+      //Removes the  user being deleted from anyone that has the user on their friends list
+      const friendsOfUser = await User.find({
+        //Checks for all users with user being deleted in friends list
+        //Matches any array with the id of the deleted user id
+        friends: { $elemMatch: { _id: id } },
+      });
+
+      await Promise.all(
+        friendsOfUser.map(async (user) => {
+          //Filtering users list to remove deleted user based on id
+          let updatedFriends = user.friends.filter(
+            (friend) => friend._id != id
+          );
+          await user.updateOne({ friends: updatedFriends });
+        })
+      );
+
+      //Deletes all lists in users list array, including the all list
+
+      await List.deleteMany({ _id: { $in: user.lists } });
+
+      await User.deleteOne({ _id: id });
+
+      res.status(200).json({ message: "User deleted" });
+    }
   } else {
-    //Removes the  user being deleted from anyone that has the user on their friends list
-    const friendsOfUser = await User.find({
-      //Checks for all users with user being deleted in friends list
-      //Matches any array with the id of the deleted user id
-      friends: { $elemMatch: { _id: id } },
-    });
-
-    await Promise.all(
-      friendsOfUser.map(async (user) => {
-        //Filtering users list to remove deleted user based on id
-        let updatedFriends = user.friends.filter((friend) => friend._id != id);
-        await user.updateOne({ friends: updatedFriends });
-      })
-    );
-
-    //Deletes all lists in users list array, including the all list
-
-    await List.deleteMany({ _id: { $in: user.lists } });
-
-    await User.deleteOne({ _id: id });
-
-    res.status(200).json({ message: "User deleted" });
+    res.status(400).json({ message: "Cannot delete anothers account" });
   }
 });
 

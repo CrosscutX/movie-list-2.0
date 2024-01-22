@@ -23,44 +23,49 @@ exports.getFriends = asyncHandler(async (req, res, next) => {
 
 exports.addFriend = asyncHandler(async (req, res, next) => {
   const { id, friendId } = req.params;
+  let userID = req.user._id.toString();
 
-  if (!validateID(id, friendId)) {
-    return res.status(404).json({ error: "User doesnt exist" });
+  if (userID == id) {
+    if (!validateID(id, friendId)) {
+      return res.status(404).json({ error: "User doesnt exist" });
+    }
+
+    const user = await User.findById(id);
+    const friend = await User.findById(friendId);
+
+    //checks if recievers id is already in users list
+    if (user.friends.find((friend) => friend._id == friendId)) {
+      return res.status(404).json({ error: "Friend already in friend list" });
+    }
+
+    //checks if senders id is already in revievers list
+    if (friend.friends.find((friend) => friend._id == id)) {
+      return res.status(404).json({ error: "Friend already in friend list" });
+    }
+
+    //adding _id to the objects was needed or else the ID would change with every request, not sure why
+    const addToUser = {
+      _id: friend.id,
+      accepted: false,
+      sentFrom: user.id,
+    };
+
+    const addToFriend = {
+      _id: user.id,
+      accepted: false,
+      sentFrom: user.id,
+    };
+
+    user.friends.push(addToUser);
+    friend.friends.push(addToFriend);
+
+    user.save();
+    friend.save();
+
+    res.status(200).json({ msg: "Friend successfully added" });
+  } else {
+    res.status(400).json({ message: "Unauthorized token mismatch" });
   }
-
-  const user = await User.findById(id);
-  const friend = await User.findById(friendId);
-
-  //checks if recievers id is already in users list
-  if (user.friends.find((friend) => friend._id == friendId)) {
-    return res.status(404).json({ error: "Friend already in friend list" });
-  }
-
-  //checks if senders id is already in revievers list
-  if (friend.friends.find((friend) => friend._id == id)) {
-    return res.status(404).json({ error: "Friend already in friend list" });
-  }
-
-  //adding _id to the objects was needed or else the ID would change with every request, not sure why
-  const addToUser = {
-    _id: friend.id,
-    accepted: false,
-    sentFrom: user.id,
-  };
-
-  const addToFriend = {
-    _id: user.id,
-    accepted: false,
-    sentFrom: user.id,
-  };
-
-  user.friends.push(addToUser);
-  friend.friends.push(addToFriend);
-
-  user.save();
-  friend.save();
-
-  res.status(200).json({ msg: "Friend successfully added" });
 });
 
 exports.deleteFriend = asyncHandler(async (req, res, next) => {
@@ -69,27 +74,32 @@ exports.deleteFriend = asyncHandler(async (req, res, next) => {
 
 exports.acceptFriend = asyncHandler(async (req, res, next) => {
   const { id, friendId } = req.params;
+  let userID = req.user._id.toString();
 
-  const user = await User.findById(id);
-  const friend = await User.findById(friendId);
+  if (id == userID) {
+    const user = await User.findById(id);
+    const friend = await User.findById(friendId);
 
-  // Loop through friends for both  users and update boolean to true if in eachothers list
-  user.friends.forEach((friend) => {
-    if (friend._id.toString() === friendId) {
-      friend.accepted = true;
-    }
-  });
+    // Loop through friends for both  users and update boolean to true if in eachothers list
+    user.friends.forEach((friend) => {
+      if (friend._id.toString() === friendId) {
+        friend.accepted = true;
+      }
+    });
 
-  friend.friends.forEach((friend) => {
-    if (friend._id.toString() === id) {
-      friend.accepted = true;
-    }
-  });
+    friend.friends.forEach((friend) => {
+      if (friend._id.toString() === id) {
+        friend.accepted = true;
+      }
+    });
 
-  await user.save();
-  await friend.save();
+    await user.save();
+    await friend.save();
 
-  res.status(200).json({ user, friend });
+    res.status(200).json({ user, friend });
+  } else {
+    res.status(400).json({ message: "Unauthorized token mismatch" });
+  }
 });
 
 //Cant think or find a good way to make this into middleware

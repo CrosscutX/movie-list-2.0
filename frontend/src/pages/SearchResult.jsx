@@ -39,7 +39,10 @@ export default function SearchResult(props) {
       if (movieTitle) {
         const response = await fetch(`/api/searchExtended/${movieTitle}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
         });
         let movies = await response.json();
 

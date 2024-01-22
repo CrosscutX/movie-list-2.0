@@ -29,7 +29,11 @@ export default function movieInfo(props) {
   useEffect(() => {
     async function fetchAllList() {
       const user = JSON.parse(localStorage.getItem("user"));
-      const response = await fetch(`/api/lists/${user.id}`);
+      const response = await fetch(`/api/lists/${user.id}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       const userLists = await response.json();
       setAllListId(userLists[0]);
     }
@@ -46,6 +50,7 @@ export default function movieInfo(props) {
             setDisplaySelectMovieList={props.setDisplaySelectMovieList}
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
+            user={props.user}
           />
         )}
         <span className="x-button" onClick={clearInfo}>
@@ -111,7 +116,10 @@ export default function movieInfo(props) {
               onClick={async () => {
                 const response = await fetch(`/api/lists/${allListId}/movies`, {
                   method: "POST",
-                  headers: { "Content-Type": "application/json" },
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${props.user.token}`,
+                  },
                   body: JSON.stringify({
                     imdbID: props.selectedMovie.imdbID,
                   }),

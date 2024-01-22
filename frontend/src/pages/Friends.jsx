@@ -3,7 +3,7 @@ import "../styles/Friends.css";
 import FriendCard from "../components/friends/FriendSearchCard";
 import UserFriendCard from "../components/friends/UserFriends";
 
-export default function Friends() {
+export default function Friends(props) {
   const [display, setDisplay] = useState("friends");
   let jsonUser = localStorage.getItem("user");
   jsonUser = JSON.parse(jsonUser);
@@ -13,15 +13,42 @@ export default function Friends() {
   const [searchResults, setSearchResults] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
 
+  let pendingFriends = [];
+  let acceptedFriends = [];
+
+  userFriends.forEach((friend) => {
+    const isFriend = friend.friends.some(
+      (friendRequest) => friendRequest._id === props.user.id
+    );
+
+    if (isFriend) {
+      const friendsWithUser = friend.friends.find(
+        (friendRequest) => friendRequest._id === props.user.id
+      );
+
+      if (friendsWithUser.accepted) {
+        acceptedFriends.push(friend);
+      } else {
+        pendingFriends.push(friend);
+      }
+    }
+  });
+
   //For getting logged in users friends on page load
   useEffect(() => {
-    fetch(`/api/users/${jsonUser.id}`)
+    fetch(`/api/users/${jsonUser.id}`, {
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
+    })
       .then((response) => response.json())
       .then((user) => {
         const friends = user.friends.map((friend) => {
-          return fetch(`/api/users/${friend._id}`).then((response) =>
-            response.json()
-          );
+          return fetch(`/api/users/${friend._id}`, {
+            headers: {
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }).then((response) => response.json());
         });
         Promise.all(friends).then((friendData) => {
           setUserFriends(friendData);
@@ -37,7 +64,11 @@ export default function Friends() {
     setSearchInput(e.target.value);
 
     if (searchInput != 0) {
-      fetch(`/api/users/search/${searchInput}`)
+      fetch(`/api/users/search/${searchInput}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      })
         .then((response) => response.json())
         .then((data) => {
           setSearchResults(data);
@@ -67,14 +98,32 @@ export default function Friends() {
             <h2>{displayUsername}</h2>
             <div className="friends-list">
               <input type="text" placeholder="Search Friends" />
+              {pendingFriends.length > 0 && (
+                <div className="pending-friends">
+                  <h3>Pending Friends</h3>
+                  <div className="pending-friends-list">
+                    {pendingFriends.map((friend) => (
+                      <UserFriendCard
+                        key={friend._id}
+                        friends={friend.friends}
+                        friendName={friend.username}
+                        id={friend._id}
+                        logInUser={jsonUser.id}
+                        user={props.user}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="friends-search-results">
-                {userFriends.map((friend) => (
+                {acceptedFriends.map((friend) => (
                   <UserFriendCard
                     key={friend._id}
                     friends={friend.friends}
                     friendName={friend.username}
                     id={friend._id}
                     logInUser={jsonUser.id}
+                    user={props.user}
                   />
                 ))}
               </div>
@@ -109,6 +158,7 @@ export default function Friends() {
                   id={friend._id}
                   logInUser={jsonUser.id}
                   logInUserFriends={userFriends}
+                  user={props.user}
                 />
               ))}
             </div>
