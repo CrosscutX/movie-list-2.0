@@ -7,6 +7,7 @@ export default function movieInfo(props) {
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
+    props.setDisplaySelectMovieList(false);
   }
 
   // Formatting the date for our American eyes.
