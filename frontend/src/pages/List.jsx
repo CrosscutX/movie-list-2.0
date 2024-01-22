@@ -39,7 +39,11 @@ export default function List(props) {
     const fetchLists = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user.id;
-      const response = await fetch(`/api/lists/${userId}`);
+      const response = await fetch(`/api/lists/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       const lists = await response.json();
       setSelectedUserList(lists[0]);
     };

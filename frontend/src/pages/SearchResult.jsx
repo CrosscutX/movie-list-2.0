@@ -76,6 +76,7 @@ export default function SearchResult(props) {
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
             displayType={props.displayType}
+            user={props.user}
           />
         )}
         <h1>Showing Results for: {movieTitle}</h1>

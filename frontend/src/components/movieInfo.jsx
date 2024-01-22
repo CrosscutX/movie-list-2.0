@@ -7,9 +7,10 @@ export default function movieInfo(props) {
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
-    props.setDisplaySelectMovieList(false);
+    if (props.setDisplaySelectMovieList) {
+      props.setDisplaySelectMovieList(false);
+    }
   }
-
   // Formatting the date for our American eyes.
   const dateString = props.selectedMovie.release_date;
   const date = new Date(dateString);

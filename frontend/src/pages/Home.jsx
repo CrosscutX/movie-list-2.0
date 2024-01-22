@@ -37,6 +37,7 @@ export default function Home(props) {
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
             displayType={props.displayType}
+            user={props.user}
           />
         )}
         <HomeSearchBar

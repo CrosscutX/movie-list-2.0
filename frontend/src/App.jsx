@@ -33,6 +33,8 @@ export default function App() {
     shouldRedirect();
   }, []);
 
+  console.log(user);
+
   return (
     <div className="app">
       <Routes>

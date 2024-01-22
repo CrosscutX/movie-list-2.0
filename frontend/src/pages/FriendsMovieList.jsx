@@ -71,6 +71,7 @@ export default function FriendsMovieList(props) {
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
+          user={props.user}
         />
       )}
       <div className="friend-list--container">

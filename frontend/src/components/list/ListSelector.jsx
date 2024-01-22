@@ -40,7 +40,11 @@ export default function ListSelector(props) {
   useEffect(() => {
     console.log(props.selectedUserList);
     const fetchUserList = async () => {
-      const response = await fetch(`/api/movies/${props.selectedUserList}`);
+      const response = await fetch(`/api/movies/${props.selectedUserList}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
       const listInfo = await response.json();
       setIsSharedChecked(listInfo.public);
     };
