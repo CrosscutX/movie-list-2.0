@@ -11,6 +11,7 @@ export default function Movie(props) {
           e.stopPropagation();
           props.setSelectedMovie(props.movie);
           props.setDisplayType("info");
+          props.setDisplaySelectMovieList(false);
           if (props.showInfo === true) {
             props.setShowInfo(false);
           } else {

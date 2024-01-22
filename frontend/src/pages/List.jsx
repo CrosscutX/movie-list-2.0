@@ -107,6 +107,7 @@ export default function List(props) {
           movieListIDS={movieListIDS}
           filteredMovieList={filteredMovieList}
           setDisplayType={props.setDisplayType}
+          setDisplaySelectMovieList={setDisplaySelectMovieList}
         />
       </div>
     </div>

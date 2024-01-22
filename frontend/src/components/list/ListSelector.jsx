@@ -36,7 +36,6 @@ export default function ListSelector(props) {
     const fetchUserList = async () => {
       const response = await fetch(`/api/movies/${props.selectedUserList}`);
       const listInfo = await response.json();
-      console.log(listInfo);
     };
     fetchUserList();
   }, [props.selectedUserList]);
