@@ -6,6 +6,8 @@ import "../styles/Search.css";
 export default function SearchResult(props) {
   const [movieTitle, setMovieTitle] = useState();
   const [extendedSearchList, setExtendedSearchList] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingText, setLoadingText] = useState("Loading");
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -62,10 +64,26 @@ export default function SearchResult(props) {
           );
         });
         setExtendedSearchList(displayMovies);
+        // Sets the loading to false to get rid of the loading text
+        setIsLoading(false);
       }
     };
     fetchMoviesList();
   }, [movieTitle, props.showInfo]);
+  // Gives the basic loading effect as movies are being added.
+  if (isLoading) {
+    setTimeout(() => {
+      if (loadingText === "Loading") {
+        setLoadingText("Loading.");
+      } else if (loadingText === "Loading.") {
+        setLoadingText("Loading..");
+      } else if (loadingText === "Loading..") {
+        setLoadingText("Loading...");
+      } else if (loadingText === "Loading...") {
+        setLoadingText("Loading");
+      }
+    }, 500);
+  }
 
   return (
     <div className="search-result">
@@ -81,7 +99,12 @@ export default function SearchResult(props) {
         )}
         <h1>Showing Results for: {movieTitle}</h1>
       </div>
-      <div className="search-result-container">{extendedSearchList}</div>
+      {isLoading === true && (
+        <div className="loading-container">{loadingText}</div>
+      )}
+      {isLoading === false && (
+        <div className="search-result-container">{extendedSearchList}</div>
+      )}
     </div>
   );
 }

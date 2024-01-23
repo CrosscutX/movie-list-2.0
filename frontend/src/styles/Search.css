@@ -8,6 +8,12 @@
   margin-bottom: 30px;
 }
 
+.loading-container {
+  font-size: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
 .search-result-container {
   display: flex;
   flex-direction: column;
