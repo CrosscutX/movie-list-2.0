@@ -88,6 +88,7 @@ export default function List(props) {
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
+          selectedUserList={selectedUserList}
           displayType={props.displayType}
           userLists={userLists}
           displaySelectMovieList={displaySelectMovieList}

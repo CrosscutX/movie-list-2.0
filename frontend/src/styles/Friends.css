@@ -105,6 +105,10 @@
   justify-content: space-between;
 }
 
+.user-friend-card--name {
+  cursor: pointer;
+}
+
 .friend-card > button {
   background-color: rgb(5, 177, 5);
   border: none;

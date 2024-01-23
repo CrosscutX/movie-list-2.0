@@ -38,7 +38,6 @@ export default function ListSelector(props) {
 
   // Updates the shared value of the edit panel whenever there is a change in selected list.
   useEffect(() => {
-    console.log(props.selectedUserList);
     const fetchUserList = async () => {
       const response = await fetch(`/api/movies/${props.selectedUserList}`, {
         headers: {
@@ -71,7 +70,10 @@ export default function ListSelector(props) {
 
     await fetch(`/api/lists/${id}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${props.user.token}`,
+      },
       body: JSON.stringify({
         listName: listname,
       }),
@@ -86,6 +88,7 @@ export default function ListSelector(props) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
         },
         body: JSON.stringify({
           listID: props.selectedUserList,
@@ -106,6 +109,7 @@ export default function ListSelector(props) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
         },
         body: JSON.stringify({
           listID: props.selectedUserList,
@@ -130,6 +134,7 @@ export default function ListSelector(props) {
         {
           method: "PATCH",
           headers: {
+            Authorization: `Bearer ${props.user.token}`,
             "Content-Type": "application/json",
           },
         }
@@ -138,7 +143,7 @@ export default function ListSelector(props) {
       console.log(sharedValue);
       setIsSharedChecked(sharedValue);
     } catch (error) {
-      console.error("Error patching data:", error);
+      console.error("Error patching public list:", error);
     }
   }
 

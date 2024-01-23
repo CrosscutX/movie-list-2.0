@@ -3,6 +3,7 @@ import SelectMovieList from "./list/SelectMovieList";
 
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
+  const [watchedValue, setWatchedValue] = useState(false);
 
   function clearInfo(e) {
     e.stopPropagation();
@@ -27,6 +28,7 @@ export default function movieInfo(props) {
     month: "long",
     day: "numeric",
   });
+  // Sets the all list for sure
   useEffect(() => {
     async function fetchAllList() {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -40,6 +42,49 @@ export default function movieInfo(props) {
     }
     fetchAllList();
   }, []);
+  // Setting the initial watched value so that the ui properly shows.
+  useEffect(() => {
+    async function getWatched() {
+      try {
+        const response = await fetch(
+          `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        );
+        const watchedBoolean = await response.json();
+        console.log(watchedBoolean);
+        setWatchedValue(watchedBoolean);
+      } catch (error) {
+        console.error("Error patching watched:", error);
+      }
+    }
+    getWatched();
+  }, []);
+
+  async function changeWatched() {
+    try {
+      const response = await fetch(
+        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const watchedBoolean = await response.json();
+      setWatchedValue(watchedBoolean.value);
+    } catch (error) {
+      console.error("Error patching watched:", error);
+    }
+  }
+  console.log(watchedValue);
   return (
     <div className="movie-info-component">
       <div className="movie-info">
@@ -105,7 +150,12 @@ export default function movieInfo(props) {
             </button>
             <div className="checkbox-container">
               <label htmlFor="info-watched">Watched</label>
-              <input type="checkbox" id="info-watched" />
+              <input
+                type="checkbox"
+                id="info-watched"
+                onChange={changeWatched}
+                checked={watchedValue}
+              />
             </div>
           </div>
         )}
