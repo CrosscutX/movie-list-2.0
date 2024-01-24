@@ -126,7 +126,6 @@ exports.getWatched = asyncHandler(async (req, res, next) => {
       returnBoolean = list.movies[i].watched;
     }
   }
-  console.log(returnBoolean);
   res.status(200).json(returnBoolean);
 });
 
