@@ -8,7 +8,6 @@ export default function ListFilter(props) {
   const [genre, setGenre] = useState("Genre...");
   const [watched, setWatched] = useState("Watched...");
   const [rating, setRating] = useState("Rating...");
-
   // Uses the list of movie ids to get more info and store all the movie info into
   // an array at listOfMovies
   useEffect(() => {
