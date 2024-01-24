@@ -98,6 +98,7 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteMovie = asyncHandler(async (req, res, next) => {
+  const { listID, movieID } = req.params;
   //Searches for list that matches listID
   const list = await List.findById(listID);
   //Searches list to see if movie exists in movie array
