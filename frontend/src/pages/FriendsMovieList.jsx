@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FriendListSelector from "../components/friends/FriendListSelector";
 import FriendListFilter from "../components/friends/FriendListFilter";
 import FriendListMovies from "../components/friends/FriendListMovies";
@@ -13,6 +13,38 @@ export default function FriendsMovieList(props) {
   const [movieListIDS, setMovieListIDS] = useState([]);
   const [filteredMovieList, setFilteredMovieList] = useState("");
   const { name, id } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkFriendStatus = async () => {
+      let isFriends = false;
+
+      const response = await fetch(`/api/users/${id}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("User fetch failed");
+      }
+
+      const data = await response.json();
+
+      for (const friend of data.friends) {
+        if (friend._id == props.user.id) {
+          if (friend.accepted == true) {
+            isFriends = true;
+          }
+        }
+      }
+      if (!isFriends) {
+        navigate("/friends");
+      }
+    };
+
+    checkFriendStatus();
+  }, []);
 
   //handles clicking off of the movie-info panel
   useEffect(() => {

@@ -37,14 +37,13 @@ export default function UserFriendCard(props) {
     }
   });
 
+  function checkIsFriend() {
+    navigate(`/friends/${props.friendName}/${props.id}`);
+  }
+
   return (
     <div className="user-friend-card">
-      <span
-        onClick={() => {
-          navigate(`/friends/${props.friendName}/${props.id}`);
-        }}
-        className="user-friend-card--name"
-      >
+      <span onClick={checkIsFriend} className="user-friend-card--name">
         {props.friendName}
       </span>
       {accepted ? null : !sentFromUser ? (
