@@ -233,6 +233,11 @@
   height: 300px;
   width: 200px;
   margin-bottom: 50px;
+  transition: all 0.3s ease;
+}
+
+.movie:hover {
+  transform: scale(1.2);
 }
 
 .movie img {
