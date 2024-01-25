@@ -57,7 +57,6 @@ export default function movieInfo(props) {
           }
         );
         const watchedBoolean = await response.json();
-        console.log(watchedBoolean);
         setWatchedValue(watchedBoolean);
       } catch (error) {
         console.error("Error patching watched:", error);
@@ -84,7 +83,7 @@ export default function movieInfo(props) {
       console.error("Error patching watched:", error);
     }
   }
-  console.log(watchedValue);
+
   return (
     <div className="movie-info-component">
       <div className="movie-info">
@@ -96,6 +95,9 @@ export default function movieInfo(props) {
             setDisplaySelectMovieList={props.setDisplaySelectMovieList}
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
+            selectedUserList={props.selectedUserList}
+            filteredMovieList={props.filteredMovieList}
+            setFilteredMovieList={props.setFilteredMovieList}
             user={props.user}
           />
         )}

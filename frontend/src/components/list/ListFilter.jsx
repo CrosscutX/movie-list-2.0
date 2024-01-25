@@ -29,7 +29,6 @@ export default function ListFilter(props) {
           })
         );
         setListOfMovies(movies);
-        props.setFilteredMovieList(movies);
       }
     };
     fetchMoviesData();

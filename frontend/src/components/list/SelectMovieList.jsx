@@ -19,6 +19,9 @@ export default function SelectMovieList(props) {
                 list={listInfo}
                 selectedMovie={props.selectedMovie}
                 user={props.user}
+                selectedUserList={props.selectedUserList}
+                filteredMovieList={props.filteredMovieList}
+                setFilteredMovieList={props.setFilteredMovieList}
               />
             );
           })

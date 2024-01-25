@@ -79,9 +79,49 @@ export default function List(props) {
       }
     };
     fetchMoviesList();
-  }, [selectedUserList, displaySelectMovieList]);
+  }, [selectedUserList]);
+
+  useEffect(() => {}, [displaySelectMovieList]);
+
+  useEffect(() => {
+    const fetchMoviesList = async () => {
+      const response = await fetch(`/api/movies/${selectedUserList}`, {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      });
+      let movieIds = await response.json();
+
+      // OH LAWD HE'S COOKIN
+      const fetchMoviesData = async () => {
+        if (movieIds) {
+          const movies = await Promise.all(
+            movieIds.movies.map(async (movie) => {
+              const response = await fetch(`/api/movies/info/${movie.movie}`, {
+                headers: {
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              });
+              const movieInfo = await response.json();
+              // Add the watched attribute to the movieInfo from the list specific watched field
+              movieInfo.watched = movie.watched;
+              // Add the list id to the movie info so it's easier to reference later
+              movieInfo.listID = movie.movie;
+              return movieInfo;
+            })
+          );
+          setFilteredMovieList(movies);
+        }
+      };
+      fetchMoviesData();
+    };
+    if (selectedUserList) {
+      fetchMoviesList();
+    }
+  }, [selectedUserList]);
 
   console.log(filteredMovieList);
+  console.log(props.selectedMovie);
   return (
     <div className="list">
       {props.showInfo && (
@@ -90,6 +130,8 @@ export default function List(props) {
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
           selectedUserList={selectedUserList}
+          filteredMovieList={filteredMovieList}
+          setFilteredMovieList={setFilteredMovieList}
           displayType={props.displayType}
           userLists={userLists}
           displaySelectMovieList={displaySelectMovieList}

@@ -18,6 +18,28 @@ export default function SelectMovieListItem(props) {
     }
   }, []);
 
+  console.log(props.filteredMovieList);
+  console.log(props.selectedMovie);
+
+  function addMovieUI() {
+    if (props.list._id == props.selectedUserList) {
+      props.setFilteredMovieList((prevFilteredMovieList) => [
+        ...prevFilteredMovieList,
+        props.selectedMovie,
+      ]);
+    }
+  }
+
+  function removeMovieUI() {
+    if (props.list._id == props.selectedUserList) {
+      props.setFilteredMovieList(
+        props.filteredMovieList.filter(
+          (movie) => movie._id !== props.selectedMovie._id
+        )
+      );
+    }
+  }
+
   async function addMovieToList(checked) {
     const response = await fetch(`/api/lists/${props.list._id}/movies`, {
       method: "POST",
@@ -33,23 +55,29 @@ export default function SelectMovieListItem(props) {
     // Handles the ui
     if (movieResults.msg === "Movie added to list") {
       setChecked(checked);
+      addMovieUI();
     }
   }
   async function deleteFromList(checked) {
-    const response = await fetch(
-      `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${props.user.token}`,
-        },
+    try {
+      const response = await fetch(
+        `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const movieResults = await response.json();
+      // Handles the ui
+      if (movieResults.msg === "Movie was deleted from users list") {
+        setChecked(checked);
+        removeMovieUI();
       }
-    );
-    const movieResults = await response.json();
-    // Handles the ui
-    if (movieResults.msg === "Movie was deleted from users list") {
-      setChecked(checked);
+    } catch (error) {
+      console.log(error);
     }
   }
 
