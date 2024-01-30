@@ -70,9 +70,13 @@ export default function ListFilter(props) {
     if (rating === "Rating..." || rating === "none") {
       return list;
     } else if (rating === "best") {
-      list.sort((a, b) => b.score - a.score);
+      list.sort((a, b) => {
+        return Number(b.score.slice(0, -1)) - Number(a.score.slice(0, -1));
+      });
     } else if (rating === "worst") {
-      list.sort((a, b) => a.score - b.score);
+      list.sort((a, b) => {
+        return Number(a.score.slice(0, -1)) - Number(b.score.slice(0, -1));
+      });
     }
   }
 

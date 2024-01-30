@@ -4,7 +4,7 @@ import SelectMovieList from "./list/SelectMovieList";
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
   const [watchedValue, setWatchedValue] = useState(false);
-  console.log(watchedValue);
+
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
@@ -120,7 +120,7 @@ export default function movieInfo(props) {
         console.error("Error patching watched:", error);
       }
     }
-    console.log(props.displayType);
+    // We only need to get the watched value if we are on the list page
     if (props.displayType === "info") {
       getWatched();
     }
