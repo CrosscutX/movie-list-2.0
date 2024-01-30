@@ -6,6 +6,7 @@ export default function movieInfo(props) {
   const [watchedValue, setWatchedValue] = useState(false);
 
   function clearInfo(e) {
+    console.log(e);
     e.stopPropagation();
     props.setShowInfo(false);
     if (props.setDisplaySelectMovieList) {
@@ -146,6 +147,30 @@ export default function movieInfo(props) {
     }
   }
 
+  async function deleteMovie() {
+    try {
+      const response = await fetch(
+        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const responseInfo = await response.json();
+      console.log(responseInfo);
+      props.setFilteredMovieList(
+        props.filteredMovieList.filter(
+          (movie) => props.selectedMovie._id !== movie._id
+        )
+      );
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  }
+
   return (
     <div className="movie-info-component">
       <div className="movie-info">
@@ -200,7 +225,14 @@ export default function movieInfo(props) {
         </div>
         {props.displayType === "info" && (
           <div className="info-button-container">
-            <button type="button" className="delete-button">
+            <button
+              type="button"
+              className="delete-button"
+              onClick={(e) => {
+                deleteMovie();
+                clearInfo(e);
+              }}
+            >
               Delete
             </button>
             <button
