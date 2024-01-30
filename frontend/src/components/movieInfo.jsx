@@ -4,7 +4,7 @@ import SelectMovieList from "./list/SelectMovieList";
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
   const [watchedValue, setWatchedValue] = useState(false);
-
+  console.log(watchedValue);
   function clearInfo(e) {
     e.stopPropagation();
     props.setShowInfo(false);
@@ -28,6 +28,64 @@ export default function movieInfo(props) {
     month: "long",
     day: "numeric",
   });
+
+  function updateWatchedUI(watchedBoolean) {
+    // Updates watched values for filtering purposes
+    const updatedMovieList = props.listOfMovies.map((movie) => {
+      if (props.selectedMovie._id === movie._id) {
+        return { ...movie, watched: !movie.watched };
+      }
+      return movie;
+    });
+
+    props.setListOfMovies(updatedMovieList);
+
+    // Setting the updated list for UI adjustments.
+    let updatedFilteredMovieList = props.filteredMovieList;
+    let isInList = false;
+    // Checks to see if the movie is in the list
+    for (let i = 0; i < props.filteredMovieList.length; i++) {
+      if (props.filteredMovieList[i]._id === props.selectedMovie._id) {
+        isInList = true;
+      }
+    }
+
+    // Removes movie from filtered list if user deselects watched checkbox, and watched filter is toggled.
+    if (watchedBoolean === false && props.watched === "watched") {
+      updatedFilteredMovieList = props.filteredMovieList.filter(
+        (movie) => props.selectedMovie._id !== movie._id
+      );
+      props.setFilteredMovieList(updatedFilteredMovieList);
+      // Opposte of the top, if they turn the checkbox on,and the watched filter is set to notwatched
+      // then we remove the movie from the filtered list.
+    } else if (watchedBoolean === true && props.watched === "notWatched") {
+      updatedFilteredMovieList = props.filteredMovieList.filter(
+        (movie) => props.selectedMovie._id !== movie._id
+      );
+      props.setFilteredMovieList(updatedFilteredMovieList);
+    }
+    // Code that re-adds movies to filtered lists in the case that users click the watched checkbox twice.
+    console.log(props.watched);
+    if (
+      watchedBoolean === true &&
+      props.watched === "watched" &&
+      isInList === false
+    ) {
+      props.setFilteredMovieList((prevFilteredMovieList) => [
+        ...prevFilteredMovieList,
+        props.selectedMovie,
+      ]);
+    } else if (
+      watchedBoolean === false &&
+      props.watched === "notWatched" &&
+      isInList === false
+    ) {
+      props.setFilteredMovieList((prevFilteredMovieList) => [
+        ...prevFilteredMovieList,
+        props.selectedMovie,
+      ]);
+    }
+  }
   // Sets the all list for sure
   useEffect(() => {
     async function fetchAllList() {
@@ -62,7 +120,10 @@ export default function movieInfo(props) {
         console.error("Error patching watched:", error);
       }
     }
-    getWatched();
+    console.log(props.displayType);
+    if (props.displayType === "info") {
+      getWatched();
+    }
   }, []);
 
   async function changeWatched() {
@@ -79,6 +140,7 @@ export default function movieInfo(props) {
       );
       const watchedBoolean = await response.json();
       setWatchedValue(watchedBoolean.value);
+      updateWatchedUI(watchedBoolean.value);
     } catch (error) {
       console.error("Error patching watched:", error);
     }

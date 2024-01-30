@@ -10,10 +10,13 @@ export default function List(props) {
   const [selectedOption, setSelectedOption] = useState("none");
   const [userLists, setUserLists] = useState([]);
   const [selectedUserList, setSelectedUserList] = useState("");
+  const [listOfMovies, setListOfMovies] = useState([]);
   const [filteredMovieList, setFilteredMovieList] = useState("");
   const [movieListIDS, setMovieListIDS] = useState([]);
   // State for the screen that allows you to add movies to different lists
   const [displaySelectMovieList, setDisplaySelectMovieList] = useState(false);
+  // Used to track the state of watched button in movieList, also aids in updating the UI.
+  const [watched, setWatched] = useState("Watched...");
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -81,8 +84,6 @@ export default function List(props) {
     fetchMoviesList();
   }, [selectedUserList]);
 
-  useEffect(() => {}, [displaySelectMovieList]);
-
   useEffect(() => {
     const fetchMoviesList = async () => {
       const response = await fetch(`/api/movies/${selectedUserList}`, {
@@ -120,8 +121,6 @@ export default function List(props) {
     }
   }, [selectedUserList]);
 
-  console.log(filteredMovieList);
-  console.log(props.selectedMovie);
   return (
     <div className="list">
       {props.showInfo && (
@@ -130,12 +129,16 @@ export default function List(props) {
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
           selectedUserList={selectedUserList}
+          listOfMovies={listOfMovies}
+          setListOfMovies={setListOfMovies}
           filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
           displayType={props.displayType}
           userLists={userLists}
           displaySelectMovieList={displaySelectMovieList}
           setDisplaySelectMovieList={setDisplaySelectMovieList}
+          watched={watched}
+          setWatched={setWatched}
           user={props.user}
         />
       )}
@@ -151,9 +154,13 @@ export default function List(props) {
         />
         <ListFilter
           movieListIDS={movieListIDS}
+          listOfMovies={listOfMovies}
+          setListOfMovies={setListOfMovies}
           filteredMovieList={filteredMovieList}
           setFilteredMovieList={setFilteredMovieList}
           displaySelectMovieList={displaySelectMovieList}
+          watched={watched}
+          setWatched={setWatched}
           user={props.user}
         />
         <ListMovies

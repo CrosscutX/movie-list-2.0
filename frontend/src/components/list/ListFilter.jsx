@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import "../../styles/List.css";
 
 export default function ListFilter(props) {
-  const [listOfMovies, setListOfMovies] = useState([]);
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
   const [genre, setGenre] = useState("Genre...");
-  const [watched, setWatched] = useState("Watched...");
   const [rating, setRating] = useState("Rating...");
   // Uses the list of movie ids to get more info and store all the movie info into
   // an array at listOfMovies
@@ -28,7 +26,7 @@ export default function ListFilter(props) {
             return movieInfo;
           })
         );
-        setListOfMovies(movies);
+        props.setListOfMovies(movies);
       }
     };
     fetchMoviesData();
@@ -59,9 +57,9 @@ export default function ListFilter(props) {
   }
 
   function checkWatched(movie) {
-    if (watched === "Watched..." || watched === "All") {
+    if (props.watched === "Watched..." || props.watched === "All") {
       return movie;
-    } else if (watched === "notWatched") {
+    } else if (props.watched === "notWatched") {
       return movie.watched === false;
     } else {
       return movie.watched === true;
@@ -86,7 +84,7 @@ export default function ListFilter(props) {
   }
 
   function filterClick() {
-    let filteredList = listOfMovies
+    let filteredList = props.listOfMovies
       .filter((movie) => {
         return checkTitle(movie);
       })
@@ -104,8 +102,8 @@ export default function ListFilter(props) {
   }
 
   function randomClick() {
-    if (listOfMovies.length !== 0) {
-      let filteredList = listOfMovies;
+    if (props.listOfMovies.length !== 0) {
+      let filteredList = props.listOfMovies;
       filteredList = rollRandom(filteredList);
       console.log(filteredList);
       if (filteredList[0].watched === true) {
@@ -119,9 +117,9 @@ export default function ListFilter(props) {
     setTitle("");
     setDirector("");
     setGenre("Genre...");
-    setWatched("Watched...");
+    props.setWatched("Watched...");
     setRating("Rating...");
-    props.setFilteredMovieList(listOfMovies);
+    props.setFilteredMovieList(props.listOfMovies);
   }
 
   return (
@@ -178,9 +176,9 @@ export default function ListFilter(props) {
             name="watched"
             id="watched"
             className="list-button list-filter-button"
-            value={watched}
+            value={props.watched}
             onChange={(e) => {
-              setWatched(e.target.value);
+              props.setWatched(e.target.value);
             }}
           >
             <option disabled>Watched...</option>
