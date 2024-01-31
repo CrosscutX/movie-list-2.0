@@ -26,6 +26,13 @@
   margin-bottom: 20px;
 }
 
+.friends,
+.list-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .default-container {
   width: 100%;
   display: flex;
@@ -90,6 +97,8 @@
 }
 
 .select-container {
+  display: flex;
+  justify-content: center;
   width: 100%;
 }
 

@@ -35,6 +35,12 @@ router.get("/lists/:id", requireAuth, listController.displayUserLists);
 
 // Post new list
 router.post("/lists/:id", requireAuth, listController.createUserList);
+// Get a friends list
+router.post(
+  "/lists/:listID/friends/:friendsID",
+  requireAuth,
+  listController.addListFromFriend
+);
 // delete user list
 router.delete("/lists/:id", requireAuth, listController.deleteUserList);
 // update user list

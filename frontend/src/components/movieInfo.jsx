@@ -6,7 +6,6 @@ export default function movieInfo(props) {
   const [watchedValue, setWatchedValue] = useState(false);
 
   function clearInfo(e) {
-    console.log(e);
     e.stopPropagation();
     props.setShowInfo(false);
     if (props.setDisplaySelectMovieList) {
@@ -20,15 +19,21 @@ export default function movieInfo(props) {
   function displayScore() {
     if (props.selectedMovie.score === undefined) {
       return "N/A";
+    } else if (props.selectedMovie.score === "N/A") {
+      return "N/A";
     }
     return props.selectedMovie.score.slice(0, -1);
   }
-
-  const formattedDate = date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  let formattedDate = "";
+  if (dateString === "N/A") {
+    formattedDate = "N/A";
+  } else {
+    formattedDate = date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
 
   function updateWatchedUI(watchedBoolean) {
     // Updates watched values for filtering purposes
