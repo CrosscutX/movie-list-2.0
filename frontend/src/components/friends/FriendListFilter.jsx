@@ -24,8 +24,14 @@ export default function FriendListFilter(props) {
             const movieInfo = await response.json();
             // Add the watched attribute to the movieInfo from the list specific watched field
             movieInfo.watched = movie.watched;
-            // Remove the percentage after the score
-            movieInfo.score = movieInfo.score.slice(0, -1);
+
+            if (movieInfo.score === undefined) {
+              movieInfo.score = "N/A";
+            } else {
+              // Remove the percentage after the score
+              movieInfo.score = movieInfo.score.slice(0, -1);
+            }
+
             // Add the list id to the movie info so it's easier to reference later
             movieInfo.listID = movie.movie;
             return movieInfo;

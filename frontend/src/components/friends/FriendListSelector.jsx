@@ -71,17 +71,20 @@ export default function friendListSelector(props) {
 
   return (
     <div className="select-container">
-      <div className="select-list-row">
-        <select
-          name="list"
-          id="list"
-          className="list-button list-filter-button list-select"
-          defaultValue={selectedListTitle}
-          onChange={optionSelect}
-        >
-          <option disabled>Select List...</option>
-          {listOfLists}
-        </select>
+      <div className="friends list-selector-container">
+        <div className="select-list-row">
+          <select
+            name="list"
+            id="list"
+            className="list-button list-filter-button list-select"
+            defaultValue={selectedListTitle}
+            onChange={optionSelect}
+          >
+            <option disabled>Select List...</option>
+            {listOfLists}
+          </select>
+        </div>
+        {shared && <div className="list-button">Add To My List</div>}
       </div>
     </div>
   );

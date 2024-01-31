@@ -19,6 +19,8 @@ export default function movieInfo(props) {
   function displayScore() {
     if (props.selectedMovie.score === undefined) {
       return "N/A";
+    } else if (props.selectedMovie.score === "N/A") {
+      return "N/A";
     }
     return props.selectedMovie.score.slice(0, -1);
   }

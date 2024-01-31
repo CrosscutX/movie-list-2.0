@@ -48,6 +48,8 @@ exports.createUserList = asyncHandler(async (req, res, next) => {
   }
 });
 
+exports.addListFromFriend = asyncHandler(async (req, res, next) => {});
+
 exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { listID } = req.body;

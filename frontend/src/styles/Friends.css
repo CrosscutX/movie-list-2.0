@@ -117,3 +117,8 @@
   font-size: 1.1rem;
   text-align: center;
 }
+
+.friend-list--container > h1 {
+  display: flex;
+  justify-content: center;
+}
