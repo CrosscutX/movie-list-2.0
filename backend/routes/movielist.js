@@ -101,8 +101,8 @@ router.post(
   friendController.addFriend
 );
 // Delete friend
-router.delete(
-  "users/:id/friends/:friendId",
+router.patch(
+  "/users/:id/friends/:friendId/remove",
   requireAuth,
   friendController.deleteFriend
 );

@@ -69,7 +69,32 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
 });
 
 exports.deleteFriend = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Delete friend from friends list" });
+  const { id, friendId } = req.params;
+  let userID = req.user._id.toString();
+  const user = await User.findById(id);
+  const friend = await User.findById(friendId);
+
+  if (userID == id || userID == friendId) {
+    if (user && friend) {
+      user.friends = user.friends.filter((userFriend) => {
+        return userFriend._id.toString() != friend._id.toString();
+      });
+
+      friend.friends = friend.friends.filter((friendFriends) => {
+        return friendFriends._id.toString() != user._id.toString();
+      });
+
+      await user.save();
+      await friend.save();
+      res.status(200).json({ msg: "Friend successfully removed" });
+    } else {
+      res.status(400).json({
+        msg: "Friend removal error: Ids incorrect or one or more users not found",
+      });
+    }
+  } else {
+    res.status(400).json({ msg: "Unauthorized request or token" });
+  }
 });
 
 exports.acceptFriend = asyncHandler(async (req, res, next) => {

@@ -8,6 +8,19 @@ export default function UserFriendCard(props) {
   let sentFromUser = false;
   let accepted = false;
 
+  function deleteFriend() {
+    fetch(`/api/users/${props.user.id}/friends/${props.id}/remove`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${props.user.token}`,
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Friends removal failed");
+      }
+    });
+  }
+
   function handleClick() {
     fetch(`/api/users/${props.user.id}/friends/${props.id}`, {
       method: "PATCH",
@@ -37,14 +50,15 @@ export default function UserFriendCard(props) {
     }
   });
 
+  function checkIsFriend() {
+    if (accepted) {
+      navigate(`/friends/${props.friendName}/${props.id}`);
+    }
+  }
+
   return (
     <div className="user-friend-card">
-      <span
-        onClick={() => {
-          navigate(`/friends/${props.friendName}/${props.id}`);
-        }}
-        className="user-friend-card--name"
-      >
+      <span onClick={checkIsFriend} className="user-friend-card--name">
         {props.friendName}
       </span>
       {accepted ? null : !sentFromUser ? (
@@ -52,6 +66,9 @@ export default function UserFriendCard(props) {
       ) : (
         <span>Pending</span>
       )}
+      {accepted || sentFromUser ? (
+        <button onClick={deleteFriend}>Delete</button>
+      ) : null}
     </div>
   );
 }
