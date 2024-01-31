@@ -1,4 +1,5 @@
 const List = require("../models/list");
+const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 
@@ -64,10 +65,40 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
 
   if (isFriends == true) {
     const friendList = await List.findById(listID);
-    user.lists.push(friendList._id);
-    await user.save();
+    let userListArray = [];
+    for (userList of user.lists) {
+      userListArray.push(userList.toString());
+    }
 
-    res.status(200).json({ msg: "Friends list inherited" });
+    let userAllListArray = [];
+    let friendListMovieArray = [];
+
+    let userAllList = user.lists[0];
+    let actualUserAllList = await List.findById(userAllList);
+
+    for (movie of actualUserAllList.movies) {
+      userAllListArray.push(movie.movie.toString());
+    }
+
+    for (movie of friendList.movies) {
+      friendListMovieArray.push(movie.movie.toString());
+    }
+
+    for (movie of friendList.movies) {
+      if (!userAllListArray.includes(movie.movie.toString())) {
+        console.log(actualUserAllList);
+      }
+    }
+    // console.log(actualUserAllList.movies);
+    res.status(200).json({ msg: "MEME" });
+
+    // if (!userListArray.includes(friendList._id.toString())) {
+    //   user.lists.push(friendList._id);
+    //   await user.save();
+
+    // } else {
+    //   res.status(400).json({ msg: "Cannot add duplicate lists " });
+    // }
   } else {
     res.status(400).json({ msg: "Must be accepted friends to inherit list" });
   }
