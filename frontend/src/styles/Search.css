@@ -8,6 +8,12 @@
   margin-bottom: 30px;
 }
 
+.loading-container {
+  font-size: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
 .search-result-container {
   display: flex;
   flex-direction: column;
@@ -28,8 +34,13 @@
   cursor: pointer;
 }
 
+.search-movie:hover {
+  background-color: #ca3131;
+}
+
 .search-movie img {
   height: 100%;
+  width: 100px;
   margin-right: 20px;
 }
 

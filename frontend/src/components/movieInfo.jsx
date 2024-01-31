@@ -3,8 +3,10 @@ import SelectMovieList from "./list/SelectMovieList";
 
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
+  const [watchedValue, setWatchedValue] = useState(false);
 
   function clearInfo(e) {
+    console.log(e);
     e.stopPropagation();
     props.setShowInfo(false);
     if (props.setDisplaySelectMovieList) {
@@ -27,6 +29,65 @@ export default function movieInfo(props) {
     month: "long",
     day: "numeric",
   });
+
+  function updateWatchedUI(watchedBoolean) {
+    // Updates watched values for filtering purposes
+    const updatedMovieList = props.listOfMovies.map((movie) => {
+      if (props.selectedMovie._id === movie._id) {
+        return { ...movie, watched: !movie.watched };
+      }
+      return movie;
+    });
+
+    props.setListOfMovies(updatedMovieList);
+
+    // Setting the updated list for UI adjustments.
+    let updatedFilteredMovieList = props.filteredMovieList;
+    let isInList = false;
+    // Checks to see if the movie is in the list
+    for (let i = 0; i < props.filteredMovieList.length; i++) {
+      if (props.filteredMovieList[i]._id === props.selectedMovie._id) {
+        isInList = true;
+      }
+    }
+
+    // Removes movie from filtered list if user deselects watched checkbox, and watched filter is toggled.
+    if (watchedBoolean === false && props.watched === "watched") {
+      updatedFilteredMovieList = props.filteredMovieList.filter(
+        (movie) => props.selectedMovie._id !== movie._id
+      );
+      props.setFilteredMovieList(updatedFilteredMovieList);
+      // Opposte of the top, if they turn the checkbox on,and the watched filter is set to notwatched
+      // then we remove the movie from the filtered list.
+    } else if (watchedBoolean === true && props.watched === "notWatched") {
+      updatedFilteredMovieList = props.filteredMovieList.filter(
+        (movie) => props.selectedMovie._id !== movie._id
+      );
+      props.setFilteredMovieList(updatedFilteredMovieList);
+    }
+    // Code that re-adds movies to filtered lists in the case that users click the watched checkbox twice.
+    console.log(props.watched);
+    if (
+      watchedBoolean === true &&
+      props.watched === "watched" &&
+      isInList === false
+    ) {
+      props.setFilteredMovieList((prevFilteredMovieList) => [
+        ...prevFilteredMovieList,
+        props.selectedMovie,
+      ]);
+    } else if (
+      watchedBoolean === false &&
+      props.watched === "notWatched" &&
+      isInList === false
+    ) {
+      props.setFilteredMovieList((prevFilteredMovieList) => [
+        ...prevFilteredMovieList,
+        props.selectedMovie,
+      ]);
+    }
+  }
+  // Sets the all list for sure
   useEffect(() => {
     async function fetchAllList() {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -40,6 +101,76 @@ export default function movieInfo(props) {
     }
     fetchAllList();
   }, []);
+  // Setting the initial watched value so that the ui properly shows.
+  useEffect(() => {
+    async function getWatched() {
+      try {
+        const response = await fetch(
+          `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        );
+        const watchedBoolean = await response.json();
+        setWatchedValue(watchedBoolean);
+      } catch (error) {
+        console.error("Error patching watched:", error);
+      }
+    }
+    // We only need to get the watched value if we are on the list page
+    if (props.displayType === "info") {
+      getWatched();
+    }
+  }, []);
+
+  async function changeWatched() {
+    try {
+      const response = await fetch(
+        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const watchedBoolean = await response.json();
+      setWatchedValue(watchedBoolean.value);
+      updateWatchedUI(watchedBoolean.value);
+    } catch (error) {
+      console.error("Error patching watched:", error);
+    }
+  }
+
+  async function deleteMovie() {
+    try {
+      const response = await fetch(
+        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const responseInfo = await response.json();
+      console.log(responseInfo);
+      props.setFilteredMovieList(
+        props.filteredMovieList.filter(
+          (movie) => props.selectedMovie._id !== movie._id
+        )
+      );
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  }
+
   return (
     <div className="movie-info-component">
       <div className="movie-info">
@@ -51,6 +182,9 @@ export default function movieInfo(props) {
             setDisplaySelectMovieList={props.setDisplaySelectMovieList}
             setShowInfo={props.setShowInfo}
             selectedMovie={props.selectedMovie}
+            selectedUserList={props.selectedUserList}
+            filteredMovieList={props.filteredMovieList}
+            setFilteredMovieList={props.setFilteredMovieList}
             user={props.user}
           />
         )}
@@ -91,7 +225,14 @@ export default function movieInfo(props) {
         </div>
         {props.displayType === "info" && (
           <div className="info-button-container">
-            <button type="button" className="delete-button">
+            <button
+              type="button"
+              className="delete-button"
+              onClick={(e) => {
+                deleteMovie();
+                clearInfo(e);
+              }}
+            >
               Delete
             </button>
             <button
@@ -105,7 +246,12 @@ export default function movieInfo(props) {
             </button>
             <div className="checkbox-container">
               <label htmlFor="info-watched">Watched</label>
-              <input type="checkbox" id="info-watched" />
+              <input
+                type="checkbox"
+                id="info-watched"
+                onChange={changeWatched}
+                checked={watchedValue}
+              />
             </div>
           </div>
         )}

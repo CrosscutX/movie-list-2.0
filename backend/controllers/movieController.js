@@ -115,6 +115,35 @@ exports.deleteMovie = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.updateMovie = asyncHandler(async (req, res, next) => {
-  res.json({ msg: "Update Movie In List" });
+exports.getWatched = asyncHandler(async (req, res, next) => {
+  const { listID, movieID } = req.params;
+  let returnBoolean = false;
+  const list = await List.findById(listID);
+  for (let i = 0; i < list.movies.length; i++) {
+    let listMovieID = String(list.movies[i].movie);
+
+    if (listMovieID === movieID) {
+      returnBoolean = list.movies[i].watched;
+    }
+  }
+  res.status(200).json(returnBoolean);
+});
+
+exports.updateWatched = asyncHandler(async (req, res, next) => {
+  const { listID, movieID } = req.params;
+
+  const list = await List.findById(listID);
+  for (let i = 0; i < list.movies.length; i++) {
+    // Set the objectID value of the movie to a string so we can compare it with the front end movieID
+    let listMovieID = String(list.movies[i].movie);
+    if (listMovieID == movieID) {
+      list.movies[i].watched = !list.movies[i].watched;
+      await list.save();
+      console.log(list.movies[i].watched);
+      res.status(200).json({
+        msg: "Movie watched value was updated",
+        value: list.movies[i].watched,
+      });
+    }
+  }
 });

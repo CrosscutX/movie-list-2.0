@@ -233,6 +233,25 @@
   height: 300px;
   width: 200px;
   margin-bottom: 50px;
+  transition: all 0.3s ease;
+}
+
+.movie:hover {
+  transform: scale(1.2);
+}
+
+.movie-no-hover {
+  height: 300px;
+  width: 200px;
+  margin-bottom: 50px;
+  transform: scale(1);
+  transition: none;
+  z-index: -1;
+}
+
+.movie-no-hover img {
+  height: 100%;
+  width: 100%;
 }
 
 .movie img {

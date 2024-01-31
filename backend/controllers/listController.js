@@ -52,8 +52,6 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { listID } = req.body;
 
-  console.log(id);
-  console.log(listID);
   const list = await List.findById(listID);
 
   const user = await User.findById(id);
@@ -100,15 +98,12 @@ exports.updateUserListShared = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   const userList = await List.findById(id);
-  console.log(userList);
 
   if (userList.public === false) {
     userList.public = true;
   } else {
     userList.public = false;
   }
-
-  console.log(userList);
 
   await userList.save();
 

@@ -32,6 +32,7 @@ router.patch("/users/:id", requireAuth, userController.updateUser);
 router.get("/lists", requireAuth, listController.getAllLists);
 // Get user's lists
 router.get("/lists/:id", requireAuth, listController.displayUserLists);
+
 // Post new list
 router.post("/lists/:id", requireAuth, listController.createUserList);
 // delete user list
@@ -39,7 +40,11 @@ router.delete("/lists/:id", requireAuth, listController.deleteUserList);
 // update user list
 router.patch("/lists/:id", requireAuth, listController.updateUserList);
 
-router.patch("/lists/public/:id", listController.updateUserListShared);
+router.patch(
+  "/lists/public/:id",
+  requireAuth,
+  listController.updateUserListShared
+);
 
 ///MOVIE ROUTES ///
 
@@ -49,6 +54,12 @@ router.patch("/lists/public/:id", listController.updateUserListShared);
 router.get("/movies", requireAuth, movieController.getAllMovies);
 // Get specific movies to the designated list id
 router.get("/movies/:id", requireAuth, movieController.getList);
+// Get the watched value of a movie in a list
+router.get(
+  "/lists/:listID/movies/:movieID",
+  requireAuth,
+  movieController.getWatched
+);
 // Get all of the info from a singular movie
 router.get("/movies/info/:id", requireAuth, movieController.getMovieInfo);
 // Post new movie to list
@@ -59,8 +70,12 @@ router.delete(
   requireAuth,
   movieController.deleteMovie
 );
-// update user list
-router.patch("/lists/:id/movies/:id", requireAuth, movieController.updateMovie);
+// update movie watched value in list
+router.patch(
+  "/lists/:listID/movies/:movieID",
+  requireAuth,
+  movieController.updateWatched
+);
 
 /// SEARCH ROUTES ///
 
