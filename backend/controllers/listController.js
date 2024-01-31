@@ -67,7 +67,7 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
     user.lists.push(friendList._id);
     await user.save();
 
-    res.status(200).json({ msg: "Friends list inherited" });
+    res.status(200).json({ msg: "Friends movie list inherited" });
   } else {
     res.status(400).json({ msg: "Must be accepted friends to inherit list" });
   }

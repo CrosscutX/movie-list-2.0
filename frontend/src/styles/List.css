@@ -97,9 +97,6 @@
 }
 
 .select-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
 }
 
 .select-list-row {
