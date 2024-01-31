@@ -10,7 +10,7 @@ exports.getAllLists = asyncHandler(async (req, res, next) => {
 exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
-
+  console.log("user" + user);
   if (user.lists.length > 0) {
     res.json(user.lists);
   }
@@ -74,7 +74,7 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
 
   await user.save();
 
-  res.status(200).json({ user });
+  res.status(200).json({ msg: "List deleted" });
 });
 
 exports.updateUserList = asyncHandler(async (req, res, next) => {

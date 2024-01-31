@@ -6,6 +6,7 @@ import "../../styles/List.css";
 export default function friendListSelector(props) {
   const [listOfLists, setListOfLists] = useState();
   const [selectedListTitle, setSelectedListTitle] = useState("Select List...");
+  const [shared, setShared] = useState(false);
 
   useEffect(() => {
     const fetchListData = async () => {
@@ -37,6 +38,27 @@ export default function friendListSelector(props) {
     fetchListData();
   }, [props.userLists]);
 
+  useEffect(() => {
+    async function getPublicValue() {
+      console.log(props.selectedUserList);
+      try {
+        const response = await fetch(`/api/movies/${props.selectedUserList}`, {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        });
+        let publicBoolean = await response.json();
+        publicBoolean = publicBoolean.public;
+
+        setShared(publicBoolean);
+      } catch (error) {
+        console.error("Error getting public value:", error);
+      }
+    }
+    if (props.selectedUserList) {
+      getPublicValue();
+    }
+  }, [props.selectedUserList]);
   //onChange function for list select
   function optionSelect(e) {
     const selectedIndex = e.target.selectedIndex;

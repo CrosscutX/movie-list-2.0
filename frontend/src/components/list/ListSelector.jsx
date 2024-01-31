@@ -81,8 +81,6 @@ export default function ListSelector(props) {
   }
   async function deleteList() {
     const userID = JSON.parse(localStorage.getItem("user")).id;
-    console.log(userID);
-    console.log(props.selectedUserList);
     try {
       const response = await fetch(`/api/lists/${userID}`, {
         method: "DELETE",
@@ -96,7 +94,6 @@ export default function ListSelector(props) {
       });
 
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error("Error deleting data:", error);
     }

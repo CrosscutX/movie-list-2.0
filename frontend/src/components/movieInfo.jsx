@@ -6,7 +6,6 @@ export default function movieInfo(props) {
   const [watchedValue, setWatchedValue] = useState(false);
 
   function clearInfo(e) {
-    console.log(e);
     e.stopPropagation();
     props.setShowInfo(false);
     if (props.setDisplaySelectMovieList) {
@@ -24,11 +23,15 @@ export default function movieInfo(props) {
     return props.selectedMovie.score.slice(0, -1);
   }
 
-  const formattedDate = date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  if (dateString === "N/A") {
+    formattedDate === "N/A";
+  } else {
+    const formattedDate = date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
 
   function updateWatchedUI(watchedBoolean) {
     // Updates watched values for filtering purposes
