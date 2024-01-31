@@ -48,7 +48,30 @@ exports.createUserList = asyncHandler(async (req, res, next) => {
   }
 });
 
-exports.addListFromFriend = asyncHandler(async (req, res, next) => {});
+exports.addListFromFriend = asyncHandler(async (req, res, next) => {
+  const { listID, friendsID } = req.params;
+  const userID = req.user._id.toString();
+  const user = await User.findById(userID);
+  const friendUser = await User.findById(friendsID);
+  let isFriends = false;
+
+  for (friend of friendUser.friends) {
+    if (friend._id.toString() == userID && friend.accepted == true) {
+      isFriends = true;
+      break;
+    }
+  }
+
+  if (isFriends == true) {
+    const friendList = await List.findById(listID);
+    user.lists.push(friendList._id);
+    await user.save();
+
+    res.status(200).json({ msg: "Friends list inherited" });
+  } else {
+    res.status(400).json({ msg: "Must be accepted friends to inherit list" });
+  }
+});
 
 exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
