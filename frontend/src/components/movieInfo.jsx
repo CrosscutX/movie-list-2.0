@@ -22,11 +22,11 @@ export default function movieInfo(props) {
     }
     return props.selectedMovie.score.slice(0, -1);
   }
-
+  let formattedDate = "";
   if (dateString === "N/A") {
-    formattedDate === "N/A";
+    formattedDate = "N/A";
   } else {
-    const formattedDate = date.toLocaleString("en-US", {
+    formattedDate = date.toLocaleString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
