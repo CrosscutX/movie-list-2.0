@@ -16,15 +16,19 @@ export default function HomeSearchBar(props) {
     if (props.searchText !== undefined) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {
-          const response = await fetch(`/api/search/${movie}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${props.user.token}`,
-            },
-          });
-          const movieResults = await response.json();
-          props.setSearchResults(movieResults);
+          try {
+            const response = await fetch(`/api/search/${movie}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            });
+            const movieResults = await response.json();
+            props.setSearchResults(movieResults);
+          } catch (error) {
+            console.log("Error fetching movies " + error);
+          }
         }
         callSearchApi(props.searchText);
       }, 1000);
