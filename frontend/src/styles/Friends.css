@@ -122,3 +122,9 @@
   display: flex;
   justify-content: center;
 }
+
+.friend-list--container > .select-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

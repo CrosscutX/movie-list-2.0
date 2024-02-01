@@ -2,6 +2,7 @@ const List = require("../models/list");
 const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
+const movie = require("../models/movie");
 
 exports.getAllLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({});
@@ -50,10 +51,10 @@ exports.createUserList = asyncHandler(async (req, res, next) => {
 });
 
 exports.addListFromFriend = asyncHandler(async (req, res, next) => {
-  const { listID, friendsID } = req.params;
-  const userID = req.user._id.toString();
-  const user = await User.findById(userID);
-  const friendUser = await User.findById(friendsID);
+  let { listID, friendsID } = req.params;
+  let userID = req.user._id.toString();
+  let user = await User.findById(userID);
+  let friendUser = await User.findById(friendsID);
   let isFriends = false;
 
   for (friend of friendUser.friends) {
@@ -64,7 +65,7 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
   }
 
   if (isFriends == true) {
-    const friendList = await List.findById(listID);
+    let friendList = await List.findById(listID);
     let userListArray = [];
     for (userList of user.lists) {
       userListArray.push(userList.toString());
@@ -76,29 +77,32 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
     let userAllList = user.lists[0];
     let actualUserAllList = await List.findById(userAllList);
 
-    for (movie of actualUserAllList.movies) {
-      userAllListArray.push(movie.movie.toString());
+    for (testMovie of actualUserAllList.movies) {
+      userAllListArray.push(testMovie.movie.toString());
     }
 
-    for (movie of friendList.movies) {
-      friendListMovieArray.push(movie.movie.toString());
+    for (friendMovie of friendList.movies) {
+      friendListMovieArray.push(friendMovie.movie.toString());
     }
 
-    for (movie of friendList.movies) {
-      if (!userAllListArray.includes(movie.movie.toString())) {
-        console.log(actualUserAllList);
+    if (!userListArray.includes(friendList._id.toString())) {
+      user.lists.push(friendList._id);
+      await user.save();
+
+      for (friendMovie of friendList.movies) {
+        if (!userAllListArray.includes(friendMovie.movie.toString())) {
+          actualUserAllList.movies.push({
+            movie: friendMovie.movie,
+            watched: friendMovie.watched,
+            imdbID: friendMovie.imdbID,
+          });
+        }
       }
+      await actualUserAllList.save();
+      res.status(200).json({ msg: "MEME" });
+    } else {
+      res.status(400).json({ msg: "Cannot add duplicate lists " });
     }
-    // console.log(actualUserAllList.movies);
-    res.status(200).json({ msg: "MEME" });
-
-    // if (!userListArray.includes(friendList._id.toString())) {
-    //   user.lists.push(friendList._id);
-    //   await user.save();
-
-    // } else {
-    //   res.status(400).json({ msg: "Cannot add duplicate lists " });
-    // }
   } else {
     res.status(400).json({ msg: "Must be accepted friends to inherit list" });
   }

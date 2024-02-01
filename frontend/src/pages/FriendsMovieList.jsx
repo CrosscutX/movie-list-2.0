@@ -12,6 +12,7 @@ export default function FriendsMovieList(props) {
   const [selectedUserList, setSelectedUserList] = useState("");
   const [movieListIDS, setMovieListIDS] = useState([]);
   const [filteredMovieList, setFilteredMovieList] = useState("");
+  const [friendID, setFriendID] = useState("");
   const { name, id } = useParams();
   const navigate = useNavigate();
 
@@ -96,6 +97,14 @@ export default function FriendsMovieList(props) {
     fetchMoviesList();
   }, [selectedUserList]);
 
+  useEffect(() => {
+    // Get the end of the url and set it to state
+    const pathSegments = window.location.pathname.split("/");
+    let lastSegment = pathSegments[pathSegments.length - 1];
+    lastSegment = decodeURIComponent(lastSegment);
+    setFriendID(lastSegment);
+  });
+
   return (
     <div className="friend-list">
       {props.showInfo && (
@@ -114,6 +123,7 @@ export default function FriendsMovieList(props) {
           userLists={userLists}
           setSelectedUserList={setSelectedUserList}
           selectedUserList={selectedUserList}
+          friendID={friendID}
           user={props.user}
         />
         <FriendListFilter

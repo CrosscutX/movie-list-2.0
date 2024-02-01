@@ -69,6 +69,24 @@ export default function friendListSelector(props) {
     setSelectedListTitle(selectedOptionText);
   }
 
+  async function addList() {
+    try {
+      const response = await fetch(
+        `/api/lists/${props.selectedUserList}/friends/${props.friendID}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
+      const result = await response.json();
+      console.log(result);
+    } catch (e) {
+      console.log("Couldn't add list" + e);
+    }
+  }
+
   return (
     <div className="select-container">
       <div className="friends list-selector-container">
@@ -84,7 +102,11 @@ export default function friendListSelector(props) {
             {listOfLists}
           </select>
         </div>
-        {shared && <div className="list-button">Add To My List</div>}
+        {shared && (
+          <div className="list-button" onClick={addList}>
+            Add To My List
+          </div>
+        )}
       </div>
     </div>
   );
