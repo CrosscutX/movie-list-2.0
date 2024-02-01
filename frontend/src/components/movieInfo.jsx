@@ -22,6 +22,10 @@ export default function movieInfo(props) {
     } else if (props.selectedMovie.score === "N/A") {
       return "N/A";
     }
+    // Fixes score bug on friends
+    if (props.displayType === "") {
+      return props.selectedMovie.score;
+    }
     return props.selectedMovie.score.slice(0, -1);
   }
   let formattedDate = "";

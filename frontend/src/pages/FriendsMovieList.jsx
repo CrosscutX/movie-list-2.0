@@ -61,7 +61,6 @@ export default function FriendsMovieList(props) {
     };
 
     props.setDisplayType("");
-
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {
@@ -113,6 +112,7 @@ export default function FriendsMovieList(props) {
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
+          displayType={props.displayType}
           user={props.user}
         />
       )}

@@ -40,7 +40,6 @@ export default function friendListSelector(props) {
 
   useEffect(() => {
     async function getPublicValue() {
-      console.log(props.selectedUserList);
       try {
         const response = await fetch(`/api/movies/${props.selectedUserList}`, {
           headers: {
