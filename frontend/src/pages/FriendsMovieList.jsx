@@ -60,13 +60,14 @@ export default function FriendsMovieList(props) {
       }
     };
 
+    props.setDisplayType("");
+
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-
   //Get friends movies
   useEffect(() => {
     const fetchLists = async () => {

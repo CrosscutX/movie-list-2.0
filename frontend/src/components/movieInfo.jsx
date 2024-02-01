@@ -127,6 +127,7 @@ export default function movieInfo(props) {
       }
     }
     // We only need to get the watched value if we are on the list page
+
     if (props.displayType === "info") {
       getWatched();
     }

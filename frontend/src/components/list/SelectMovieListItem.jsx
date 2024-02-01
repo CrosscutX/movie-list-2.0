@@ -18,9 +18,6 @@ export default function SelectMovieListItem(props) {
     }
   }, []);
 
-  console.log(props.filteredMovieList);
-  console.log(props.selectedMovie);
-
   function addMovieUI() {
     if (props.list._id == props.selectedUserList) {
       props.setFilteredMovieList((prevFilteredMovieList) => [

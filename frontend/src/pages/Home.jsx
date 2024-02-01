@@ -20,6 +20,8 @@ export default function Home(props) {
       }
     };
 
+    props.setDisplayType("search");
+
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {

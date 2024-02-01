@@ -67,19 +67,24 @@ export default function ListSelector(props) {
     if (listname === "") {
       return;
     }
-
-    await fetch(`/api/lists/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.user.token}`,
-      },
-      body: JSON.stringify({
-        listName: listname,
-      }),
-    });
+    try {
+      await fetch(`/api/lists/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
+        },
+        body: JSON.stringify({
+          listName: listname,
+        }),
+      });
+      props.setSelectedOption("none");
+    } catch (error) {
+      console.log("Couldn't add to list " + error);
+    }
   }
   async function deleteList() {
+    console.log(props.selectedUserList);
     const userID = JSON.parse(localStorage.getItem("user")).id;
     try {
       const response = await fetch(`/api/lists/${userID}`, {
@@ -182,7 +187,6 @@ export default function ListSelector(props) {
               onClick={() => {
                 const listTitle = document.querySelector(".list-input").value;
                 addList(listTitle);
-                props.setSelectedOption("none");
               }}
             >
               Create
