@@ -1,6 +1,8 @@
 const List = require("../models/list");
+const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
+const movie = require("../models/movie");
 
 exports.getAllLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({});
@@ -10,7 +12,6 @@ exports.getAllLists = asyncHandler(async (req, res, next) => {
 exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  console.log("user" + user);
   if (user.lists.length > 0) {
     res.json(user.lists);
   }
@@ -49,10 +50,10 @@ exports.createUserList = asyncHandler(async (req, res, next) => {
 });
 
 exports.addListFromFriend = asyncHandler(async (req, res, next) => {
-  const { listID, friendsID } = req.params;
-  const userID = req.user._id.toString();
-  const user = await User.findById(userID);
-  const friendUser = await User.findById(friendsID);
+  let { listID, friendsID } = req.params;
+  let userID = req.user._id.toString();
+  let user = await User.findById(userID);
+  let friendUser = await User.findById(friendsID);
   let isFriends = false;
 
   for (friend of friendUser.friends) {
@@ -63,11 +64,44 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
   }
 
   if (isFriends == true) {
-    const friendList = await List.findById(listID);
-    user.lists.push(friendList._id);
-    await user.save();
+    let friendList = await List.findById(listID);
+    let userListArray = [];
+    for (userList of user.lists) {
+      userListArray.push(userList.toString());
+    }
 
-    res.status(200).json({ msg: "Friends movie list inherited" });
+    let userAllListArray = [];
+    let friendListMovieArray = [];
+
+    let userAllList = user.lists[0];
+    let actualUserAllList = await List.findById(userAllList);
+
+    for (testMovie of actualUserAllList.movies) {
+      userAllListArray.push(testMovie.movie.toString());
+    }
+
+    for (friendMovie of friendList.movies) {
+      friendListMovieArray.push(friendMovie.movie.toString());
+    }
+
+    if (!userListArray.includes(friendList._id.toString())) {
+      user.lists.push(friendList._id);
+      await user.save();
+
+      for (friendMovie of friendList.movies) {
+        if (!userAllListArray.includes(friendMovie.movie.toString())) {
+          actualUserAllList.movies.push({
+            movie: friendMovie.movie,
+            watched: friendMovie.watched,
+            imdbID: friendMovie.imdbID,
+          });
+        }
+      }
+      await actualUserAllList.save();
+      res.status(200).json({ msg: "MEME" });
+    } else {
+      res.status(400).json({ msg: "Cannot add duplicate lists " });
+    }
   } else {
     res.status(400).json({ msg: "Must be accepted friends to inherit list" });
   }
@@ -76,30 +110,40 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
 exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { listID } = req.body;
+  let userID = req.user._id.toString();
 
   const list = await List.findById(listID);
 
   const user = await User.findById(id);
+  const listCreator = await User.findById(list.createdBy);
 
-  if (user._id != list.createdBy) {
-    return res
-      .status(404)
-      .json({ error: "User doesnt have permission to delete list" });
-  }
   if (list.listName == "all") {
-    return res.status(404).json({ error: "Can not delete list with name all" });
+    return res.status(404).json({ error: "Can't delete list with name all" });
   }
 
-  //remove list ID from users lists
-  if (user.lists.includes(listID)) {
-    const listIndex = user.lists.indexOf(listID);
-    user.lists.splice(listIndex, 1);
+  if (userID != list.createdBy) {
+    let isFriends = false;
+
+    for (friend of listCreator.friends) {
+      if (friend.accepted == true && friend._id == userID) {
+        isFriends = true;
+        break;
+      }
+    }
+
+    if (isFriends) {
+      await User.findByIdAndUpdate(user._id, { $pull: { lists: list._id } });
+      res.status(200).json({ msg: "List deleted from user list" });
+    } else if (!isFriends) {
+      res
+        .status(400)
+        .json({ msg: "Cannot delete list from user not in your friends list" });
+    }
+  } else if (userID == list.createdBy) {
+    await User.updateMany({}, { $pull: { lists: listID } });
     await List.findByIdAndDelete(listID);
+    res.status(200).json({ msg: "List deleted by creator" });
   }
-
-  await user.save();
-
-  res.status(200).json({ msg: "List deleted" });
 });
 
 exports.updateUserList = asyncHandler(async (req, res, next) => {
