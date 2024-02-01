@@ -12,7 +12,6 @@ exports.getAllLists = asyncHandler(async (req, res, next) => {
 exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  console.log("user" + user);
   if (user.lists.length > 0) {
     res.json(user.lists);
   }
@@ -111,30 +110,40 @@ exports.addListFromFriend = asyncHandler(async (req, res, next) => {
 exports.deleteUserList = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { listID } = req.body;
+  let userID = req.user._id.toString();
 
   const list = await List.findById(listID);
 
   const user = await User.findById(id);
+  const listCreator = await User.findById(list.createdBy);
 
-  if (user._id != list.createdBy) {
-    return res
-      .status(404)
-      .json({ error: "User doesnt have permission to delete list" });
-  }
   if (list.listName == "all") {
-    return res.status(404).json({ error: "Can not delete list with name all" });
+    return res.status(404).json({ error: "Can't delete list with name all" });
   }
 
-  //remove list ID from users lists
-  if (user.lists.includes(listID)) {
-    const listIndex = user.lists.indexOf(listID);
-    user.lists.splice(listIndex, 1);
+  if (userID != list.createdBy) {
+    let isFriends = false;
+
+    for (friend of listCreator.friends) {
+      if (friend.accepted == true && friend._id == userID) {
+        isFriends = true;
+        break;
+      }
+    }
+
+    if (isFriends) {
+      await User.findByIdAndUpdate(user._id, { $pull: { lists: list._id } });
+      res.status(200).json({ msg: "List deleted from user list" });
+    } else if (!isFriends) {
+      res
+        .status(400)
+        .json({ msg: "Cannot delete list from user not in your friends list" });
+    }
+  } else if (userID == list.createdBy) {
+    await User.updateMany({}, { $pull: { lists: listID } });
     await List.findByIdAndDelete(listID);
+    res.status(200).json({ msg: "List deleted by creator" });
   }
-
-  await user.save();
-
-  res.status(200).json({ msg: "List deleted" });
 });
 
 exports.updateUserList = asyncHandler(async (req, res, next) => {
