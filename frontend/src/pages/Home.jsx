@@ -56,6 +56,7 @@ export default function Home(props) {
           displayType={props.displayType}
           setDisplayType={props.setDisplayType}
           user={props.user}
+          navigate={props.navigate}
         />
       </div>
     </nav>

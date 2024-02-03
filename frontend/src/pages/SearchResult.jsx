@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchMovie from "../components/search/SearchMovie";
 import MovieInfo from "../components/movieInfo";
 import "../styles/Search.css";
@@ -8,6 +9,7 @@ export default function SearchResult(props) {
   const [extendedSearchList, setExtendedSearchList] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
+  const navigate = useNavigate();
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -46,26 +48,30 @@ export default function SearchResult(props) {
             Authorization: `Bearer ${props.user.token}`,
           },
         });
-        let movies = await response.json();
+        if (response.status === 401) {
+          navigate("/login");
+        } else {
+          let movies = await response.json();
 
-        const displayMovies = movies.map((movie) => {
-          return (
-            <SearchMovie
-              key={movie.imdbID}
-              movie={movie}
-              title={movie.title}
-              score={movie.score}
-              image={movie.image}
-              showInfo={props.showInfo}
-              setShowInfo={props.setShowInfo}
-              setSelectedMovie={props.setSelectedMovie}
-              setDisplayType={props.setDisplayType}
-            />
-          );
-        });
-        setExtendedSearchList(displayMovies);
-        // Sets the loading to false to get rid of the loading text
-        setIsLoading(false);
+          const displayMovies = movies.map((movie) => {
+            return (
+              <SearchMovie
+                key={movie.imdbID}
+                movie={movie}
+                title={movie.title}
+                score={movie.score}
+                image={movie.image}
+                showInfo={props.showInfo}
+                setShowInfo={props.setShowInfo}
+                setSelectedMovie={props.setSelectedMovie}
+                setDisplayType={props.setDisplayType}
+              />
+            );
+          });
+          setExtendedSearchList(displayMovies);
+          // Sets the loading to false to get rid of the loading text
+          setIsLoading(false);
+        }
       }
     };
     fetchMoviesList();

@@ -53,6 +53,7 @@ export default function App() {
                 displayType={displayType}
                 setDisplayType={setDisplayType}
                 user={user}
+                navigate={navigate}
               />
             }
           />

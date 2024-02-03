@@ -24,8 +24,13 @@ export default function HomeSearchBar(props) {
                 Authorization: `Bearer ${props.user.token}`,
               },
             });
-            const movieResults = await response.json();
-            props.setSearchResults(movieResults);
+            if (response.status === 401) {
+              navigate("/login");
+            } else {
+              const movieResults = await response.json();
+              console.log(movieResults);
+              props.setSearchResults(movieResults);
+            }
           } catch (error) {
             console.log("Error fetching movies " + error);
           }
