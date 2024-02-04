@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import "../styles/Friends.css";
 import FriendCard from "../components/friends/FriendSearchCard";
 import UserFriendCard from "../components/friends/UserFriends";
@@ -7,6 +8,7 @@ import UserFriendCard from "../components/friends/UserFriends";
 export default function Friends(props) {
   const [display, setDisplay] = useState("friends");
   const navigate = useNavigate();
+  const { logout } = useLogout();
   let jsonUser = localStorage.getItem("user");
   jsonUser = JSON.parse(jsonUser);
   const displayUsername = jsonUser.username;
@@ -45,6 +47,7 @@ export default function Friends(props) {
     })
       .then((response) => {
         if (response.status === 401) {
+          logout();
           navigate("/login");
           throw new Error("Unauthorized access");
         }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import SearchMovie from "../components/search/SearchMovie";
 import MovieInfo from "../components/movieInfo";
 import "../styles/Search.css";
@@ -10,6 +11,7 @@ export default function SearchResult(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("Loading");
   const navigate = useNavigate();
+  const { logout } = useLogout();
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -49,6 +51,7 @@ export default function SearchResult(props) {
           },
         });
         if (response.status === 401) {
+          logout();
           navigate("/login");
         } else {
           let movies = await response.json();

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
 import HomeSearchMovie from "./HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
@@ -7,6 +8,7 @@ import "../../styles/SearchBar.css";
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
   const navigate = useNavigate();
+  const { logout } = useLogout();
   //Clears out the textbox after a user goes to a different page and comes back
   useEffect(() => {
     props.setSearchText();
@@ -25,6 +27,7 @@ export default function HomeSearchBar(props) {
               },
             });
             if (response.status === 401) {
+              logout();
               navigate("/login");
             } else {
               const movieResults = await response.json();

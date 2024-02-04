@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import ListSelector from "../components/list/ListSelector";
 import ListFilter from "../components/list/ListFilter";
 import ListMovies from "../components/list/ListMovies";
@@ -20,6 +21,7 @@ export default function List(props) {
   // Used to track the state of watched button in movieList, also aids in updating the UI.
   const [watched, setWatched] = useState("Watched...");
   const navigate = useNavigate();
+  const { logout } = useLogout();
   //handles clicking off of the movie-info panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -51,6 +53,7 @@ export default function List(props) {
         },
       });
       if (response.status === 401) {
+        logout();
         navigate("/login");
       }
       const lists = await response.json();
