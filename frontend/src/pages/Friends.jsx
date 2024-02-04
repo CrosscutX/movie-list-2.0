@@ -70,28 +70,31 @@ export default function Friends(props) {
       });
   }, [display]);
 
-  //Handles friend search input calls
-  let handleChange = (e) => {
-    setSearchInput(e.target.value);
+  useEffect(() => {
+    //Handles friend search input calls
+    let handleChange = () => {
+      console.log(searchInput);
 
-    if (searchInput != 0) {
-      fetch(`/api/users/search/${searchInput}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setSearchResults(data);
+      if (searchInput != 0) {
+        fetch(`/api/users/search/${searchInput}`, {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
         })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      setSearchResults([]);
-    }
-  };
-
+          .then((response) => response.json())
+          .then((data) => {
+            setSearchResults(data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        setSearchResults([]);
+      }
+    };
+    handleChange();
+  }, [searchInput]);
+  console.log(searchResults);
   return (
     <div className="friends">
       {display === "friends" && (
@@ -158,7 +161,9 @@ export default function Friends(props) {
               type="text"
               placeholder="Add Friend"
               className="add-friend-textbox"
-              onChange={handleChange}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+              }}
               value={searchInput}
             />
             <div className="friends-search-results">
