@@ -89,7 +89,6 @@ export default function SelectMovieListItem(props) {
             onChange={(e) => {
               // Handles logic
               const checked = e.target.checked;
-              console.log(checked);
               if (checked === true) {
                 addMovieToList(checked);
               } else if (checked === false) {

@@ -31,7 +31,6 @@ export default function HomeSearchBar(props) {
               navigate("/login");
             } else {
               const movieResults = await response.json();
-              console.log(movieResults);
               props.setSearchResults(movieResults);
             }
           } catch (error) {

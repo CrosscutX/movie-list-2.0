@@ -73,8 +73,6 @@ export default function Friends(props) {
   useEffect(() => {
     //Handles friend search input calls
     let handleChange = () => {
-      console.log(searchInput);
-
       if (searchInput != 0) {
         fetch(`/api/users/search/${searchInput}`, {
           headers: {
@@ -94,7 +92,7 @@ export default function Friends(props) {
     };
     handleChange();
   }, [searchInput]);
-  console.log(searchResults);
+
   return (
     <div className="friends">
       {display === "friends" && (

@@ -84,7 +84,6 @@ export default function ListSelector(props) {
     }
   }
   async function deleteList() {
-    console.log(props.selectedUserList);
     const userID = JSON.parse(localStorage.getItem("user")).id;
     try {
       const response = await fetch(`/api/lists/${userID}`, {
@@ -120,7 +119,6 @@ export default function ListSelector(props) {
       });
 
       const data = await response.json();
-      console.log(data);
       // The line below updates the list selector edit page to avoid the bug of someone seeing
       // the old edit title after they've renamed the list.
       setSelectedListTitle(name);
@@ -142,7 +140,6 @@ export default function ListSelector(props) {
         }
       );
       const sharedValue = await response.json();
-      console.log(sharedValue);
       setIsSharedChecked(sharedValue);
     } catch (error) {
       console.error("Error patching public list:", error);
