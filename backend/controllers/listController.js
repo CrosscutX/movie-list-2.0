@@ -138,6 +138,8 @@ exports.deleteUserList = asyncHandler(async (req, res, next) => {
       res
         .status(400)
         .json({ msg: "Cannot delete list from user not in your friends list" });
+    } else {
+      res.status(400).json({ msg: "Place holder for weird errors" });
     }
   } else if (userID == list.createdBy) {
     await User.updateMany({}, { $pull: { lists: listID } });
