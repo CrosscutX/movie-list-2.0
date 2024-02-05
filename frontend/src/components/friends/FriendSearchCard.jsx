@@ -28,9 +28,9 @@ export default function FriendCard(props) {
       });
   }
   return (
-    <div className="friend-card">
+    <div className="add-friend-card">
       <span className="friend-card--name">{props.friendName}</span>
-      {isFriend ? null : <button onClick={handleClick}>+</button>}
+      {isFriend ? null : <button onClick={handleClick}>Add</button>}
     </div>
   );
 }

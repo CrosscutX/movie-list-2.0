@@ -282,4 +282,71 @@
   height: auto;
   border-radius: 10px;
 }
+
+.select-movie-list h2 {
+  color: #116d6e;
+}
+
+.select-movie-list h3 {
+  padding: 0 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.select-movie-list-items {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.select-movie-list button {
+  border: none;
+  background-color: #ca3131;
+}
+
+.list-item-container {
+  font-size: 1.5rem;
+}
+
+.list-item-container input {
+  height: 1.1rem;
+  width: 1.1rem;
+}
 /*SelectMovieList End*/
+
+/*Media Queries*/
+@media screen and (max-width: 600px) {
+  .list-filter-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .list-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    height: 60px;
+    width: 120px;
+  }
+  .list-button.list-filter-button {
+    height: 70px;
+    width: 130px;
+  }
+
+  .movie {
+    height: 150px;
+    width: 100px;
+    margin-bottom: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .create-container {
+    flex-direction: column;
+  }
+
+  .rename-row {
+    flex-direction: column;
+  }
+}

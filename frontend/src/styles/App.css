@@ -43,3 +43,15 @@ input {
 *:hover {
   transition: 500ms;
 }
+
+/*Media Queries*/
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}

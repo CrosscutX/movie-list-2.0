@@ -208,28 +208,48 @@ export default function movieInfo(props) {
         </div>
         <div className="info-container">
           <div className="info-row">
-            <span>Description: {props.selectedMovie.description}</span>
+            <span>
+              <span className="bold">Description: </span>{" "}
+              {props.selectedMovie.description}
+            </span>
           </div>
           <div className="info-row">
-            <span>Genre: {props.selectedMovie.genre}</span>
+            <span>
+              <span className="bold">Genre:</span> {props.selectedMovie.genre}
+            </span>
           </div>
           <div className="info-row">
-            <span>Director: {props.selectedMovie.director}</span>
+            <span>
+              <span className="bold">Director:</span>{" "}
+              {props.selectedMovie.director}
+            </span>
           </div>
           <div className="info-row">
-            <span>Writers: {props.selectedMovie.writers}</span>
+            <span>
+              <span className="bold">Writers:</span>{" "}
+              {props.selectedMovie.writers}
+            </span>
           </div>
           <div className="info-row">
-            <span>Actors: {props.selectedMovie.actors}</span>
+            <span>
+              <span className="bold">Actors:</span> {props.selectedMovie.actors}
+            </span>
           </div>
           <div className="info-row">
-            <span>Release Date: {formattedDate}</span>
+            <span>
+              <span className="bold">Release Date:</span> {formattedDate}
+            </span>
           </div>
           <div className="info-row">
-            <span>Score: {displayScore()}</span>
+            <span>
+              <span className="bold">Score:</span> {displayScore()}
+            </span>
           </div>
           <div className="info-row">
-            <span>Box Office: {props.selectedMovie.boxoffice}</span>
+            <span>
+              <span className="bold">Box Office:</span>{" "}
+              {props.selectedMovie.boxoffice}
+            </span>
           </div>
         </div>
         {props.displayType === "info" && (

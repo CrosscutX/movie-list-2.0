@@ -67,7 +67,9 @@ export default function UserFriendCard(props) {
         <span>Pending</span>
       )}
       {accepted || sentFromUser ? (
-        <button onClick={deleteFriend}>Delete</button>
+        <button className="delete-button" onClick={deleteFriend}>
+          Delete
+        </button>
       ) : null}
     </div>
   );

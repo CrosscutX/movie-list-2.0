@@ -30,7 +30,7 @@ export default function ListMovies(props) {
   }, [props.filteredMovieList, props.showInfo]);
   return (
     <div className="list-movies">
-      <h2>List Movies</h2>
+      <h2>Movies</h2>
       <div className="list-movies-container">{listOfMovies}</div>
     </div>
   );

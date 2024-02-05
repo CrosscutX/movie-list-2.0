@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import SelectMovieListItem from "./SelectMovieListItem";
 export default function SelectMovieList(props) {
   const [listOfLists, setListOfLists] = useState();
+
   useEffect(() => {
     async function fetchLists() {
       if (props.lists) {
@@ -13,7 +14,6 @@ export default function SelectMovieList(props) {
               },
             });
             const listInfo = await response.json();
-            console.log(listInfo);
             return (
               <SelectMovieListItem
                 key={listInfo._id}
@@ -40,6 +40,7 @@ export default function SelectMovieList(props) {
       <div className="select-movie-list-items">{listOfLists}</div>
       <button
         type="button"
+        className="list-button"
         onClick={(e) => {
           e.stopPropagation();
           props.setDisplaySelectMovieList(false);

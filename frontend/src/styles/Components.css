@@ -15,7 +15,7 @@
 
 .header a {
   color: rgb(212, 212, 212);
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 .header a:hover {
@@ -40,6 +40,10 @@
 /*Header End*/
 
 /*Movie Info Start*/
+.bold {
+  font-weight: 700;
+  color: #ca3131;
+}
 .movie-info {
   position: fixed;
   top: 40px;
@@ -57,6 +61,7 @@
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 0 0 max(100vh, 100vw) rgba(0, 0, 0, 0.6);
+  overflow: auto;
 }
 
 .info-header {
@@ -85,6 +90,8 @@
 
 .movie-title {
   font-size: 2rem;
+  font-weight: 900;
+  color: #116d6e;
 }
 
 .x-button {
@@ -172,3 +179,50 @@
   width: 24px;
 }
 /*Movie Info End*/
+
+/*Media Queries*/
+
+@media screen and (max-width: 600px) {
+  .header {
+    padding: 0 10px;
+  }
+
+  .header a {
+    font-size: 1rem;
+  }
+
+  .header button {
+    font-size: 1rem;
+    height: 40px;
+    width: 70px;
+  }
+
+  .movie-info {
+    height: 90%;
+  }
+
+  .back-button {
+    display: none;
+  }
+
+  .movie-title {
+    font-size: 1.5rem;
+  }
+
+  .info-container {
+    width: 100%;
+  }
+
+  .info-row {
+    font-size: 1rem;
+  }
+
+  .delete-button {
+    margin-bottom: 20px;
+  }
+
+  .info-button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
