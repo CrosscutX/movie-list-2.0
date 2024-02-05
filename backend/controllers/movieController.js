@@ -139,7 +139,6 @@ exports.updateWatched = asyncHandler(async (req, res, next) => {
     if (listMovieID == movieID) {
       list.movies[i].watched = !list.movies[i].watched;
       await list.save();
-      console.log(list.movies[i].watched);
       res.status(200).json({
         msg: "Movie watched value was updated",
         value: list.movies[i].watched,

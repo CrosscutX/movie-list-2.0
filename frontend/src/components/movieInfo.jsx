@@ -22,6 +22,10 @@ export default function movieInfo(props) {
     } else if (props.selectedMovie.score === "N/A") {
       return "N/A";
     }
+    // Fixes score bug on friends
+    if (props.displayType === "") {
+      return props.selectedMovie.score;
+    }
     return props.selectedMovie.score.slice(0, -1);
   }
   let formattedDate = "";
@@ -71,7 +75,6 @@ export default function movieInfo(props) {
       props.setFilteredMovieList(updatedFilteredMovieList);
     }
     // Code that re-adds movies to filtered lists in the case that users click the watched checkbox twice.
-    console.log(props.watched);
     if (
       watchedBoolean === true &&
       props.watched === "watched" &&
@@ -127,6 +130,7 @@ export default function movieInfo(props) {
       }
     }
     // We only need to get the watched value if we are on the list page
+
     if (props.displayType === "info") {
       getWatched();
     }
@@ -165,7 +169,7 @@ export default function movieInfo(props) {
         }
       );
       const responseInfo = await response.json();
-      console.log(responseInfo);
+
       props.setFilteredMovieList(
         props.filteredMovieList.filter(
           (movie) => props.selectedMovie._id !== movie._id
@@ -277,7 +281,6 @@ export default function movieInfo(props) {
                   }),
                 });
                 const movieResults = await response.json();
-                console.log(movieResults);
               }}
             >
               Add

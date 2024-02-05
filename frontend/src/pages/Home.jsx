@@ -20,6 +20,8 @@ export default function Home(props) {
       }
     };
 
+    props.setDisplayType("search");
+
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {
@@ -54,6 +56,7 @@ export default function Home(props) {
           displayType={props.displayType}
           setDisplayType={props.setDisplayType}
           user={props.user}
+          navigate={props.navigate}
         />
       </div>
     </nav>

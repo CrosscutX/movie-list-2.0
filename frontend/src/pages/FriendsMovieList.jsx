@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import FriendListSelector from "../components/friends/FriendListSelector";
 import FriendListFilter from "../components/friends/FriendListFilter";
 import FriendListMovies from "../components/friends/FriendListMovies";
@@ -15,6 +16,7 @@ export default function FriendsMovieList(props) {
   const [friendID, setFriendID] = useState("");
   const { name, id } = useParams();
   const navigate = useNavigate();
+  const { logout } = useLogout();
 
   useEffect(() => {
     const checkFriendStatus = async () => {
@@ -25,6 +27,11 @@ export default function FriendsMovieList(props) {
           Authorization: `Bearer ${props.user.token}`,
         },
       });
+
+      if (response.status === 401) {
+        logout();
+        navigate("/login");
+      }
 
       if (!response.ok) {
         throw new Error("User fetch failed");
@@ -60,13 +67,13 @@ export default function FriendsMovieList(props) {
       }
     };
 
+    props.setDisplayType("");
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-
   //Get friends movies
   useEffect(() => {
     const fetchLists = async () => {
@@ -112,6 +119,7 @@ export default function FriendsMovieList(props) {
           showInfo={props.showInfo}
           setShowInfo={props.setShowInfo}
           selectedMovie={props.selectedMovie}
+          displayType={props.displayType}
           user={props.user}
         />
       )}

@@ -109,7 +109,6 @@ export default function ListFilter(props) {
     if (props.listOfMovies.length !== 0) {
       let filteredList = props.listOfMovies;
       filteredList = rollRandom(filteredList);
-      console.log(filteredList);
       if (filteredList[0].watched === true) {
         randomClick();
       }

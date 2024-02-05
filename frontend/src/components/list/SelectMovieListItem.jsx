@@ -18,9 +18,6 @@ export default function SelectMovieListItem(props) {
     }
   }, []);
 
-  console.log(props.filteredMovieList);
-  console.log(props.selectedMovie);
-
   function addMovieUI() {
     if (props.list._id == props.selectedUserList) {
       props.setFilteredMovieList((prevFilteredMovieList) => [
@@ -92,7 +89,6 @@ export default function SelectMovieListItem(props) {
             onChange={(e) => {
               // Handles logic
               const checked = e.target.checked;
-              console.log(checked);
               if (checked === true) {
                 addMovieToList(checked);
               } else if (checked === false) {

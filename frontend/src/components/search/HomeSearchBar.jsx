@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
 import HomeSearchMovie from "./HomeSearchMovie";
 import searchIcon from "../../images/search-icon-white.png";
 import "../../styles/SearchBar.css";
@@ -7,6 +8,7 @@ import "../../styles/SearchBar.css";
 export default function HomeSearchBar(props) {
   const [displayResults, setDisplayResults] = useState();
   const navigate = useNavigate();
+  const { logout } = useLogout();
   //Clears out the textbox after a user goes to a different page and comes back
   useEffect(() => {
     props.setSearchText();
@@ -16,15 +18,24 @@ export default function HomeSearchBar(props) {
     if (props.searchText !== undefined) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {
-          const response = await fetch(`/api/search/${movie}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${props.user.token}`,
-            },
-          });
-          const movieResults = await response.json();
-          props.setSearchResults(movieResults);
+          try {
+            const response = await fetch(`/api/search/${movie}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            });
+            if (response.status === 401) {
+              logout();
+              navigate("/login");
+            } else {
+              const movieResults = await response.json();
+              props.setSearchResults(movieResults);
+            }
+          } catch (error) {
+            console.log("Error fetching movies " + error);
+          }
         }
         callSearchApi(props.searchText);
       }, 1000);

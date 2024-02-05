@@ -40,7 +40,6 @@ export default function friendListSelector(props) {
 
   useEffect(() => {
     async function getPublicValue() {
-      console.log(props.selectedUserList);
       try {
         const response = await fetch(`/api/movies/${props.selectedUserList}`, {
           headers: {
@@ -81,7 +80,6 @@ export default function friendListSelector(props) {
         }
       );
       const result = await response.json();
-      console.log(result);
     } catch (e) {
       console.log("Couldn't add list" + e);
     }

@@ -67,17 +67,21 @@ export default function ListSelector(props) {
     if (listname === "") {
       return;
     }
-
-    await fetch(`/api/lists/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.user.token}`,
-      },
-      body: JSON.stringify({
-        listName: listname,
-      }),
-    });
+    try {
+      await fetch(`/api/lists/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
+        },
+        body: JSON.stringify({
+          listName: listname,
+        }),
+      });
+      props.setSelectedOption("none");
+    } catch (error) {
+      console.log("Couldn't add to list " + error);
+    }
   }
   async function deleteList() {
     const userID = JSON.parse(localStorage.getItem("user")).id;
@@ -115,7 +119,6 @@ export default function ListSelector(props) {
       });
 
       const data = await response.json();
-      console.log(data);
       // The line below updates the list selector edit page to avoid the bug of someone seeing
       // the old edit title after they've renamed the list.
       setSelectedListTitle(name);
@@ -137,7 +140,6 @@ export default function ListSelector(props) {
         }
       );
       const sharedValue = await response.json();
-      console.log(sharedValue);
       setIsSharedChecked(sharedValue);
     } catch (error) {
       console.error("Error patching public list:", error);
@@ -182,7 +184,6 @@ export default function ListSelector(props) {
               onClick={() => {
                 const listTitle = document.querySelector(".list-input").value;
                 addList(listTitle);
-                props.setSelectedOption("none");
               }}
             >
               Create

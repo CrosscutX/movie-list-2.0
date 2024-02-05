@@ -13,6 +13,7 @@ export default function SelectMovieList(props) {
               },
             });
             const listInfo = await response.json();
+            console.log(listInfo);
             return (
               <SelectMovieListItem
                 key={listInfo._id}

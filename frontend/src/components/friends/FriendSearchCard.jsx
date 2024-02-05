@@ -22,9 +22,7 @@ export default function FriendCard(props) {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error("Error adding friend", error);
       });

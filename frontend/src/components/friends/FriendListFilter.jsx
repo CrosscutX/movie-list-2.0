@@ -79,7 +79,6 @@ export default function FriendListFilter(props) {
   }
 
   function checkRating(list) {
-    console.log(list);
     if (rating === "Rating..." || rating === "none") {
       return list;
     } else if (rating === "best") {
@@ -116,9 +115,7 @@ export default function FriendListFilter(props) {
 
   function randomClick() {
     let filteredList = listOfMovies;
-    console.log(filteredList);
     filteredList = rollRandom(filteredList);
-    console.log(filteredList);
     props.setFilteredMovieList(filteredList);
   }
 

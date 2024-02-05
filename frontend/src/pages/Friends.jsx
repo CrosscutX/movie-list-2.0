@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 import "../styles/Friends.css";
 import FriendCard from "../components/friends/FriendSearchCard";
 import UserFriendCard from "../components/friends/UserFriends";
 
 export default function Friends(props) {
   const [display, setDisplay] = useState("friends");
+  const navigate = useNavigate();
+  const { logout } = useLogout();
   let jsonUser = localStorage.getItem("user");
   jsonUser = JSON.parse(jsonUser);
   const displayUsername = jsonUser.username;
@@ -41,7 +45,14 @@ export default function Friends(props) {
         Authorization: `Bearer ${props.user.token}`,
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 401) {
+          logout();
+          navigate("/login");
+          throw new Error("Unauthorized access");
+        }
+        return response.json();
+      })
       .then((user) => {
         const friends = user.friends.map((friend) => {
           return fetch(`/api/users/${friend._id}`, {
@@ -59,27 +70,28 @@ export default function Friends(props) {
       });
   }, [display]);
 
-  //Handles friend search input calls
-  let handleChange = (e) => {
-    setSearchInput(e.target.value);
-
-    if (searchInput != 0) {
-      fetch(`/api/users/search/${searchInput}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setSearchResults(data);
+  useEffect(() => {
+    //Handles friend search input calls
+    let handleChange = () => {
+      if (searchInput != 0) {
+        fetch(`/api/users/search/${searchInput}`, {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
         })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      setSearchResults([]);
-    }
-  };
+          .then((response) => response.json())
+          .then((data) => {
+            setSearchResults(data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        setSearchResults([]);
+      }
+    };
+    handleChange();
+  }, [searchInput]);
 
   return (
     <div className="friends">
@@ -147,7 +159,9 @@ export default function Friends(props) {
               type="text"
               placeholder="Add Friend"
               className="add-friend-textbox"
-              onChange={handleChange}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+              }}
               value={searchInput}
             />
             <div className="friends-search-results">
