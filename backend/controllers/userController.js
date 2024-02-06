@@ -20,6 +20,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
   //What you set in the as the dynamic part of the route URL matters because the request then formats it with that name,
   //I think what this is saying is access the user parameter of the requst, you cannot just name it what you want which is what I was trying to do.
   const { user } = req.params;
+  const userID = req.user._id.toString();
 
   //The $regex allows us to indicate were going to be querying with a regular expression, this wont work without it
   //Searches the database for any usernames starting with whats in the user parameter regardless of case
@@ -32,7 +33,9 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "No user found" });
   }
 
-  res.status(200).json(users);
+  let filterUser = users.filter((u) => u._id != userID);
+
+  res.status(200).json(filterUser);
 });
 
 exports.getUserById = asyncHandler(async (req, res, next) => {

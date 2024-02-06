@@ -16,6 +16,9 @@ export default function Friends(props) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
+  const [friendFilter, setFriendFilter] = useState("");
+  const [filterAccepted, setFilterAccepted] = useState([]);
+  const [filterPending, setFilterPending] = useState([]);
 
   let pendingFriends = [];
   let acceptedFriends = [];
@@ -71,6 +74,23 @@ export default function Friends(props) {
   }, [display]);
 
   useEffect(() => {
+    let handleFriendSearch = () => {
+      setFilterPending(
+        pendingFriends.filter((friend) =>
+          friend.username.toLowerCase().includes(friendFilter.toLowerCase())
+        )
+      );
+
+      setFilterAccepted(
+        acceptedFriends.filter((friend) =>
+          friend.username.toLowerCase().includes(friendFilter.toLowerCase())
+        )
+      );
+    };
+    handleFriendSearch();
+  }, [friendFilter]);
+
+  useEffect(() => {
     //Handles friend search input calls
     let handleChange = () => {
       if (searchInput != 0) {
@@ -109,36 +129,83 @@ export default function Friends(props) {
           <div className="friends-container">
             <h2>{displayUsername}</h2>
             <div className="friends-list">
-              <input type="text" placeholder="Search Friends" />
-              {pendingFriends.length > 0 && (
-                <div className="pending-friends">
-                  <h3>Pending Friends</h3>
-                  <div className="pending-friends-list">
-                    {pendingFriends.map((friend) => (
-                      <UserFriendCard
-                        key={friend._id}
-                        friends={friend.friends}
-                        friendName={friend.username}
-                        id={friend._id}
-                        logInUser={jsonUser.id}
-                        user={props.user}
-                      />
-                    ))}
-                  </div>
-                </div>
+              <input
+                type="text"
+                onChange={(e) => {
+                  setFriendFilter(e.target.value);
+                }}
+                value={friendFilter}
+                placeholder="Search Friends"
+              />
+              {friendFilter.length > 0 ? (
+                <>
+                  {filterPending.length > 0 && (
+                    <div className="pending-friends">
+                      <h3>Pending Friends</h3>
+                      <div className="pending-friends-list">
+                        {filterPending.map((friend) => (
+                          <UserFriendCard
+                            key={friend._id}
+                            friends={friend.friends}
+                            friendName={friend.username}
+                            id={friend._id}
+                            logInUser={jsonUser.id}
+                            user={props.user}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {filterAccepted.length > 0 && (
+                    <div className="friends-search-results">
+                      {filterAccepted.map((friend) => (
+                        <UserFriendCard
+                          key={friend._id}
+                          friends={friend.friends}
+                          friendName={friend.username}
+                          id={friend._id}
+                          logInUser={jsonUser.id}
+                          user={props.user}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {pendingFriends.length > 0 && (
+                    <div className="pending-friends">
+                      <h3>Pending Friends</h3>
+                      <div className="pending-friends-list">
+                        {pendingFriends.map((friend) => (
+                          <UserFriendCard
+                            key={friend._id}
+                            friends={friend.friends}
+                            friendName={friend.username}
+                            id={friend._id}
+                            logInUser={jsonUser.id}
+                            user={props.user}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {acceptedFriends.length > 0 && (
+                    <div className="friends-search-results">
+                      {acceptedFriends.map((friend) => (
+                        <UserFriendCard
+                          key={friend._id}
+                          friends={friend.friends}
+                          friendName={friend.username}
+                          id={friend._id}
+                          logInUser={jsonUser.id}
+                          user={props.user}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
-              <div className="friends-search-results">
-                {acceptedFriends.map((friend) => (
-                  <UserFriendCard
-                    key={friend._id}
-                    friends={friend.friends}
-                    friendName={friend.username}
-                    id={friend._id}
-                    logInUser={jsonUser.id}
-                    user={props.user}
-                  />
-                ))}
-              </div>
             </div>
           </div>
         </div>
