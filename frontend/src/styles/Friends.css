@@ -135,19 +135,37 @@
   padding-right: 30px;
 }
 
-.user-friend-card--name {
+.friend-card,
+.add-friend-card:hover {
+  background-color: #116d6e;
+}
+
+.user-friend-card--name,
+.friend-card--name {
+  font-weight: 700;
   cursor: pointer;
 }
 
-.add-friend-card > button {
-  background-color: rgb(5, 177, 5);
+.add-button-friends {
+  background-color: rgb(61, 177, 61);
   border: none;
   color: white;
   border-radius: 5px;
   font-size: 1.1rem;
   text-align: center;
-  height: 30px;
+  height: 40px;
+  width: 80px;
   cursor: pointer;
+}
+
+.add-button-friends:hover {
+  background-color: white;
+  color: rgb(61, 177, 61);
+}
+
+.user-friend-card .add-button-friends {
+  height: 35px;
+  width: 70px;
 }
 
 .friend-list--container > h1 {

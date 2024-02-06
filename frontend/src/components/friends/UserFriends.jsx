@@ -18,6 +18,7 @@ export default function UserFriendCard(props) {
       if (!response.ok) {
         throw new Error("Friends removal failed");
       }
+      props.setFriendChange(!props.friendChange);
     });
   }
 
@@ -32,6 +33,7 @@ export default function UserFriendCard(props) {
         if (!response.ok) {
           throw new Error("Friends request failed");
         }
+        props.setFriendChange(!props.friendChange);
         return response.json();
       })
       .catch((error) => {
@@ -62,7 +64,9 @@ export default function UserFriendCard(props) {
         {props.friendName}
       </span>
       {accepted ? null : !sentFromUser ? (
-        <button onClick={handleClick}>+</button>
+        <button onClick={handleClick} className="add-button-friends">
+          Add
+        </button>
       ) : (
         <span>Pending</span>
       )}

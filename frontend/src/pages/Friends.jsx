@@ -19,6 +19,7 @@ export default function Friends(props) {
   const [friendFilter, setFriendFilter] = useState("");
   const [filterAccepted, setFilterAccepted] = useState([]);
   const [filterPending, setFilterPending] = useState([]);
+  const [friendChange, setFriendChange] = useState(false);
 
   let pendingFriends = [];
   let acceptedFriends = [];
@@ -71,7 +72,7 @@ export default function Friends(props) {
       .catch((error) => {
         console.error(error);
       });
-  }, [display]);
+  }, [display, friendChange]);
 
   useEffect(() => {
     let handleFriendSearch = () => {
@@ -151,6 +152,8 @@ export default function Friends(props) {
                             id={friend._id}
                             logInUser={jsonUser.id}
                             user={props.user}
+                            friendChange={friendChange}
+                            setFriendChange={setFriendChange}
                           />
                         ))}
                       </div>
@@ -166,6 +169,8 @@ export default function Friends(props) {
                           id={friend._id}
                           logInUser={jsonUser.id}
                           user={props.user}
+                          friendChange={friendChange}
+                          setFriendChange={setFriendChange}
                         />
                       ))}
                     </div>
@@ -185,6 +190,8 @@ export default function Friends(props) {
                             id={friend._id}
                             logInUser={jsonUser.id}
                             user={props.user}
+                            friendChange={friendChange}
+                            setFriendChange={setFriendChange}
                           />
                         ))}
                       </div>
@@ -200,6 +207,8 @@ export default function Friends(props) {
                           id={friend._id}
                           logInUser={jsonUser.id}
                           user={props.user}
+                          friendChange={friendChange}
+                          setFriendChange={setFriendChange}
                         />
                       ))}
                     </div>
@@ -217,6 +226,7 @@ export default function Friends(props) {
             className="friends-button"
             onClick={() => {
               setDisplay("friends");
+              setSearchInput("");
             }}
           >
             Return
