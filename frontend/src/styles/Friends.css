@@ -40,7 +40,7 @@
   max-width: 90%;
   width: 700px;
   background-color: rgb(31, 31, 31);
-  overflow: scroll;
+  overflow: auto;
 }
 
 .friends-container h2 {
@@ -78,7 +78,12 @@
 
 .add-friend-textbox {
   margin-top: 20px;
-  margin-bottom: 20px;
+}
+
+.friend-search-header {
+  color: #ca3131;
+  opacity: 1 !important;
+  border-bottom: 0px white solid !important;
 }
 
 .friends-search-results {
@@ -97,6 +102,10 @@
   padding-top: 0.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.pending-friends h3 {
+  color: #ca3131;
 }
 
 .pending-friends-list {

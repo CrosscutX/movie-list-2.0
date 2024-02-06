@@ -241,6 +241,7 @@ export default function Friends(props) {
               }}
               value={searchInput}
             />
+            <h2 className="friend-search-header">Users</h2>
             <div className="friends-search-results">
               {searchResults.map((friend) => (
                 <FriendCard
