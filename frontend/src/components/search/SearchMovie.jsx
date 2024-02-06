@@ -22,8 +22,10 @@ export default function SearchMovie(props) {
       }}
     >
       <img src={props.image} alt="Joker" />
-      <span className="search-movie-title">{props.title}</span>
-      <div className="rating">{displayScore()}</div>
+      <div className="search-movie-container">
+        <span className="search-movie-title">{props.title}</span>
+        <div className="rating">{displayScore()}</div>
+      </div>
     </div>
   );
 }
