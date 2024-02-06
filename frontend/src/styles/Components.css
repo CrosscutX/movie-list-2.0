@@ -38,6 +38,21 @@
   background-color: #116d6e;
 }
 /*Header End*/
+/*Footer Start*/
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 110px;
+  background-color: rgb(6, 6, 6);
+}
+
+.footer-container a:hover {
+  color: #ca3131;
+}
+/*Footer End*/
 
 /*Movie Info Start*/
 .bold {
