@@ -155,14 +155,6 @@
   background-color: rgb(16, 16, 16);
 }
 
-.add-text {
-  color: #31ca5f;
-}
-
-.error-text {
-  color: #ca3131;
-}
-
 .delete-button {
   cursor: pointer;
   font-size: 1.2rem;

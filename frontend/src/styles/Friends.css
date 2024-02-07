@@ -159,6 +159,12 @@
   cursor: pointer;
 }
 
+.add-button-container {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
 .add-button-friends {
   background-color: rgb(61, 177, 61);
   border: none;
