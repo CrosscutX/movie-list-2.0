@@ -4,6 +4,8 @@ import SelectMovieList from "./list/SelectMovieList";
 export default function movieInfo(props) {
   const [allListId, setAllListId] = useState();
   const [watchedValue, setWatchedValue] = useState(false);
+  const [showAddMessage, setShowAddMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   function clearInfo(e) {
     e.stopPropagation();
@@ -290,21 +292,45 @@ export default function movieInfo(props) {
               type="button"
               className="add-button"
               onClick={async () => {
-                const response = await fetch(`/api/lists/${allListId}/movies`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${props.user.token}`,
-                  },
-                  body: JSON.stringify({
-                    imdbID: props.selectedMovie.imdbID,
-                  }),
-                });
-                const movieResults = await response.json();
+                try {
+                  const response = await fetch(
+                    `/api/lists/${allListId}/movies`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${props.user.token}`,
+                      },
+                      body: JSON.stringify({
+                        imdbID: props.selectedMovie.imdbID,
+                      }),
+                    }
+                  );
+                  const movieResults = await response.json();
+                  if (movieResults.msg === "Movie added to list") {
+                    setShowAddMessage(true);
+                    setTimeout(() => {
+                      setShowAddMessage(false);
+                    }, 2000);
+                  } else {
+                    setShowErrorMessage(true);
+                    setTimeout(() => {
+                      setShowErrorMessage(false);
+                    }, 2000);
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
               }}
             >
               Add
             </button>
+            {showAddMessage && (
+              <span className="add-text">Movie successfully added</span>
+            )}
+            {showErrorMessage && (
+              <span className="error-text">Couldn't add movie</span>
+            )}
           </div>
         )}
       </div>
