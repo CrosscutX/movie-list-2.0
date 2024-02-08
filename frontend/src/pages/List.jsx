@@ -77,8 +77,7 @@ export default function List(props) {
         }
       );
       const lists = await response.json();
-      //For testing
-
+      console.log(lists);
       setUserLists(lists);
     };
     fetchLists();

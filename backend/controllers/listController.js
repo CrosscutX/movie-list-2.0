@@ -13,6 +13,21 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
   if (user.lists.length > 0) {
+    const allList = await List.findById(user.lists[0]);
+    const allMovieList = allList.movies;
+    let currentList;
+    for (let i = 1; i < user.lists.length; i++) {
+      currentList = await List.findById(user.lists[i]);
+      currentList = currentList.movies;
+      for (let j = 0; j < allMovieList.length; j++) {
+        for (let l = 0; l < currentList.length; l++) {
+          if (allMovieList[j].movie !== currentList[l].movie) {
+            allList.movies.push(currentList[l]);
+            await allList.save();
+          }
+        }
+      }
+    }
     res.json(user.lists);
   }
 });
