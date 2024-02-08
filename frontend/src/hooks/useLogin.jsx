@@ -14,14 +14,11 @@ export const useLogin = () => {
     console.log(username);
     console.log(password);
 
-    const response = await fetch(
-      "https://movie-list-2-0-backend.onrender.com/api/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      }
-    );
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
     console.log(response);
 
     if (!response.ok) {
