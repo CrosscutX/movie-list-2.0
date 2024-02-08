@@ -102,7 +102,7 @@ export default function movieInfo(props) {
     async function fetchAllList() {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await fetch(
-        `https://movie-list-v2.netlify.app/login/api/lists/${user.id}`,
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${user.id}`,
         {
           headers: {
             Authorization: `Bearer ${props.user.token}`,
