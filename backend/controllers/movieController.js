@@ -104,20 +104,14 @@ exports.deleteMovie = asyncHandler(async (req, res, next) => {
   let userID = req.user._id.toString();
   let user = await User.findById(userID);
 
-  user.lists.forEach((userList) => {
-    async function getList() {
-      let list = await List.findById(userList.toString());
-      list.movies.forEach((movie) => {
-        async function removeMovie() {
-          if (movie.movie == movieID) {
-            list.movies.pull({ movie: movieID });
-            await list.save();
-          }
-        }
-        removeMovie();
-      });
-    }
-    getList();
+  user.lists.forEach(async (userList) => {
+    let list = await List.findById(userList.toString());
+    list.movies.forEach(async (movie) => {
+      if (movie.movie == movieID) {
+        list.movies.pull({ movie: movieID });
+        await list.save();
+      }
+    });
   });
   res.status(200).json({ msg: "Movie removed" });
 });
