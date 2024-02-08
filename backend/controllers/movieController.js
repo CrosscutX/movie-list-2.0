@@ -1,5 +1,6 @@
 const List = require("../models/list");
 const Movie = require("../models/movie");
+const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
 exports.getAllMovies = asyncHandler(async (req, res, next) => {
@@ -100,19 +101,19 @@ exports.addNewMovie = asyncHandler(async (req, res, next) => {
 exports.deleteMovie = asyncHandler(async (req, res, next) => {
   const { listID, movieID } = req.params;
   //Searches for list that matches listID
-  const list = await List.findById(listID);
-  //Searches list to see if movie exists in movie array
-  const movieIndex = list.movies.findIndex((obj) => {
-    return obj.movie.toString() === movieID;
+  let userID = req.user._id.toString();
+  let user = await User.findById(userID);
+
+  user.lists.forEach(async (userList) => {
+    let list = await List.findById(userList.toString());
+    list.movies.forEach(async (movie) => {
+      if (movie.movie == movieID) {
+        list.movies.pull({ movie: movieID });
+        await list.save();
+      }
+    });
   });
-  //indexOf returns -1 if not found, so if movie is found remove it from the list if not return without doing anything
-  if (movieIndex != -1) {
-    list.movies.pull({ movie: movieID });
-    await list.save();
-    res.status(200).json({ msg: "Movie was deleted from users list" });
-  } else {
-    res.status(404).json({ msg: "Movie or list was not found" });
-  }
+  res.status(200).json({ msg: "Movie removed" });
 });
 
 exports.getWatched = asyncHandler(async (req, res, next) => {
