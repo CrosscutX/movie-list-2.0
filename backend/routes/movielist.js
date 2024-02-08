@@ -76,6 +76,13 @@ router.delete(
   requireAuth,
   movieController.deleteMovie
 );
+
+// delete movie from single list
+router.delete(
+  "/movies/:listID/movieID",
+  requireAuth,
+  movieController.deleteMovieOnce
+);
 // update movie watched value in list
 router.patch(
   "/lists/:listID/movies/:movieID",

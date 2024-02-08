@@ -61,7 +61,7 @@ export default function SelectMovieListItem(props) {
   async function deleteFromList(checked) {
     try {
       const response = await fetch(
-        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
+        `https://movie-list-2-0-backend.onrender.com/api/movies/${props.list._id}/${props.selectedMovie._id}`,
         {
           method: "DELETE",
           headers: {
