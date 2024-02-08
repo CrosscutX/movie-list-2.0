@@ -38,16 +38,19 @@ export default function SelectMovieListItem(props) {
   }
 
   async function addMovieToList(checked) {
-    const response = await fetch(`/api/lists/${props.list._id}/movies`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.user.token}`,
-      },
-      body: JSON.stringify({
-        imdbID: props.selectedMovie.imdbID,
-      }),
-    });
+    const response = await fetch(
+      `https://movie-list-2-0-backend.onrender.com/api/lists/${props.list._id}/movies`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.user.token}`,
+        },
+        body: JSON.stringify({
+          imdbID: props.selectedMovie.imdbID,
+        }),
+      }
+    );
     const movieResults = await response.json();
     // Handles the ui
     if (movieResults.msg === "Movie added to list") {
@@ -58,7 +61,7 @@ export default function SelectMovieListItem(props) {
   async function deleteFromList(checked) {
     try {
       const response = await fetch(
-        `/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.list._id}/movies/${props.selectedMovie._id}`,
         {
           method: "DELETE",
           headers: {

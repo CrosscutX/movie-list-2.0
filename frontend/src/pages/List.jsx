@@ -47,11 +47,14 @@ export default function List(props) {
     const fetchLists = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user.id;
-      const response = await fetch(`/api/lists/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       if (response.status === 401) {
         logout();
         navigate("/login");
@@ -84,11 +87,14 @@ export default function List(props) {
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
     const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${selectedUserList}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/movies/${selectedUserList}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       let movieIds = await response.json();
       if (movieIds.movies !== undefined) {
         setMovieListIDS(movieIds.movies);
@@ -99,11 +105,14 @@ export default function List(props) {
 
   useEffect(() => {
     const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${selectedUserList}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/movies/${selectedUserList}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       let movieIds = await response.json();
 
       // OH LAWD HE'S COOKIN
@@ -111,11 +120,14 @@ export default function List(props) {
         if (movieIds) {
           const movies = await Promise.all(
             movieIds.movies.map(async (movie) => {
-              const response = await fetch(`/api/movies/info/${movie.movie}`, {
-                headers: {
-                  Authorization: `Bearer ${props.user.token}`,
-                },
-              });
+              const response = await fetch(
+                `https://movie-list-2-0-backend.onrender.com/api/movies/info/${movie.movie}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${props.user.token}`,
+                  },
+                }
+              );
               const movieInfo = await response.json();
               // Add the watched attribute to the movieInfo from the list specific watched field
               movieInfo.watched = movie.watched;

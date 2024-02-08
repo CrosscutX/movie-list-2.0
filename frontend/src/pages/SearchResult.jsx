@@ -43,13 +43,16 @@ export default function SearchResult(props) {
   useEffect(() => {
     const fetchMoviesList = async () => {
       if (movieTitle) {
-        const response = await fetch(`/api/searchExtended/${movieTitle}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${props.user.token}`,
-          },
-        });
+        const response = await fetch(
+          `https://movie-list-2-0-backend.onrender.com/api/searchExtended/${movieTitle}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        );
         if (response.status === 401) {
           logout();
           navigate("/login");

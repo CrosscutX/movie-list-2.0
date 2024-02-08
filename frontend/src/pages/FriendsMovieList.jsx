@@ -22,11 +22,14 @@ export default function FriendsMovieList(props) {
     const checkFriendStatus = async () => {
       let isFriends = false;
 
-      const response = await fetch(`/api/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/users/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
 
       if (response.status === 401) {
         logout();
@@ -77,11 +80,14 @@ export default function FriendsMovieList(props) {
   //Get friends movies
   useEffect(() => {
     const fetchLists = async () => {
-      const response = await fetch(`/api/lists/${id}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       const lists = await response.json();
       setUserLists(lists);
       setSelectedUserList(lists[0]);
@@ -91,11 +97,14 @@ export default function FriendsMovieList(props) {
 
   useEffect(() => {
     const fetchMoviesList = async () => {
-      const response = await fetch(`/api/movies/${selectedUserList}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/movies/${selectedUserList}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       let movieIds = await response.json();
       if (movieIds.movies !== undefined) {
         setMovieListIDS(movieIds.movies);

@@ -9,12 +9,15 @@ export default function UserFriendCard(props) {
   let accepted = false;
 
   function deleteFriend() {
-    fetch(`/api/users/${props.user.id}/friends/${props.id}/remove`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${props.user.token}`,
-      },
-    }).then((response) => {
+    fetch(
+      `https://movie-list-2-0-backend.onrender.com/api/users/${props.user.id}/friends/${props.id}/remove`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      }
+    ).then((response) => {
       if (!response.ok) {
         throw new Error("Friends removal failed");
       }
@@ -23,12 +26,15 @@ export default function UserFriendCard(props) {
   }
 
   function handleClick() {
-    fetch(`/api/users/${props.user.id}/friends/${props.id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${props.user.token}`,
-      },
-    })
+    fetch(
+      `https://movie-list-2-0-backend.onrender.com/api/users/${props.user.id}/friends/${props.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Friends request failed");

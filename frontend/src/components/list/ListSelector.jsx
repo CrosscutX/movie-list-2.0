@@ -11,11 +11,14 @@ export default function ListSelector(props) {
       if (props.userLists !== undefined && Array.isArray(props.userLists)) {
         const lists = await Promise.all(
           props.userLists.map(async (id) => {
-            const response = await fetch(`/api/movies/${id}`, {
-              headers: {
-                Authorization: `Bearer ${props.user.token}`,
-              },
-            });
+            const response = await fetch(
+              `https://movie-list-2-0-backend.onrender.com/api/movies/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              }
+            );
             const listInfo = await response.json();
             let listName = listInfo.listName;
             let listId = listInfo._id;
@@ -39,11 +42,14 @@ export default function ListSelector(props) {
   // Updates the shared value of the edit panel whenever there is a change in selected list.
   useEffect(() => {
     const fetchUserList = async () => {
-      const response = await fetch(`/api/movies/${props.selectedUserList}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/movies/${props.selectedUserList}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       const listInfo = await response.json();
       setIsSharedChecked(listInfo.public);
     };
@@ -68,16 +74,19 @@ export default function ListSelector(props) {
       return;
     }
     try {
-      await fetch(`/api/lists/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${props.user.token}`,
-        },
-        body: JSON.stringify({
-          listName: listname,
-        }),
-      });
+      await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+          body: JSON.stringify({
+            listName: listname,
+          }),
+        }
+      );
       props.setSelectedOption("none");
     } catch (error) {
       console.log("Couldn't add to list " + error);
@@ -86,16 +95,19 @@ export default function ListSelector(props) {
   async function deleteList() {
     const userID = JSON.parse(localStorage.getItem("user")).id;
     try {
-      const response = await fetch(`/api/lists/${userID}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${props.user.token}`,
-        },
-        body: JSON.stringify({
-          listID: props.selectedUserList,
-        }),
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${userID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+          body: JSON.stringify({
+            listID: props.selectedUserList,
+          }),
+        }
+      );
 
       const data = await response.json();
     } catch (error) {
@@ -106,17 +118,20 @@ export default function ListSelector(props) {
   async function changeName(name) {
     const userID = JSON.parse(localStorage.getItem("user")).id;
     try {
-      const response = await fetch(`/api/lists/${userID}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${props.user.token}`,
-        },
-        body: JSON.stringify({
-          listID: props.selectedUserList,
-          nameChange: name,
-        }),
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${userID}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.user.token}`,
+          },
+          body: JSON.stringify({
+            listID: props.selectedUserList,
+            nameChange: name,
+          }),
+        }
+      );
 
       const data = await response.json();
       // The line below updates the list selector edit page to avoid the bug of someone seeing

@@ -44,11 +44,14 @@ export default function Friends(props) {
 
   //For getting logged in users friends on page load
   useEffect(() => {
-    fetch(`/api/users/${jsonUser.id}`, {
-      headers: {
-        Authorization: `Bearer ${props.user.token}`,
-      },
-    })
+    fetch(
+      `https://movie-list-2-0-backend.onrender.com/api/users/${jsonUser.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.status === 401) {
           logout();
@@ -59,11 +62,14 @@ export default function Friends(props) {
       })
       .then((user) => {
         const friends = user.friends.map((friend) => {
-          return fetch(`/api/users/${friend._id}`, {
-            headers: {
-              Authorization: `Bearer ${props.user.token}`,
-            },
-          }).then((response) => response.json());
+          return fetch(
+            `https://movie-list-2-0-backend.onrender.com/api/users/${friend._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${props.user.token}`,
+              },
+            }
+          ).then((response) => response.json());
         });
         Promise.all(friends).then((friendData) => {
           setUserFriends(friendData);
@@ -95,11 +101,14 @@ export default function Friends(props) {
     //Handles friend search input calls
     let handleChange = () => {
       if (searchInput != 0) {
-        fetch(`/api/users/search/${searchInput}`, {
-          headers: {
-            Authorization: `Bearer ${props.user.token}`,
-          },
-        })
+        fetch(
+          `https://movie-list-2-0-backend.onrender.com/api/users/search/${searchInput}`,
+          {
+            headers: {
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             setSearchResults(data);

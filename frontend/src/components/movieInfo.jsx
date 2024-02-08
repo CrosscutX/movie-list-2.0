@@ -116,7 +116,7 @@ export default function movieInfo(props) {
     async function getWatched() {
       try {
         const response = await fetch(
-          `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+          `https://movie-list-2-0-backend.onrender.com/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
           {
             method: "GET",
             headers: {
@@ -141,7 +141,7 @@ export default function movieInfo(props) {
   async function changeWatched() {
     try {
       const response = await fetch(
-        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
         {
           method: "PATCH",
           headers: {
@@ -161,7 +161,7 @@ export default function movieInfo(props) {
   async function deleteMovie() {
     try {
       const response = await fetch(
-        `/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.selectedUserList}/movies/${props.selectedMovie._id}`,
         {
           method: "DELETE",
           headers: {
@@ -294,7 +294,7 @@ export default function movieInfo(props) {
               onClick={async () => {
                 try {
                   const response = await fetch(
-                    `/api/lists/${allListId}/movies`,
+                    `https://movie-list-2-0-backend.onrender.com/api/lists/${allListId}/movies`,
                     {
                       method: "POST",
                       headers: {

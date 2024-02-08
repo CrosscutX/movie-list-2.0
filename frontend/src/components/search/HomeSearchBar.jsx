@@ -19,13 +19,16 @@ export default function HomeSearchBar(props) {
       let timer = setTimeout(() => {
         async function callSearchApi(movie) {
           try {
-            const response = await fetch(`/api/search/${movie}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${props.user.token}`,
-              },
-            });
+            const response = await fetch(
+              `https://movie-list-2-0-backend.onrender.com/api/search/${movie}`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              }
+            );
             if (response.status === 401) {
               logout();
               navigate("/login");

@@ -16,11 +16,14 @@ export default function FriendListFilter(props) {
       if (props.movieListIDS !== undefined) {
         const movies = await Promise.all(
           props.movieListIDS.map(async (movie) => {
-            const response = await fetch(`/api/movies/info/${movie.movie}`, {
-              headers: {
-                Authorization: `Bearer ${props.user.token}`,
-              },
-            });
+            const response = await fetch(
+              `https://movie-list-2-0-backend.onrender.com/api/movies/info/${movie.movie}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              }
+            );
             const movieInfo = await response.json();
             // Add the watched attribute to the movieInfo from the list specific watched field
             movieInfo.watched = movie.watched;

@@ -8,11 +8,14 @@ export default function SelectMovieList(props) {
       if (props.lists) {
         const lists = await Promise.all(
           props.lists.map(async (id) => {
-            const response = await fetch(`/api/movies/${id}`, {
-              headers: {
-                Authorization: `Bearer ${props.user.token}`,
-              },
-            });
+            const response = await fetch(
+              `https://movie-list-2-0-backend.onrender.com/api/movies/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              }
+            );
             const listInfo = await response.json();
             return (
               <SelectMovieListItem

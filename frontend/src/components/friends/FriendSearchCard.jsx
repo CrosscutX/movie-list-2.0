@@ -18,12 +18,15 @@ export default function FriendCard(props) {
   }
 
   function handleClick() {
-    fetch(`/api/users/${props.logInUser}/friends/${props.id}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${props.user.token}`,
-      },
-    })
+    fetch(
+      `https://movie-list-2-0-backend.onrender.com/api/users/${props.logInUser}/friends/${props.id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${props.user.token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.msg === "Friend successfully added") {

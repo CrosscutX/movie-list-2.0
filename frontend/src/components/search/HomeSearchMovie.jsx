@@ -21,13 +21,16 @@ export default function HomeSearchMovie(props) {
       className="home-search-movie"
       onClick={async (e, id) => {
         id = props.movie.imdbID;
-        const response = await fetch(`/api/searchOne/${id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${props.user.token}`,
-          },
-        });
+        const response = await fetch(
+          `https://movie-list-2-0-backend.onrender.com/api/searchOne/${id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        );
         const movieResult = await response.json();
         setMovieObject(movieResult);
         setE(e);

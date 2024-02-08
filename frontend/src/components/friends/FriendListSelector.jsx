@@ -13,11 +13,14 @@ export default function friendListSelector(props) {
       if (props.userLists !== undefined) {
         const lists = await Promise.all(
           props.userLists.map(async (id) => {
-            const response = await fetch(`/api/movies/${id}`, {
-              headers: {
-                Authorization: `Bearer ${props.user.token}`,
-              },
-            });
+            const response = await fetch(
+              `https://movie-list-2-0-backend.onrender.com/api/movies/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${props.user.token}`,
+                },
+              }
+            );
             const listInfo = await response.json();
             let listName = listInfo.listName;
             let listId = listInfo._id;
@@ -41,11 +44,14 @@ export default function friendListSelector(props) {
   useEffect(() => {
     async function getPublicValue() {
       try {
-        const response = await fetch(`/api/movies/${props.selectedUserList}`, {
-          headers: {
-            Authorization: `Bearer ${props.user.token}`,
-          },
-        });
+        const response = await fetch(
+          `https://movie-list-2-0-backend.onrender.com/api/movies/${props.selectedUserList}`,
+          {
+            headers: {
+              Authorization: `Bearer ${props.user.token}`,
+            },
+          }
+        );
         let publicBoolean = await response.json();
         publicBoolean = publicBoolean.public;
 
@@ -71,7 +77,7 @@ export default function friendListSelector(props) {
   async function addList() {
     try {
       const response = await fetch(
-        `/api/lists/${props.selectedUserList}/friends/${props.friendID}`,
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.selectedUserList}/friends/${props.friendID}`,
         {
           method: "POST",
           headers: {
