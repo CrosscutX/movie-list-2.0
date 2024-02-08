@@ -101,11 +101,14 @@ export default function movieInfo(props) {
   useEffect(() => {
     async function fetchAllList() {
       const user = JSON.parse(localStorage.getItem("user"));
-      const response = await fetch(`/api/lists/${user.id}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-v2.netlify.app/login/api/lists/${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       const userLists = await response.json();
       setAllListId(userLists[0]);
     }
