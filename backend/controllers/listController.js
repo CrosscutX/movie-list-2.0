@@ -28,7 +28,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
         }
       }
     }
-    res.json(user.lists);
+    return res.json(user.lists);
   }
 });
 
