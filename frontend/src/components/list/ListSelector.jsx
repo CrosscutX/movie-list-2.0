@@ -8,7 +8,7 @@ export default function ListSelector(props) {
 
   useEffect(() => {
     const fetchListData = async () => {
-      if (props.userLists !== undefined) {
+      if (props.userLists !== undefined && Array.isArray(props.userLists)) {
         const lists = await Promise.all(
           props.userLists.map(async (id) => {
             const response = await fetch(`/api/movies/${id}`, {

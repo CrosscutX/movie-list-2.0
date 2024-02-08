@@ -65,18 +65,22 @@ export default function List(props) {
   //Gets all lists from the user account
   useEffect(() => {
     const fetchLists = async () => {
-      const response = await fetch(`/api/lists/${props.user.id}`, {
-        headers: {
-          Authorization: `Bearer ${props.user.token}`,
-        },
-      });
+      const response = await fetch(
+        `https://movie-list-2-0-backend.onrender.com/api/lists/${props.user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${props.user.token}`,
+          },
+        }
+      );
       const lists = await response.json();
       //For testing
+
       setUserLists(lists);
     };
     fetchLists();
   }, [selectedOption]);
-
+  console.log(userLists);
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
     const fetchMoviesList = async () => {
