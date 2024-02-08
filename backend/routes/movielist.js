@@ -79,7 +79,7 @@ router.delete(
 
 // delete movie from single list
 router.delete(
-  "/movies/:listID/movieID",
+  "/movies/:listID/:movieID",
   requireAuth,
   movieController.deleteMovieOnce
 );
