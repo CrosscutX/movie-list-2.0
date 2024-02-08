@@ -149,7 +149,6 @@ export default function Friends(props) {
               />
               {friendFilter.length != 0 ? (
                 <>
-                  {console.log(friendFilter)}
                   {filterPending.length > 0 && (
                     <div className="pending-friends">
                       <h3>Pending Friends</h3>

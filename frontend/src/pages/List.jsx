@@ -83,7 +83,6 @@ export default function List(props) {
     };
     fetchLists();
   }, [selectedOption]);
-  console.log(userLists);
   //Runs whenever the selected list changes, gets a list of movie ids and adds to state
   useEffect(() => {
     const fetchMoviesList = async () => {

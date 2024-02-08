@@ -11,8 +11,6 @@ export const useLogin = () => {
   const login = async (username, password) => {
     setIsLoading(true);
     setError(null);
-    console.log(username);
-    console.log(password);
 
     const response = await fetch(
       "https://movie-list-2-0-backend.onrender.com/api/login",
@@ -22,7 +20,6 @@ export const useLogin = () => {
         body: JSON.stringify({ username, password }),
       }
     );
-    console.log(response);
 
     if (!response.ok) {
       setIsLoading(false);
