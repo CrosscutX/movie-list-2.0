@@ -19,14 +19,14 @@ export const useLogin = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
-    console.log(json);
-    const json = await response.json();
+    console.log(response);
 
     if (!response.ok) {
       setIsLoading(false);
-      setError(json.error);
+      setError(response.status);
     }
     if (response.ok) {
+      const json = await response.json();
       // save the user to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
