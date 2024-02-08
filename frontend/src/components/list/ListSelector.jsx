@@ -110,6 +110,8 @@ export default function ListSelector(props) {
       );
 
       const data = await response.json();
+      props.setSelectedOption("select");
+      props.setSelectedUserList(props.userLists[0]);
     } catch (error) {
       console.error("Error deleting data:", error);
     }
@@ -265,8 +267,6 @@ export default function ListSelector(props) {
                 className="delete-button"
                 onClick={() => {
                   deleteList();
-                  props.setSelectedOption("select");
-                  props.setSelectedUserList(props.userLists[0]);
                 }}
               >
                 Delete
