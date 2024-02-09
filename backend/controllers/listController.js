@@ -14,7 +14,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const user = await User.findById(id);
   if (user.lists.length > 0) {
     const allList = user.list[0];
-    console.log(allList);
+
     res.json(user.lists);
   }
 });
