@@ -22,7 +22,9 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
 
   const allListID = user.lists[0];
   const allList = await List.findById(allListID);
-  const allMoviesSet = new Set(allList.movies.map((movie) => movie.movie));
+  const allMoviesSet = new Set(
+    allList.movies.map((movie) => String(movie.movie))
+  );
 
   for (let i = 1; i < user.lists.length; i++) {
     const currentList = await List.findById(user.lists[i]);
@@ -31,8 +33,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
       currentList.movies.forEach((movie) => {
         console.log(allMoviesSet);
         console.log(String(movie.movie));
-        console.log(allMoviesSet.has(movie.movie));
-        if (!allMoviesSet.has(movie.movie)) {
+        if (!allMoviesSet.has(String(movie.movie))) {
           console.log("inner movie" + movie);
           allList.movies.push(movie);
           allMoviesSet.add(movie.movie);
