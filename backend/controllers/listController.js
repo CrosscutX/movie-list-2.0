@@ -3,6 +3,7 @@ const Movie = require("../models/movie");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 const movie = require("../models/movie");
+const { connect } = require("mongoose");
 
 exports.getAllLists = asyncHandler(async (req, res, next) => {
   const lists = await List.find({});
@@ -23,6 +24,9 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const allList = await List.findById(allListID);
   const allMoviesSet = new Set(allList.movies.map((movie) => movie.movie));
 
+  console.log(allListID);
+  console.log(allList);
+  console.log(allMoviesSet);
   for (let i = 1; i < user.lists.length; i++) {
     const currentList = await List.findById(user.lists[i]);
 
