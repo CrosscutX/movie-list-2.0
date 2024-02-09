@@ -39,7 +39,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
     }
   }
 
-  await allList.save(); // Save the updated allList
+  await user.save();
   res.json(user.lists);
 });
 
