@@ -24,12 +24,9 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const allList = await List.findById(allListID);
   const allMoviesSet = new Set(allList.movies.map((movie) => movie.movie));
 
-  console.log(allListID);
-  console.log(allList);
-  console.log(allMoviesSet);
   for (let i = 1; i < user.lists.length; i++) {
     const currentList = await List.findById(user.lists[i]);
-
+    console.log(currentList);
     currentList.movies.forEach((movie) => {
       if (!allMoviesSet.has(movie.movie)) {
         allList.movies.push(movie);
