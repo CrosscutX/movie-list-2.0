@@ -38,6 +38,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
           }
         }
         if (isInList === false) {
+          // If not in list, push to allList
           allList.push(currentListMovie);
         }
       }
