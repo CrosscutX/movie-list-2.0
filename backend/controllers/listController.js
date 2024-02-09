@@ -12,40 +12,30 @@ exports.getAllLists = asyncHandler(async (req, res, next) => {
 exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
-  if (user.lists.length > 0) {
-    // // Get the all list ID, then fetch said list for comparison later. We are making sure that the all list
-    // // is in sync with other lists.
-    // const allListID = user.lists[0];
-    // let allList = await List.findById(allListID);
-    // allList = allList.movies;
 
-    // let currentList;
-    // let isInList = false;
-    // //Loops through all of the users lists and get their IDs to make the call to the list object
-    // for (let i = 1; i < user.lists.length; i++) {
-    //   currentList = await List.findById(user.lists[i]);
-    //   currentList = currentList.movies;
-    //   // Loops through the all list for each movie;
-    //   for (let j = 0; j < allList.length; j++) {
-    //     let currentAllMovie = allList[j];
-    //     let currentListMovie;
-    //     isInList = false;
-    //     // Loops through each movie of current list
-    //     for (let l = 0; l < currentList.length; l++) {
-    //       currentListMovie = currentList[l];
-    //       if (currentAllMovie.movie === currentListMovie.movie) {
-    //         isInList = true;
-    //       }
-    //     }
-    //     if (isInList === false) {
-    //       // If not in list, push to allList
-    //       allList.push(currentListMovie);
-    //     }
-    //   }
-    // }
-    // await user.save();
-    res.json(user.lists);
+  if (!user || user.lists.length === 0) {
+    return res
+      .status(404)
+      .json({ message: "User not found or user has no lists." });
   }
+
+  const allListID = user.lists[0];
+  const allList = await List.findById(allListID);
+  const allMoviesSet = new Set(allList.movies.map((movie) => movie.movie));
+
+  for (let i = 1; i < user.lists.length; i++) {
+    const currentList = await List.findById(user.lists[i]);
+
+    currentList.movies.forEach((movie) => {
+      if (!allMoviesSet.has(movie.movie)) {
+        allList.movies.push(movie);
+        allMoviesSet.add(movie.movie);
+      }
+    });
+  }
+
+  await user.save(); // Save the updated allList
+  res.json(user.lists);
 });
 
 exports.createUserList = asyncHandler(async (req, res, next) => {
