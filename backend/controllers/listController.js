@@ -27,12 +27,14 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   for (let i = 1; i < user.lists.length; i++) {
     const currentList = await List.findById(user.lists[i]);
     console.log(currentList);
-    currentList.movies.forEach((movie) => {
-      if (!allMoviesSet.has(movie.movie)) {
-        allList.movies.push(movie);
-        allMoviesSet.add(movie.movie);
-      }
-    });
+    if (currentList.movies.length > 0) {
+      currentList.movies.forEach((movie) => {
+        if (!allMoviesSet.has(movie.movie)) {
+          allList.movies.push(movie);
+          allMoviesSet.add(movie.movie);
+        }
+      });
+    }
   }
 
   await allList.save(); // Save the updated allList
