@@ -13,8 +13,8 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id);
   if (user.lists.length > 0) {
-    const allList = user.list[0];
-
+    const allList = user.lists[0];
+    console.log(allList);
     res.json(user.lists);
   }
 });
