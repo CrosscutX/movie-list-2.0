@@ -31,14 +31,9 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
 
     if (currentList.movies.length > 0) {
       currentList.movies.forEach((movie) => {
-        console.log(allMoviesSet);
-        console.log(String(movie.movie));
         if (!allMoviesSet.has(String(movie.movie))) {
-          console.log("inner movie" + movie);
           allList.movies.addToSet(movie);
-          console.log("step");
           allMoviesSet.add(String(movie.movie));
-          console.log("step 2");
         }
       });
     }
