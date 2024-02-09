@@ -26,7 +26,7 @@ exports.displayUserLists = asyncHandler(async (req, res, next) => {
 
   for (let i = 1; i < user.lists.length; i++) {
     const currentList = await List.findById(user.lists[i]);
-    console.log(currentList);
+
     if (currentList.movies.length > 0) {
       currentList.movies.forEach((movie) => {
         if (!allMoviesSet.has(movie.movie)) {
